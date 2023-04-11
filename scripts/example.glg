@@ -1,0 +1,11 @@
+(
+)
+@MAIN
+    [set] [var] [5]
+    [set] [name] [op [$var][+][5]]
+    [set] [name2] [cal [$var][+][6]]
+    [if][$name][=][$name2] [scope]
+    scope#
+        [print] [this works]
+    #scope
+@MAIN
