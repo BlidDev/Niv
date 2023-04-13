@@ -1,6 +1,10 @@
 use std::{io::{BufReader, BufRead}, fs::File};
 
+mod util;
 mod sturcts;
+
+use sturcts::*;
+use util::*;
 
 fn main() -> Result<(), Box<dyn std::error::Error>>{
     let reader = BufReader::new(File::open("scripts/example.glg")?);
@@ -12,43 +16,31 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
             let l2 = (*l).clone();
             !(balanced_braces(&[l2], '[', ']').is_empty())
         }).map(|l| l.to_string()).collect();
-    let code = code.iter().map(|l| balanced_braces(&[(*l).clone()], '[', ']')).collect::<Vec<Vec<String>>>();
-    println!("{lines:#?}]\n\n");
+    //let code = code.iter().map(|l| balanced_braces(&[(*l).clone()], '[', ']')).collect::<Vec<Vec<String>>>();
+
+    /*let mut main = Scope::default();
+    let mut counter : usize = 1;
+    for command in code.iter() {
+        if command.len() == 1 {
+            let node = Node {
+                command : command[0].clone(),
+                id : counter,
+                parent : 0,
+                childern : vec![]
+            };
+            main.nodes.insert(counter, node);
+            counter = counter + 1;
+            continue;
+        }
+        for i in 1..command.len() {
+
+        }
+
+    }*/
     println!("{code:#?}]\n\n");
+    let mut map = Scope::default();
+    make_tree(&mut map, &code[2]);
+    println!("{map:#?}");
     Ok(())
 }
 
-fn balanced_braces(args: &[String], open: char, close: char) -> Vec<String> {
-    let mut parts = Vec::new();
-
-    for arg in args {
-        if !arg.contains(open) {
-            continue;
-        }
-
-        let mut chars = Vec::new();
-        let mut n = 0;
-
-        for c in arg.chars() {
-            if c == open {
-                if n > 0 {
-                    chars.push(c);
-                }
-                n += 1;
-            } else if c == close {
-                n -= 1;
-                if n > 0 {
-                    chars.push(c);
-                } else if n == 0 {
-                    let part = chars.iter().collect::<String>().trim().to_string();
-                    parts.push(part);
-                    chars.clear();
-                }
-            } else if n > 0 {
-                chars.push(c);
-            }
-        }
-    }
-
-    parts
-}
