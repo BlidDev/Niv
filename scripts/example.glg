@@ -1,11 +1,26 @@
 (
 )
-@MAIN
-    [set] [var] [5]
-    [set] [name] [[op] [$var][+][5]]
-    [set] [name2] [[cal] [$var][+][6]]
-    [if][$name][=][$name2] [scope]
-    scope#
-        [print] [this works]
-    #scope
-@MAIN
+#MAIN
+
+    [set] [name] [var2]
+    [set] [name2] [c]
+    [set] [var] [[cal] [5][-][5]] 
+
+    [set] [$name] [[cal][6][+][6] ]
+
+    [print] ["{} {} {}\n"] [hello] [$name] [[cal][6][+][8] ]
+    
+    [if] [ [cal][true][&][true] ][!][false]
+    {
+        [print] ["this works\n"]
+
+        [if][[cal][c][!][$name2]][=][true]
+        {
+            [print]["this wont D:\n"]
+            [print] ["hey baby\n"]
+
+
+        }
+    }
+
+#MAIN
