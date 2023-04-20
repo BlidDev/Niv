@@ -8,9 +8,10 @@ mod commands;
 
 use structs::{Stack, Globals, QueryW};
 use util::*;
-use commands::*;
+use commands::wrappers::*;
 use crate::structs::CommandQuery;
 
+// :
 fn main() -> Result<(), Box<dyn std::error::Error>>{
     let reader = BufReader::new(File::open("scripts/example.glg")?);
 
@@ -35,18 +36,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
     commands![
         (query),
         {
-            set =>      (set, Some(2)),
-            release => (release, Some(1)),
-            reset => (reset, Some(0)),
+            set =>      (set_w, Some(2)),
+            release =>  (release_w, Some(1)),
+            reset =>    (reset_w, Some(0)),
 
-            cal =>      (calw,Some(3)),
-            op =>       (op,Some(3)),
+            cal =>      (cal_w,Some(3)),
+            op =>       (op_w,Some(3)),
 
-            post =>     (post,Some(0)),
-            print =>    (print,None),
+            post =>     (post_w,Some(0)),
+            print =>    (print_w,None),
 
-            if =>       (ifcommand,Some(3)),
-            while =>       (whilecommand,Some(1))
+            if =>       (ifcommand_w,Some(3)),
+            while =>    (whilecommand_w,Some(1))
         }
     ];
     
@@ -58,4 +59,3 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
 
     Ok(())
 }
-
