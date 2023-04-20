@@ -10,7 +10,7 @@ use std::{collections::HashMap, fmt::Display};
 //}
 
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum NodeType {
     Value(String),
     Nested(
@@ -27,6 +27,7 @@ pub enum Type {
     BOOL(bool),
     CHAR(char),
     STR(String),
+    NODE(Box<NodeType>)
 }
 
 impl Display for Type {
@@ -38,6 +39,7 @@ impl Display for Type {
             Self::BOOL(a)=> write!(f, "{a}"),
             Self::CHAR(a)=> write!(f, "{a}"),
             Self::STR(a) => write!(f, "{a}"),
+            Self::NODE(a) => write!(f, "{a:?}"),
        }
    } 
 }
@@ -53,6 +55,7 @@ impl Type {
            Self::BOOL(_)=> 3, 
            Self::CHAR(_)=> 4, 
            Self::STR(_) => 5, 
+           Self::NODE(_) => 6, 
         }
     } 
 }
@@ -80,6 +83,7 @@ pub enum TypeIndex {
     BOOL,
     CHAR,
     STR ,
+    NODE, 
 }
 
 #[derive(Debug)]

@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
 use crate::{
-    structs::{Type, ERROR, GError, Globals, Scope, Pass}, 
-    gerr, util::{get_variable, is_destination, traverse_scope},
+    structs::{Type, ERROR, GError,Globals, Scope, Pass, Stack}, 
+    gerr, util::{get_variable, is_destination, traverse_scope, traverse},
     ops::*,
 };
 
@@ -34,6 +34,8 @@ pub fn cal(args : Vec<Type>, (glb, ..) : &Pass) ->Result<Type, ERROR> {
     map.insert('/', div);
     map.insert('=', eql);
     map.insert('!', neql);
+    map.insert('>', bigger);
+    map.insert('<', smaller);
     map.insert('&', and);
     map.insert('|', or);
     
@@ -57,14 +59,31 @@ pub fn set(args : Vec<Type>, (glb,..) : Pass) ->Result<Type, ERROR> {
     Ok(args[1].clone())
 }
 
+pub fn release(args : Vec<Type>, (glb, ..) : Pass) -> Result<Type, ERROR> {
+    let name = is_destination(&args[0], &glb.stack, "release")?;
+
+    if glb.stack.get(&name).is_none() {
+        return gerr!("Error: Variable [{name}] does not exist");
+    }
+
+    let value = glb.stack.remove(&name).unwrap();
+    Ok(value)
+}
+
+pub fn reset(_ : Vec<Type>, (glb,..) : Pass) -> Result<Type, ERROR> {
+    glb.stack = Stack::new();
+    Ok(Type::VOID())
+}
+
 pub fn op(args : Vec<Type>, pass : Pass) ->Result<Type, ERROR> {
 
-    _ = is_destination(&args[0], &pass.0.stack, "op")?;
+    let des = is_destination(&args[0], &pass.0.stack, "op")?; // var
     let op = args[1].clone();
     let b  = args[2].clone();
 
-    let des = args[0].clone();
-    set(vec![des.clone(), cal(vec![des, op, b], &pass)?], pass)
+    let value = cal(vec![Type::STR(format!("${}", des.clone())), op, b], &pass)?;
+
+    set(vec![Type::STR(des.clone()), value], pass)
 }
 
 pub fn post(_ : Vec<Type>, (glb, ..) : Pass) ->Result<Type, ERROR> { 
@@ -110,6 +129,34 @@ pub fn ifcommand(args : Vec<Type>, (glb, scp, qr) : Pass) ->Result<Type, ERROR> 
 
     if let Some(scope) = scp.children.get(&(&glb.curr + 1)) {
         traverse_scope(scope,  qr, glb)?;
+    }
+
+    Ok(Type::VOID())
+}
+
+pub fn whilecommand(args : Vec<Type>, (glb, scp, qr) : Pass) ->Result<Type, ERROR> { 
+    
+    let Type::NODE(ref node) = args[0] else {
+        return gerr!("Error: [while] need NODE as argument but got {:?} instead", args[0])
+    };
+    let Type::BOOL(ref b) = get_variable(&traverse(node, qr, glb, scp)?, &glb.stack)? else {
+        return gerr!("Error: [while] check returned [{:?}] instead of BOOL]",
+            args[0]);
+    };
+    if !*b {return Ok(Type::VOID());}
+
+    let curr = glb.curr;
+    while *b {
+        let Type::BOOL(ref b) = get_variable(&traverse(node, qr, glb, scp)?, &glb.stack)? else {
+            return gerr!("Error: [while] check returned [{:?}] instead of BOOL]",
+                args[0]);
+        };
+        if !*b {return Ok(Type::VOID());}
+
+        if let Some(scope) = scp.children.get(&(&glb.curr + 1)) {
+            traverse_scope(scope,  qr, glb)?;
+        }
+        glb.curr = curr;
     }
 
     Ok(Type::VOID())

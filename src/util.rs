@@ -83,6 +83,9 @@ pub fn traverse(node : &NodeType, query : &QueryW, glb : &mut Globals, scope : &
                 return gerr!("Error: Command is [{command:?}] instead of STR");
             };
 
+            if name == "while" {
+                return run_command(query, &name, vec![Type::NODE(childern[0].clone())], glb, scope)
+            }
 
             let mut args : Vec<Type> = vec![];
             for child in childern.iter() {
@@ -110,7 +113,12 @@ pub fn add_command(
 pub fn run_command(query : &QueryW,name : &String, args: Vec<Type>, glb : &mut Globals, scope : &Scope) 
 -> Result<Type, Box<dyn Error>>{
 
-    let Some(command) = query.0.get(name) else {
+    let a = Type::STR(name.clone());
+    let Type::STR(name) = get_variable(&a, &glb.stack)? else {
+        return gerr!("Error: Trying to pass [{:?}] as a command", a);
+    };
+
+    let Some(command) = query.0.get(&name) else {
 
         return gerr!("ERROR: The command [{}] could not be found",name);
     };
@@ -224,6 +232,13 @@ pub fn make_scope_tree(lines : &Vec<String>, indent : &mut usize) -> (Scope, usi
                     scope.nodes.push(None);
                     i+=1;
                     continue;
+                }
+                if lines[i].len() >= 2 {
+                    if &lines[i][..2] == "//"{
+                        scope.nodes.push(None);
+                        i+=1;
+                        continue;
+                    }
                 }
                 scope.nodes.push(Some(make_tree(&lines[i].clone())));
                 i+=1;

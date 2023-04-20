@@ -8,7 +8,7 @@
 
     [set] [$name] [[cal][6][+][6] ]
 
-    [print] ["{} {} {}\n"] [hello] [$name] [[cal][6][+][8] ]
+    [print] ["{} {} {}\n"] [hello] [$name] [[cal][$var][+][8] ]
     
     [if] [ [cal][true][&][true] ][!][false]
     {
@@ -17,10 +17,16 @@
         [if][[cal][c][!][$name2]][=][true]
         {
             [print]["this wont D:\n"]
-            [print] ["hey baby\n"]
-
-
+            [print] ["hey bro\n"]
         }
     }
 
+    [while] [[cal][$var][<][5] ]
+    {
+        [print] ["test - {}\n"] [$var]
+        [op] [var][+][1]
+    }
+
+
 #MAIN
+

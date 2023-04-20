@@ -69,6 +69,33 @@ pub fn eql(a : Type, b : Type) -> Result<Type, ERROR> {
     }
 }
 
+
+pub fn bigger(a : Type, b : Type) -> Result<Type, ERROR> {
+
+    match (&a,&b) {
+        (Type::VOID(), Type::VOID()) => Ok(Type::BOOL(true)),
+        (Type::I32(a),  Type::I32 (b)) => {Ok(Type::BOOL(*a > *b))},
+        (Type::F32(a), Type::F32 (b))  => {Ok(Type::BOOL(*a > *b))},       
+        (Type::BOOL(a), Type::BOOL(b)) => {Ok(Type::BOOL(*a > *b))},
+        (Type::CHAR(a), Type::CHAR(b)) => {Ok(Type::BOOL(*a > *b))},
+        (Type::STR(a), Type::STR (b))  => {Ok(Type::BOOL(*a > *b))},
+         _=> gerr!("Error: unidentified types [{:?}, {:?}]", a, b)
+    }
+}
+
+pub fn smaller(a : Type, b : Type) -> Result<Type, ERROR> {
+
+    match (&a,&b) {
+        (Type::VOID(), Type::VOID()) => Ok(Type::BOOL(true)),
+        (Type::I32(a),  Type::I32 (b)) => {Ok(Type::BOOL(*a < *b))},
+        (Type::F32(a), Type::F32 (b))  => {Ok(Type::BOOL(*a < *b))},       
+        (Type::BOOL(a), Type::BOOL(b)) => {Ok(Type::BOOL(*a < *b))},
+        (Type::CHAR(a), Type::CHAR(b)) => {Ok(Type::BOOL(*a < *b))},
+        (Type::STR(a), Type::STR (b))  => {Ok(Type::BOOL(*a < *b))},
+         _=> gerr!("Error: unidentified types [{:?}, {:?}]", a, b)
+    }
+}
+
 pub fn neql(a : Type, b : Type) -> Result<Type, ERROR> {
 
     match (&a,&b) {

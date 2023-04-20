@@ -6,7 +6,7 @@ mod macros;
 mod ops;
 mod commands;
 
-use structs::{Stack, Globals, GError, QueryW};
+use structs::{Stack, Globals, QueryW};
 use util::*;
 use commands::*;
 use crate::structs::CommandQuery;
@@ -28,16 +28,27 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
             !(balanced_braces(&[l2], '[', ']').is_empty())
         }).map(|l| l.to_string()).collect();
 
-    //println!("\n{}\nCall Order:\n", code[2]);
+    //println!("\nCall Order:\n");
 
     let mut query = CommandQuery::new();
-    add_command(&mut query, set, "set", Some(2));
-    add_command(&mut query, calw, "cal", Some(3));
-    add_command(&mut query, op, "op", Some(3));
-    add_command(&mut query, post, "post", Some(0));
-    add_command(&mut query, print, "print", None);
-    add_command(&mut query, ifcommand, "if", Some(3));
 
+    commands![
+        (query),
+        {
+            set =>      (set, Some(2)),
+            release => (release, Some(1)),
+            reset => (reset, Some(0)),
+
+            cal =>      (calw,Some(3)),
+            op =>       (op,Some(3)),
+
+            post =>     (post,Some(0)),
+            print =>    (print,None),
+
+            if =>       (ifcommand,Some(3)),
+            while =>       (whilecommand,Some(1))
+        }
+    ];
     
     let mut glb = Globals {
         stack : Stack::default(),
