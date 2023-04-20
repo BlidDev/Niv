@@ -45,6 +45,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
 
             post =>     (post_w,Some(0)),
             print =>    (print_w,None),
+            input =>    (input_w,None),
+            inputcast =>(inputcast_w,None),
 
             if =>       (ifcommand_w,Some(3)),
             while =>    (whilecommand_w,Some(1))

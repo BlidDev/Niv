@@ -1,9 +1,12 @@
-use crate::{structs::{Globals, Type, ERROR, GError}, util::get_variable, gerr};
+use std::io::Write;
+
+use crate::{structs::{Globals, Type, ERROR, GError, TypeIndex, parse_type}, util::get_variable, gerr};
 
 
 
 pub fn post(glb : &Globals) ->Result<Type, ERROR> { 
     println!("{:#?}", glb.stack);
+    std::io::stdout().flush()?;
     Ok(Type::VOID())
 }
 
@@ -28,6 +31,47 @@ pub fn print(args : Vec<Type>, glb : &Globals) ->Result<Type, ERROR> {
     }
     
     print!("{}", format);
+    std::io::stdout().flush()?;
 
     Ok(Type::VOID())
+}
+
+pub fn input(args : Vec<Type>, glb : &Globals) -> Result<Type, ERROR> {
+    if !args.is_empty() {
+        print(args.clone(), glb)?;
+    }
+
+    let mut line = String::new();
+
+    _ = std::io::stdin().read_line(&mut line)?;
+
+    line.pop();
+    Ok(Type::STR(line))
+}
+
+
+
+pub fn inputcast(args : Vec<Type>, glb : &Globals) -> Result<Type, ERROR> {
+    if args.len() > 1 {
+        print(args[1..].to_vec(), glb)?;
+    }
+
+    let Type::STR(index) = get_variable(&args[0], &glb.stack)? else {
+        return gerr!("Error: {:?} is not a valid TypeIndex", args[0])
+    };
+
+
+    let index = index.parse::<TypeIndex>()?;
+
+    let mut line = String::new();
+    _ = std::io::stdin().read_line(&mut line)?;
+    line.pop();
+
+    let var = parse_type(&line);
+
+    if var.dis() != index.clone() as usize {
+        return gerr!("Error: Could not parse {line} as {:?}, got {var:?} instead", index);
+    }
+
+    Ok(var)
 }

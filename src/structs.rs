@@ -1,4 +1,6 @@
-use std::{collections::HashMap, fmt::Display};
+use std::{collections::HashMap, fmt::Display, str::FromStr};
+
+use crate::gerr;
 
 
 //#[derive(Debug)]
@@ -84,6 +86,23 @@ pub enum TypeIndex {
     CHAR,
     STR ,
     NODE, 
+}
+
+impl FromStr for TypeIndex {
+    type Err = ERROR;
+
+   fn from_str(s: &str) -> Result<Self, Self::Err> {
+       match s {
+        "VOID" => return Ok(Self::VOID),
+        "I32"  => return Ok(Self::I32),
+        "F32"  => return Ok(Self::F32),
+        "BOOL" => return Ok(Self::BOOL),
+        "CHAR" => return Ok(Self::CHAR),
+        "STR"  => return Ok(Self::STR),
+        "NODE" => return Ok(Self::NODE),
+        _ => gerr!("Error: Could not parse {} as TypeIndex", s)
+       }
+   } 
 }
 
 #[derive(Debug)]

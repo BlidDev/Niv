@@ -8,8 +8,9 @@
 
     [set] [$name] [[cal][6][+][6] ]
 
-    [print] ["{} {} {}\n"] [hello] [$name] [[cal][$var][+][8] ]
+    [print] ["Your input was: {}\n{} {}\n"] [[input]["Enter a line> "]] [$name] [[cal][$var][+][8] ]
     
+
     [if] [ [cal][true][&][true] ][!][false]
     {
         [print] ["this works\n"]

@@ -4,7 +4,7 @@ use super::{
     calculations::{*, op},
     variables::*,
     scopes::*,
-    prints::{post, print},
+    prints::{post, print, input, inputcast},
 };
 
 pub fn set_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
@@ -35,7 +35,13 @@ pub fn post_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
     post(pass.0)
 }
 
+pub fn input_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
+    input(args, pass.0)
+}
 
+pub fn inputcast_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
+    inputcast(args, pass.0)
+}
 
 pub fn ifcommand_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
     ifcommand(args, pass.0, pass.2, pass.1)
