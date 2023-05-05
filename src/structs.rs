@@ -126,8 +126,7 @@ impl std::error::Error for GError {}
 pub type ERROR = Box<dyn std::error::Error>;
 
 pub struct QueryW(pub CommandQuery);
-pub type Pass<'a> = (&'a mut Globals, &'a Scope, &'a QueryW);
-pub type Command = fn(Vec<Type>, Pass) -> Result<Type, ERROR>;
+pub type Command = fn(Vec<Type>, &mut Globals, &Scope, &QueryW) -> Result<Type, ERROR>;
 pub type CommandQuery = HashMap<String, (Option<usize>, Command)>;
 pub type Stack = HashMap<String, Type>;
 
@@ -138,7 +137,8 @@ pub struct Scope {
     pub children : HashMap<usize, Scope>
 }
 
-pub struct Globals {
+pub struct Globals<'a> {
     pub stack : Stack,
     pub curr : usize,
+    pub s : &'a str
 }

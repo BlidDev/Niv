@@ -130,7 +130,7 @@ pub fn run_command(query : &QueryW,name : &String, args: Vec<Type>, glb : &mut G
         }
     }
 
-    command.1(args, (glb, scope, &query))
+    command.1(args, glb, scope, &query)
 }
 
 pub fn get_variable(val : &Type, stack : &Stack) -> Result<Type, ERROR> {

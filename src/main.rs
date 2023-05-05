@@ -11,10 +11,11 @@ use util::*;
 use commands::wrappers::*;
 use crate::structs::CommandQuery;
 
+
+
 // :
 fn main() -> Result<(), Box<dyn std::error::Error>>{
     let reader = BufReader::new(File::open("scripts/example.glg")?);
-
 
     let lines : Vec<String> = reader.lines().map(|l| l.unwrap().trim().to_string()).collect();
 
@@ -52,12 +53,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
             while =>    (whilecommand_w,Some(1))
         }
     ];
+
+
     
     let mut glb = Globals {
         stack : Stack::default(),
         curr : 0,
+        s : " "
     };
     traverse_scope(&main, &QueryW(query.clone()), &mut glb)?;
 
     Ok(())
 }
+
+

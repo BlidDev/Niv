@@ -1,4 +1,4 @@
-use crate::{structs::{Globals, Type, ERROR, GError, Stack, Pass}, util::is_destination, gerr};
+use crate::{structs::{Globals, Type, ERROR, GError, Stack, Scope, QueryW}, util::is_destination, gerr, make_wrapper, make_wrappers};
 
 use super::{
     calculations::{*, op},
@@ -7,46 +7,23 @@ use super::{
     prints::{post, print, input, inputcast},
 };
 
-pub fn set_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
-    set(args, pass.0)
-}
-pub fn release_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
-    release(args, pass.0)
-}
 
-pub fn reset_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
-    reset(pass.0)
-}
-
-
-
-pub fn cal_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
-    cal(args, pass.0)
-}
-pub fn op_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
-    op(args, pass.0)
-}
+use unstringify::unstringify;
+ 
+make_wrappers!(
+    set_w ,set => ["args", "glb"],
+    release_w, release => ["args","glb"],
+    reset_w, reset => ["glb"],
+    cal_w, cal => ["args", "glb"],
+    op_w, op => ["args", "glb"],
+    print_w, print => ["args", "glb"],
+    post_w, post => ["glb"],
+    input_w, input => ["args", "glb"],
+    inputcast_w, inputcast => ["args", "glb"],
+    ifcommand_w, ifcommand => ["args", "glb", "qr", "scp"],
+    whilecommand_w, whilecommand => ["args", "glb", "qr", "scp"]
+);
 
 
-pub fn print_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
-    print(args, pass.0)
-}
-pub fn post_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
-    post(pass.0)
-}
 
-pub fn input_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
-    input(args, pass.0)
-}
 
-pub fn inputcast_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
-    inputcast(args, pass.0)
-}
-
-pub fn ifcommand_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
-    ifcommand(args, pass.0, pass.2, pass.1)
-}
-
-pub fn whilecommand_w(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
-    whilecommand(args, pass.0, pass.2, pass.1)
-}

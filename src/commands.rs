@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 mod ops;
 mod calculations;
 mod variables;
@@ -7,14 +5,6 @@ mod scopes;
 mod prints;
 pub mod wrappers; 
 
-
-use crate::{
-    structs::{Type, ERROR, GError,Globals, Scope, Pass, Stack}, 
-    gerr, util::{get_variable, is_destination, traverse_scope, traverse},
-    ops::*,
-};
-
-type Fun  = HashMap<char, fn(Type,Type)-> Result<Type, ERROR>>;
 
 //pub fn calw(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {
 //

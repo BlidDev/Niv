@@ -7,6 +7,7 @@ name = "lang"
 version = "0.1.0"
 dependencies = [
  "snailquote",
+ "unstringify",
 ]
 
 [[package]]
@@ -79,3 +80,9 @@ name = "unicode_categories"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "39ec24b3121d976906ece63c9daad25b85969647682eee313cb5779fdd69e14e"
+
+[[package]]
+name = "unstringify"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9612d66420ead229348915b911ad9689e79dfc347fe7a876a82551c8eab36b5e"
