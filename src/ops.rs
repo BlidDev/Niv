@@ -2,6 +2,8 @@ use crate::{
     structs::{GError, ERROR, Type}, gerr
 };
 
+
+#[allow(dead_code)]
 pub fn add(a : Type, b : Type) -> Result<Type, ERROR> {
 
     if let (Type::I32(n1), Type::I32(n2)) = (a.clone(),b.clone()) {
@@ -14,6 +16,7 @@ pub fn add(a : Type, b : Type) -> Result<Type, ERROR> {
     gerr!("Error: Tyring to add [{:?}] and [{:?}]", a,b)
 }
 
+#[allow(dead_code)]
 pub fn sub(a : Type, b : Type) -> Result<Type, ERROR> {
 
     if let (Type::I32(n1), Type::I32(n2)) = (a.clone(),b.clone()) {
@@ -26,6 +29,7 @@ pub fn sub(a : Type, b : Type) -> Result<Type, ERROR> {
     gerr!("Error: Tyring to sub [{:?}] and [{:?}]", a,b)
 }
 
+#[allow(dead_code)]
 pub fn mul(a : Type, b : Type) -> Result<Type, ERROR> {
 
     if let (Type::I32(n1), Type::I32(n2)) = (a.clone(),b.clone()) {
@@ -38,6 +42,7 @@ pub fn mul(a : Type, b : Type) -> Result<Type, ERROR> {
     gerr!("Error: Tyring to mul [{:?}] and [{:?}]", a,b)
 }
 
+#[allow(dead_code)]
 pub fn div(a : Type, b : Type) -> Result<Type, ERROR> {
 
     if let (Type::I32(n1), Type::I32(n2)) = (a.clone(),b.clone()) {
@@ -56,6 +61,7 @@ pub fn div(a : Type, b : Type) -> Result<Type, ERROR> {
     gerr!("Error: Tyring to div [{:?}] and [{:?}]", a,b)
 }
 
+#[allow(dead_code)]
 pub fn eql(a : Type, b : Type) -> Result<Type, ERROR> {
 
     match (&a,&b) {
@@ -70,6 +76,7 @@ pub fn eql(a : Type, b : Type) -> Result<Type, ERROR> {
 }
 
 
+#[allow(dead_code)]
 pub fn bigger(a : Type, b : Type) -> Result<Type, ERROR> {
 
     match (&a,&b) {
@@ -83,6 +90,7 @@ pub fn bigger(a : Type, b : Type) -> Result<Type, ERROR> {
     }
 }
 
+#[allow(dead_code)]
 pub fn smaller(a : Type, b : Type) -> Result<Type, ERROR> {
 
     match (&a,&b) {
@@ -96,6 +104,7 @@ pub fn smaller(a : Type, b : Type) -> Result<Type, ERROR> {
     }
 }
 
+#[allow(dead_code)]
 pub fn neql(a : Type, b : Type) -> Result<Type, ERROR> {
 
     match (&a,&b) {
@@ -108,6 +117,7 @@ pub fn neql(a : Type, b : Type) -> Result<Type, ERROR> {
          _=> gerr!("Error: unidentified types [{:?}, {:?}]", a, b)
     }
 }
+#[allow(dead_code)]
 pub fn and(a : Type, b : Type) -> Result<Type, ERROR> {
     let (Type::BOOL(aa), Type::BOOL(bb)) = (&a,&b) else {
         return gerr!("Error: Unsuitable types for [and] [{:?} {:?}]", a, b);
@@ -116,6 +126,8 @@ pub fn and(a : Type, b : Type) -> Result<Type, ERROR> {
     Ok(Type::BOOL(*aa && *bb))
 }
 
+
+#[allow(dead_code)]
 pub fn or(a : Type, b : Type) -> Result<Type, ERROR> {
     let (Type::BOOL(aa), Type::BOOL(bb)) = (&a,&b) else {
         return gerr!("Error: Unsuitable types for [or] [{:?} {:?}]", a, b);

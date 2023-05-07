@@ -1,4 +1,4 @@
-use crate::{structs::{Globals, Type, ERROR, GError, Stack, Scope, QueryW}, util::is_destination, gerr, make_wrapper, make_wrappers};
+use crate::{structs::{Globals, Type, ERROR, Scope, QueryW}, make_wrapper, make_wrappers};
 
 use super::{
     calculations::{*, op},

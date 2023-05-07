@@ -2,8 +2,19 @@
 
 #[macro_export]
 macro_rules! gerr {
+
     ($($arg:tt)*) => {
        Err(Box::new(GError::make(&format!($($arg)*)))) 
+    };
+
+}
+
+#[macro_export]
+macro_rules! sgerr {
+    ($res:pat, $thing: expr, $($arg:tt),*) => {
+        let $res = $thing else {
+            return gerr!($($arg),*);
+        };
     };
 }
 

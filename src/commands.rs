@@ -1,8 +1,8 @@
-mod ops;
-mod calculations;
-mod variables;
-mod scopes;
-mod prints;
+pub mod ops;
+pub mod calculations;
+pub mod variables;
+pub mod scopes;
+pub mod prints;
 pub mod wrappers; 
 
 
