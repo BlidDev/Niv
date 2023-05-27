@@ -36,7 +36,11 @@ macro_rules! make_wrapper {
     ($name:ident, $fun:expr, $($p : literal),*) => {
 
         #[allow(unused_variables)]
-        pub fn $name(args : Vec<Type>, glb : &mut Globals, scp : &Scope, qr : &QueryW) -> Result<Type, ERROR> {
+        pub fn $name<'a>(args : Vec<Type>, glb : &mut Globals, scp : &Scope, qr : &QueryW,
+            ctx : &mut Option<Context>,
+            ctr:  Rc<Option<TextureCreator<WindowContext>>>,
+            cnv:  &mut Option<Canvas<'a>>,
+            ) -> Result<Type, ERROR> {
             
             $fun($(unstringify!($p)),*)
         }
