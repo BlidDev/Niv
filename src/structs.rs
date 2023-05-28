@@ -1,4 +1,4 @@
-use std::{collections::HashMap, fmt::Display, str::FromStr, rc::Rc};
+use std::{collections::HashMap, fmt::Display, str::FromStr};
 
 use crate::gerr;
 
@@ -123,14 +123,11 @@ impl Display for GError {
 
 impl std::error::Error for GError {}
 
-use framework::{canvas::canvas::Canvas, sdl2::context::Context};
-use sdl2::{render::TextureCreator, video::WindowContext, pixels::Color, event::Event};
-
 pub type ERROR = Box<dyn std::error::Error>;
 
-pub struct QueryW<'a>(pub CommandQuery<'a>);
-pub type Command<'a> = fn(Vec<Type>, &mut Globals, &Scope, &QueryW,&mut Option<Context>,Rc<Option<TextureCreator<WindowContext>>>,&mut Option<Canvas<'a>>) -> Result<Type, ERROR>;
-pub type CommandQuery<'a> = HashMap<String, (Option<usize>, Command<'a>)>;
+pub struct QueryW(pub CommandQuery);
+pub type Command = fn(Vec<Type>, &mut Globals, &Scope, &QueryW) -> Result<Type, ERROR>;
+pub type CommandQuery = HashMap<String, (Option<usize>, Command)>;
 pub type Stack = HashMap<String, Type>;
 
 

@@ -4,7 +4,6 @@ pub mod variables;
 pub mod scopes;
 pub mod prints;
 pub mod wrappers; 
-pub mod graphics;
 
 
 //pub fn calw(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {

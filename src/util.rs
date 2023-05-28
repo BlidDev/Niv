@@ -1,9 +1,7 @@
-use std::{collections::HashMap, error::Error, rc::Rc};
+use std::{collections::HashMap, error::Error};
 
 use crate::{structs::{NodeType, Type, parse_type, CommandQuery, Command, GError, ERROR, Scope, Stack, Globals, QueryW}, gerr};
 
-use framework::{canvas::canvas::Canvas, sdl2::context::Context};
-use sdl2::{render::TextureCreator, video::WindowContext, pixels::Color, event::Event};
 
 #[allow(dead_code)]
 pub fn get_value(val : &String) -> String{
@@ -72,11 +70,7 @@ pub fn make_tree(
 }
 
 
-pub fn traverse<'a>(node : &NodeType, query : &QueryW<'a>, glb : &mut Globals, scope : &Scope, 
-        ctx : &mut Option<Context>,
-        ctr:  &'a mut Option<TextureCreator<WindowContext>>,
-        cnv:  &mut Option<Canvas<'a>>,
-    ) -> Result<Type, Box<dyn std::error::Error>> {
+pub fn traverse(node : &NodeType, query : &QueryW, glb : &mut Globals, scope : &Scope) -> Result<Type, Box<dyn std::error::Error>> {
     match node {
         NodeType::Value(value) => {
             let o = Ok(parse_type(value));
@@ -84,30 +78,30 @@ pub fn traverse<'a>(node : &NodeType, query : &QueryW<'a>, glb : &mut Globals, s
         }
 
         NodeType::Nested(command, childern) => {
-            let command = traverse(command, query, glb, scope, ctx, ctr, cnv)?;
+            let command = traverse(command, query, glb, scope)?;
             let Type::STR(ref name) = command else {
                 return gerr!("Error: Command is [{command:?}] instead of STR");
             };
 
             if name == "while" {
-                return run_command(query, &name, vec![Type::NODE(childern[0].clone())], glb, scope, ctx, ctr, cnv)
+                return run_command(query, &name, vec![Type::NODE(childern[0].clone())], glb, scope)
             }
 
             let mut args : Vec<Type> = vec![];
             for child in childern.iter() {
-                args.push(traverse(child, query, glb, scope, ctx, ctr, cnv)?);
+                args.push(traverse(child, query, glb, scope)?);
             }
             //println!("{command:?} {args:?}\n");
-            run_command(query, &name, args, glb, scope, ctx, ctr, cnv)
+            run_command(query, &name, args, glb, scope)
         },
     }
 
 }
 
 
-pub fn add_command<'a>(
-    query : &mut CommandQuery<'a>, 
-    command : Command<'a>, 
+pub fn add_command(
+    query : &mut CommandQuery, 
+    command : Command, 
     name : &str, 
     num_args : Option<usize>) {
     query.insert(
@@ -116,12 +110,7 @@ pub fn add_command<'a>(
         //.unwrap_or_else(||panic!("ERROR: Could not add command: [{}]", name));
 }
 
-
-pub fn run_command<'a>(query : &QueryW<'a>,name : &String, args: Vec<Type>, glb : &mut Globals, scope : &Scope,
-    ctx : &mut Option<Context>,
-    ctr:  &'a mut Option<TextureCreator<WindowContext>>,
-    cnv:  &mut Option<Canvas<'a>>
-    ) 
+pub fn run_command(query : &QueryW,name : &String, args: Vec<Type>, glb : &mut Globals, scope : &Scope) 
 -> Result<Type, Box<dyn Error>>{
 
     let a = Type::STR(name.clone());
@@ -141,7 +130,7 @@ pub fn run_command<'a>(query : &QueryW<'a>,name : &String, args: Vec<Type>, glb 
         }
     }
 
-    command.1(args, glb, scope, &query, ctx, ctr, cnv)
+    command.1(args, glb, scope, &query)
 }
 
 pub fn get_variable(val : &Type, stack : &Stack) -> Result<Type, ERROR> {
@@ -270,16 +259,12 @@ pub fn _print_scope_tree(scope : &Scope, indent : &mut usize, _begin : &usize) {
 }
 
 
-pub fn traverse_scope<'a>(scope : &Scope, query : &QueryW<'a>, glb : &mut Globals,
-        ctx : &mut Option<Context>,
-        ctr:  &Rc<Option<TextureCreator<WindowContext>>>,
-        cnv:  &mut Option<Canvas<'a>>,
-    ) -> Result<(), ERROR> {
+pub fn traverse_scope(scope : &Scope, query : &QueryW, glb : &mut Globals) -> Result<(), ERROR> {
     let mut i = 0;
 
     while i < scope.nodes.len() {
         if let Some(ref node) = scope.nodes[i] {
-            traverse(node, query, glb, scope, ctx, &mut (*ctr), cnv)?;
+            traverse(node, query, glb, scope)?;
         }
         i+=1;
         glb.curr = i;
