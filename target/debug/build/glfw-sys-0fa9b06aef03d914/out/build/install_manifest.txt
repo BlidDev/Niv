@@ -1,0 +1,8 @@
+/home/blid/lang/target/debug/build/glfw-sys-0fa9b06aef03d914/out/lib/libglfw3.a
+/home/blid/lang/target/debug/build/glfw-sys-0fa9b06aef03d914/out/include/GLFW/glfw3native.h
+/home/blid/lang/target/debug/build/glfw-sys-0fa9b06aef03d914/out/include/GLFW/glfw3.h
+/home/blid/lang/target/debug/build/glfw-sys-0fa9b06aef03d914/out/lib/cmake/glfw3/glfw3Config.cmake
+/home/blid/lang/target/debug/build/glfw-sys-0fa9b06aef03d914/out/lib/cmake/glfw3/glfw3ConfigVersion.cmake
+/home/blid/lang/target/debug/build/glfw-sys-0fa9b06aef03d914/out/lib/cmake/glfw3/glfw3Targets.cmake
+/home/blid/lang/target/debug/build/glfw-sys-0fa9b06aef03d914/out/lib/cmake/glfw3/glfw3Targets-debug.cmake
+/home/blid/lang/target/debug/build/glfw-sys-0fa9b06aef03d914/out/lib/pkgconfig/glfw3.pc

@@ -1,10 +1,14 @@
 use crate::{structs::{Globals, Type, ERROR, Scope, QueryW}, make_wrapper, make_wrappers};
+use framework::{canvas::canvas::Canvas, sdl2::context::Context};
+use sdl2::{render::TextureCreator, video::WindowContext};
+use std::rc::Rc;
 
 use super::{
     calculations::{*, op},
     variables::*,
     scopes::*,
     prints::{post, print, input, inputcast},
+    graphics::*
 };
 
 
@@ -20,8 +24,10 @@ make_wrappers!(
     post_w, post => ["glb"],
     input_w, input => ["args", "glb"],
     inputcast_w, inputcast => ["args", "glb"],
-    ifcommand_w, ifcommand => ["args", "glb", "qr", "scp"],
-    whilecommand_w, whilecommand => ["args", "glb", "qr", "scp"]
+    ifcommand_w, ifcommand => ["args", "glb", "qr", "scp", "ctx", "ctr", "cnv"],
+    whilecommand_w, whilecommand => ["args", "glb", "qr", "scp", "ctx", "ctr", "cnv"]
+
+    //init_w, init => ["ctx", "ctr", "cnv"]
 );
 
 
