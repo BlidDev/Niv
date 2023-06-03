@@ -13,7 +13,9 @@ fn init_a(
     let mut ctx = ctx.borrow_mut();
     let mut ctr = ctr.borrow_mut();
     let mut cnv = cnv.borrow_mut();
-    init(&mut ctx, &mut ctr, &mut cnv)
+    //init(&mut ctx, &mut ctr, &mut cnv)
+    //
+    Ok(Type::VOID())
 }
 
 fn init<'a>(

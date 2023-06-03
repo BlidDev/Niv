@@ -1,0 +1,158 @@
+cargo:rerun-if-changed=CSFML
+cargo:rerun-if-env-changed=SFML_INCLUDE_DIR
+cargo:rerun-if-env-changed=SFML_LIBS_DIR
+cargo:rerun-if-env-changed=SFML_STATIC
+TARGET = Some("x86_64-unknown-linux-gnu")
+OPT_LEVEL = Some("0")
+HOST = Some("x86_64-unknown-linux-gnu")
+cargo:rerun-if-env-changed=CXX_x86_64-unknown-linux-gnu
+CXX_x86_64-unknown-linux-gnu = None
+cargo:rerun-if-env-changed=CXX_x86_64_unknown_linux_gnu
+CXX_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=HOST_CXX
+HOST_CXX = None
+cargo:rerun-if-env-changed=CXX
+CXX = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64-unknown-linux-gnu
+CXXFLAGS_x86_64-unknown-linux-gnu = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64_unknown_linux_gnu
+CXXFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=HOST_CXXFLAGS
+HOST_CXXFLAGS = None
+cargo:rerun-if-env-changed=CXXFLAGS
+CXXFLAGS = None
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+DEBUG = Some("true")
+CARGO_CFG_TARGET_FEATURE = Some("fxsr,sse,sse2")
+cargo:rerun-if-env-changed=CXX_x86_64-unknown-linux-gnu
+CXX_x86_64-unknown-linux-gnu = None
+cargo:rerun-if-env-changed=CXX_x86_64_unknown_linux_gnu
+CXX_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=HOST_CXX
+HOST_CXX = None
+cargo:rerun-if-env-changed=CXX
+CXX = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64-unknown-linux-gnu
+CXXFLAGS_x86_64-unknown-linux-gnu = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64_unknown_linux_gnu
+CXXFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=HOST_CXXFLAGS
+HOST_CXXFLAGS = None
+cargo:rerun-if-env-changed=CXXFLAGS
+CXXFLAGS = None
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+CARGO_CFG_TARGET_FEATURE = Some("fxsr,sse,sse2")
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/System/Clock.o" "-c" "CSFML/src/System/Clock.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/System/Sleep.o" "-c" "CSFML/src/System/Sleep.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/System/InputStream.o" "-c" "CSFML/src/System/InputStream.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/System/SfString.o" "-c" "CSFML/src/System/SfString.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/System/SfStdString.o" "-c" "CSFML/src/System/SfStdString.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/System/SfStdVector.o" "-c" "CSFML/src/System/SfStdVector.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Audio/Listener.o" "-c" "CSFML/src/Audio/Listener.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Audio/Music.o" "-c" "CSFML/src/Audio/Music.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Audio/Sound.o" "-c" "CSFML/src/Audio/Sound.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Audio/SoundBuffer.o" "-c" "CSFML/src/Audio/SoundBuffer.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Audio/SoundBufferRecorder.o" "-c" "CSFML/src/Audio/SoundBufferRecorder.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Audio/SoundRecorder.o" "-c" "CSFML/src/Audio/SoundRecorder.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Audio/SoundStream.o" "-c" "CSFML/src/Audio/SoundStream.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Clipboard.o" "-c" "CSFML/src/Window/Clipboard.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Cursor.o" "-c" "CSFML/src/Window/Cursor.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Joystick.o" "-c" "CSFML/src/Window/Joystick.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Keyboard.o" "-c" "CSFML/src/Window/Keyboard.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Mouse.o" "-c" "CSFML/src/Window/Mouse.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Sensor.o" "-c" "CSFML/src/Window/Sensor.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Touch.o" "-c" "CSFML/src/Window/Touch.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/VideoMode.o" "-c" "CSFML/src/Window/VideoMode.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Window.o" "-c" "CSFML/src/Window/Window.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/CircleShape.o" "-c" "CSFML/src/Graphics/CircleShape.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/ConvexShape.o" "-c" "CSFML/src/Graphics/ConvexShape.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Font.o" "-c" "CSFML/src/Graphics/Font.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Image.o" "-c" "CSFML/src/Graphics/Image.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/RectangleShape.o" "-c" "CSFML/src/Graphics/RectangleShape.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/RenderTexture.o" "-c" "CSFML/src/Graphics/RenderTexture.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/RenderWindow.o" "-c" "CSFML/src/Graphics/RenderWindow.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Shader.o" "-c" "CSFML/src/Graphics/Shader.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Shape.o" "-c" "CSFML/src/Graphics/Shape.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Sprite.o" "-c" "CSFML/src/Graphics/Sprite.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Text.o" "-c" "CSFML/src/Graphics/Text.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Texture.o" "-c" "CSFML/src/Graphics/Texture.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Transform.o" "-c" "CSFML/src/Graphics/Transform.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/VertexBuffer.o" "-c" "CSFML/src/Graphics/VertexBuffer.cpp"
+exit status: 0
+running: "c++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-4" "-fno-omit-frame-pointer" "-m64" "-I" "CSFML/src/" "-Wall" "-Wextra" "--std=c++17" "-DCSFML_SYSTEM_EXPORTS" "-DCSFML_AUDIO_EXPORTS" "-DCSFML_WINDOW_EXPORTS" "-DCSFML_GRAPHICS_EXPORTS" "-o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/View.o" "-c" "CSFML/src/Graphics/View.cpp"
+exit status: 0
+cargo:rerun-if-env-changed=AR_x86_64-unknown-linux-gnu
+AR_x86_64-unknown-linux-gnu = None
+cargo:rerun-if-env-changed=AR_x86_64_unknown_linux_gnu
+AR_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=HOST_AR
+HOST_AR = None
+cargo:rerun-if-env-changed=AR
+AR = None
+cargo:rerun-if-env-changed=ARFLAGS_x86_64-unknown-linux-gnu
+ARFLAGS_x86_64-unknown-linux-gnu = None
+cargo:rerun-if-env-changed=ARFLAGS_x86_64_unknown_linux_gnu
+ARFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=HOST_ARFLAGS
+HOST_ARFLAGS = None
+cargo:rerun-if-env-changed=ARFLAGS
+ARFLAGS = None
+running: ZERO_AR_DATE="1" "ar" "cq" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/librcsfml.a" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/System/Clock.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/System/Sleep.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/System/InputStream.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/System/SfString.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/System/SfStdString.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/System/SfStdVector.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Audio/Listener.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Audio/Music.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Audio/Sound.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Audio/SoundBuffer.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Audio/SoundBufferRecorder.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Audio/SoundRecorder.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Audio/SoundStream.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Clipboard.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Cursor.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Joystick.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Keyboard.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Mouse.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Sensor.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Touch.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/VideoMode.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Window/Window.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/CircleShape.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/ConvexShape.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Font.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Image.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/RectangleShape.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/RenderTexture.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/RenderWindow.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Shader.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Shape.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Sprite.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Text.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Texture.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/Transform.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/VertexBuffer.o" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/CSFML/src/Graphics/View.o"
+exit status: 0
+running: "ar" "s" "/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out/librcsfml.a"
+exit status: 0
+cargo:rustc-link-lib=static=rcsfml
+cargo:rustc-link-search=native=/home/blid/lang/target/debug/build/sfml-5130c46e0769f1a4/out
+cargo:rerun-if-env-changed=CXXSTDLIB_x86_64-unknown-linux-gnu
+CXXSTDLIB_x86_64-unknown-linux-gnu = None
+cargo:rerun-if-env-changed=CXXSTDLIB_x86_64_unknown_linux_gnu
+CXXSTDLIB_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=HOST_CXXSTDLIB
+HOST_CXXSTDLIB = None
+cargo:rerun-if-env-changed=CXXSTDLIB
+CXXSTDLIB = None
+cargo:rustc-link-lib=stdc++
+cargo:rustc-link-lib=static=rcsfml
+cargo:rustc-link-lib=dylib=sfml-system
+cargo:rustc-link-lib=dylib=sfml-audio
+LINKING WINDOW
+cargo:rustc-link-lib=dylib=sfml-window
+LINKING GRAPHICS
+cargo:rustc-link-lib=dylib=sfml-graphics

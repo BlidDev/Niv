@@ -1,0 +1,12 @@
+/home/blid/lang/target/debug/deps/version_compare-d2830866fccd42ad.rmeta: /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/lib.rs /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/cmp.rs /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/compare.rs /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/manifest.rs /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/part.rs /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/version.rs
+
+/home/blid/lang/target/debug/deps/libversion_compare-d2830866fccd42ad.rlib: /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/lib.rs /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/cmp.rs /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/compare.rs /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/manifest.rs /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/part.rs /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/version.rs
+
+/home/blid/lang/target/debug/deps/version_compare-d2830866fccd42ad.d: /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/lib.rs /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/cmp.rs /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/compare.rs /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/manifest.rs /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/part.rs /home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/version.rs
+
+/home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/lib.rs:
+/home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/cmp.rs:
+/home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/compare.rs:
+/home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/manifest.rs:
+/home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/part.rs:
+/home/blid/.cargo/registry/src/github.com-1ecc6299db9ec823/version-compare-0.1.1/src/version.rs:
