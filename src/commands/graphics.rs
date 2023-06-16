@@ -88,6 +88,8 @@ pub fn set_pixel(args : Vec<Type>, glb  : &mut Globals, cnv : &mut Option<Canvas
         "Error: Invalid args for [init]: {args:?}"
     );
 
+    println!("x: {} y: {}", *x, *y);
+
     cnv.set_pixel((*x as u32, *y as u32), *r as u8, *g as u8, *b as u8);
 
     Ok(Type::VOID())

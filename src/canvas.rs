@@ -21,7 +21,7 @@ pub struct Canvas {
 
 impl Canvas {
     pub fn set_pixel(&mut self, pos : Vec2, r : u8, g : u8, b : u8) {
-        let pos = (pos.0.clamp(0, self.c_size.0 - 1),pos.0.clamp(0, self.c_size.1 - 1));
+        let pos = (pos.0.clamp(0, self.c_size.0 - 1),pos.1.clamp(0, self.c_size.1 - 1));
         let offest = (pos.1 * (self.c_size.0 * 4) + (pos.0 * 4)) as usize;
         self.pixels[offest + 0] = r;
         self.pixels[offest + 1] = g;
