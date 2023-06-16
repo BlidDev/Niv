@@ -43,7 +43,7 @@ running: cd "/home/blid/lang/target/debug/build/glfw-sys-0fa9b06aef03d914/out/bu
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /home/blid/lang/target/debug/build/glfw-sys-0fa9b06aef03d914/out/build
-running: cd "/home/blid/lang/target/debug/build/glfw-sys-0fa9b06aef03d914/out/build" && MAKEFLAGS="-j --jobserver-fds=6,7 --jobserver-auth=6,7" "cmake" "--build" "." "--target" "install" "--config" "Debug"
+running: cd "/home/blid/lang/target/debug/build/glfw-sys-0fa9b06aef03d914/out/build" && MAKEFLAGS="-j --jobserver-fds=6,9 --jobserver-auth=6,9" "cmake" "--build" "." "--target" "install" "--config" "Debug"
 [  5%] Building C object src/CMakeFiles/glfw.dir/context.c.o
 [ 11%] Building C object src/CMakeFiles/glfw.dir/init.c.o
 [ 17%] Building C object src/CMakeFiles/glfw.dir/input.c.o

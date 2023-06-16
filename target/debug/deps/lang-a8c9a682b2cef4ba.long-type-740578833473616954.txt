@@ -1,1 +1,0 @@
-for<'a, 'b, 'c, 'd, 'e> fn(Vec<Type>, &'a mut Globals<'b>, &'c structs::Scope, &'d QueryW, &'e mut Option<framework::sdl2::context::Context>, Rc<Option<TextureCreator<WindowContext>>>) -> Result<Type, Box<(dyn std::error::Error + 'static)>> {wrappers::post_w}

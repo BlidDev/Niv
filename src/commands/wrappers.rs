@@ -1,14 +1,14 @@
 use crate::{structs::{Globals, Type, ERROR, Scope, QueryW}, make_wrapper, make_wrappers};
-use framework::{canvas::canvas::Canvas, sdl2::context::Context};
-use sdl2::{render::TextureCreator, video::WindowContext};
-use std::rc::Rc;
+use crate::canvas::Canvas;
 
 use super::{
     calculations::{*, op},
     variables::*,
     scopes::*,
     prints::{post, print, input, inputcast},
-    graphics::*
+    graphics::*,
+    misc::*,
+    input::*
 };
 
 
@@ -24,8 +24,20 @@ make_wrappers!(
     post_w, post => ["glb"],
     input_w, input => ["args", "glb"],
     inputcast_w, inputcast => ["args", "glb"],
-    ifcommand_w, ifcommand => ["args", "glb", "qr", "scp", "ctx", "ctr", "cnv"],
-    whilecommand_w, whilecommand => ["args", "glb", "qr", "scp", "ctx", "ctr", "cnv"]
+    ifcommand_w, ifcommand => ["args", "glb", "qr", "scp", "cnv"],
+    whilecommand_w, whilecommand => ["args", "glb", "qr", "scp", "cnv"],
+    init_w, init => ["args", "glb", "cnv"],
+    set_clear_w, set_clear => ["args", "glb", "cnv"],
+    clear_w, clear => ["cnv"],
+    display_w, display => ["cnv"],
+    apply_pixels_w, apply_pixels => ["cnv"],
+    set_pixel_w, set_pixel => ["args", "glb", "cnv"],
+    set_area_w, set_area => ["args", "glb", "cnv"],
+    get_pixel_w, get_pixel => ["args", "glb", "cnv"],
+    handle_input_w, handle_input => ["glb","cnv"],
+    key_pressed_w, key_pressed => ["args", "glb"],
+
+    sleep_w, sleep_command => ["args", "glb"]
 
     //init_w, init => ["ctx", "ctr", "cnv"]
 );

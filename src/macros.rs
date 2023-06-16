@@ -1,6 +1,6 @@
 
-
 #[macro_export]
+
 macro_rules! gerr {
 
     ($($arg:tt)*) => {
@@ -37,9 +37,7 @@ macro_rules! make_wrapper {
 
         #[allow(unused_variables)]
         pub fn $name(args : Vec<Type>, glb : &mut Globals, scp : &Scope, qr : &QueryW,
-            ctx : &mut Option<Context>,
-            ctr : Rc<Option<TextureCreator<WindowContext>>>,
-            cnv : Rc<Option<Canvas>>
+            cnv : &mut Option<Canvas>
             ) -> Result<Type, ERROR> {
             
             $fun($(unstringify!($p)),*)

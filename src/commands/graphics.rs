@@ -1,51 +1,187 @@
-use framework::{canvas::canvas::Canvas, sdl2::context::Context};
-use sdl2::{render::TextureCreator, video::WindowContext, pixels::Color};
-use std::{rc::Rc, borrow::{Borrow, BorrowMut}, sync::Mutex};
+use device_query::DeviceQuery;
+use sfml::window::{Event, Key, Style};
+use crate::{structs::{Type, ERROR, GError, Globals}, gerr, canvas::{Canvas, CanvasBuilder}, sgerr, util::args_to_vars, commands::variables::set};
 
-use crate::{structs::{Type, ERROR, GError}, gerr};
 
-fn init_a(
-    mut ctx : Rc<Option<Context>>,
-    mut ctr : Rc<Option<TextureCreator<WindowContext>>>,
-    mut cnv : Rc<Option<Canvas>>
-) -> Result<Type, ERROR>{
 
-    let mut ctx = ctx.borrow_mut();
-    let mut ctr = ctr.borrow_mut();
-    let mut cnv = cnv.borrow_mut();
-    //init(&mut ctx, &mut ctr, &mut cnv)
-    //
-    Ok(Type::VOID())
-}
+pub fn init(
+    args : Vec<Type>,
+    glb  : &mut Globals,
+    cnv : &mut Option<Canvas>,
+    ) -> Result<Type, ERROR> {
 
-fn init<'a>(
-    context: &mut Option<Context>,
-    creator: &'a mut Option<TextureCreator<WindowContext>>,
-    canvas: &mut Option<Canvas<'a>>,
-) -> Result<Type, Box<dyn std::error::Error>> {
+    /*let (
+        Type::I32(w),
+        Type::I32(h),
+        Type::I32(cw),
+        Type::I32(ch)) = (args[0], args[1], args[2], args[3]) else {
+        return  gerr!("Error: Invalid args for [init]")
+    };*/
 
-    *context = Some({
-        let mut context = Context::new();
-        context
-            .with_window("Example", 848, 480, false)?
-            .with_textures()?;
-        context
+    let args = args_to_vars(&args, &glb.stack)?;
+
+    sgerr!(
+        (Type::I32(w), Type::I32(h),Type::I32(cw),Type::I32(ch), Type::STR(title)),
+        (&args[0], &args[1], &args[2], &args[3], &args[4]), 
+        "Error: Invalid args for [init]: {args:?}");
+
+    *cnv = Some({
+        CanvasBuilder::new()
+            .title(&title)
+            .window_size((*w as u32 ,*h as u32))
+            .canvas_size((*cw as u32,*ch as u32))
+            .style(Style::CLOSE)
+            .build()?
     });
-
-    let Some(ref mut ctx) = context else { panic!("") };
-    let Some(ref mut cvn) = ctx.canvas else { panic!("") };
-    cvn.set_draw_color(Color::RGB(150, 150, 150));
-    cvn.clear();
-    cvn.present();
-
-    *creator = Some(cvn.texture_creator());
     
-    *canvas = Some(Canvas::create_canvas(&creator.as_ref().unwrap(), 16, 9));
+    Ok(Type::VOID())
+}
 
-    let Some(ref mut cvn) = canvas else { panic!("") };
-    cvn.set_clear_color(50, 50, 50, 255).clear().apply_pixels();
-    cvn.set_pixel(0,0,0,0,0,0);
-    cvn.apply_pixels();
+pub fn set_clear(
+    args : Vec<Type>,
+    glb  : &mut Globals,
+    cnv : &mut Option<Canvas>,
+) -> Result<Type, ERROR> {
+    let Some(cnv) = cnv else {
+        return gerr!("Error: Canvas used before being initilized")
+    };
+
+    let args = args_to_vars(&args, &glb.stack)?;
+
+    sgerr!(
+        (Type::I32(r), Type::I32(g), Type::I32(b)),
+        (&args[0], &args[1], &args[2]),
+        "Error: Invalid args for [init]: {args:?}"
+    );
+    cnv.set_clear(*r as u8, *g as u8, *b as u8);
+    Ok(Type::VOID())
+}
+
+pub fn clear(cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
+    let Some(cnv) = cnv else {
+        return gerr!("Error: Canvas used before being initilized")
+    };
+
+    cnv.clear();
 
     Ok(Type::VOID())
 }
+
+pub fn apply_pixels(cnv : &mut Option<Canvas>) -> Result<Type,ERROR> {
+    let Some(cnv) = cnv else {
+        return gerr!("Error: Canvas used before being initilized")
+    };
+    cnv.apply();
+    Ok(Type::VOID())
+}
+
+pub fn set_pixel(args : Vec<Type>, glb  : &mut Globals, cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
+    let Some(cnv) = cnv else {
+        return gerr!("Error: Canvas used before being initilized")
+    };
+    let args = args_to_vars(&args, &glb.stack)?;
+
+    sgerr!(
+        (Type::I32(x), Type::I32(y),
+         Type::I32(r), Type::I32(g), Type::I32(b)),
+        (&args[0], &args[1], &args[2], &args[3], &args[4]),
+        "Error: Invalid args for [init]: {args:?}"
+    );
+
+    cnv.set_pixel((*x as u32, *y as u32), *r as u8, *g as u8, *b as u8);
+
+    Ok(Type::VOID())
+}
+
+
+pub fn set_area(args : Vec<Type>, glb  : &mut Globals, cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
+    let Some(cnv) = cnv else {
+        return gerr!("Error: Canvas used before being initilized")
+    };
+    let args = args_to_vars(&args, &glb.stack)?;
+
+    sgerr!(
+        (Type::I32(x), Type::I32(y),
+         Type::I32(w), Type::I32(h),
+         Type::I32(r), Type::I32(g), Type::I32(b)),
+        (&args[0], &args[1], &args[2], &args[3], &args[4], &args[5], &args[6]),
+        "Error: Invalid args for [init]: {args:?}"
+    );
+
+    cnv.set_area((*x as u32, *y as u32), (*w as u32, *h as u32), *r as u8, *g as u8, *b as u8)?;
+
+    Ok(Type::VOID())
+}
+
+pub fn get_pixel(args : Vec<Type>, glb  : &mut Globals, cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
+    let Some(cnv) = cnv else {
+        return gerr!("Error: Canvas used before being initilized")
+    };
+
+    let args = args_to_vars(&args, &glb.stack)?;
+    sgerr!(
+        (
+            Type::I32(ref x), Type::I32(ref y), r, g, b, 
+        ),
+        (&args[0], &args[1], &args[2], &args[3], &args[4]),
+        "Error: Invalid arguments given to [get_pixel]: {:?}", args
+    );
+
+    if  *x >= cnv.c_size.0 as i32 || *x < 0 ||
+        *y >= cnv.c_size.1 as i32 || *y < 0  {
+        return gerr!("Error: [get_pixel] coords ([{}, {}]) are out of canvas area", *x, *y);
+    }
+
+    let offest = (*y as u32 * cnv.c_size.0 * 4 + (*x as u32 * 4)) as usize;
+
+    let (pr,pg,pb) = (
+        cnv.pixels[offest + 0],
+        cnv.pixels[offest + 1],
+        cnv.pixels[offest + 2]
+    );
+
+    set(vec![r.clone(),Type::I32(pr as i32)], glb)?;
+    set(vec![g.clone(),Type::I32(pg as i32)], glb)?;
+    set(vec![b.clone(),Type::I32(pb as i32)], glb)?;
+
+    Ok(Type::VOID())
+}
+
+pub fn display(cnv : &mut Option<Canvas>) -> Result<Type,ERROR> {
+    let Some(cnv) = cnv else {
+        return gerr!("Error: Canvas used before being initilized")
+    };
+    cnv.display();
+    Ok(Type::VOID())
+}
+
+
+pub fn handle_input(glb  : &mut Globals, cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
+    let Some(cnv_o) = cnv else {
+        if glb.canvas_should_close {
+            return Ok(Type::BOOL(true));
+        }
+        return gerr!("Error: Canvas used before being initilized")
+    };
+
+    'events: while let Some(event) =  cnv_o.window.poll_event(){
+        
+            match event {
+                Event::Closed =>
+                 {cnv_o.window.close(); glb.canvas_should_close = true; break 'events;},
+                _ => {}
+                
+            }
+    }
+    
+    if glb.canvas_should_close {
+        *cnv = None;
+        return  Ok(Type::BOOL(true));
+    }
+
+    glb.keys = glb.device_state.get_keys();
+    
+
+    Ok(Type::BOOL(false))
+}
+

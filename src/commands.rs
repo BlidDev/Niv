@@ -5,6 +5,8 @@ pub mod scopes;
 pub mod prints;
 pub mod wrappers; 
 pub mod graphics;
+pub mod misc;
+pub mod input;
 
 
 //pub fn calw(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {

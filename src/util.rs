@@ -1,8 +1,8 @@
 use std::{collections::HashMap, error::Error, rc::Rc};
-use framework::{canvas::canvas::Canvas, sdl2::context::Context};
+//use framework::{canvas::canvas::Canvas, sdl2::context::Context};
 use sdl2::{render::TextureCreator, video::WindowContext};
 
-use crate::{structs::{NodeType, Type, parse_type, CommandQuery, Command, GError, ERROR, Scope, Stack, Globals, QueryW}, gerr};
+use crate::{structs::{NodeType, Type, parse_type, CommandQuery, Command, GError, ERROR, Scope, Stack, Globals, QueryW}, gerr, canvas::Canvas};
 
 
 #[allow(dead_code)]
@@ -73,9 +73,7 @@ pub fn make_tree(
 
 
 pub fn traverse(node : &NodeType, query : &QueryW, glb : &mut Globals, scope : &Scope,
-        ctx : &mut Option<Context>,
-        ctr : Rc<Option<TextureCreator<WindowContext>>>,
-        cnv : Rc<Option<Canvas>>
+    cnv : &mut Option<Canvas>
     ) -> Result<Type, Box<dyn std::error::Error>> {
     match node {
         NodeType::Value(value) => {
@@ -84,21 +82,21 @@ pub fn traverse(node : &NodeType, query : &QueryW, glb : &mut Globals, scope : &
         }
 
         NodeType::Nested(command, childern) => {
-            let command = traverse(command, query, glb, scope, ctx, ctr.clone(), cnv.clone())?;
+            let command = traverse(command, query, glb, scope, cnv)?;
             let Type::STR(ref name) = command else {
                 return gerr!("Error: Command is [{command:?}] instead of STR");
             };
 
             if name == "while" {
-                return run_command(query, &name, vec![Type::NODE(childern[0].clone())], glb, scope, ctx, ctr, cnv)
+                return run_command(query, &name, vec![Type::NODE(childern[0].clone())], glb, scope, cnv)
             }
 
             let mut args : Vec<Type> = vec![];
             for child in childern.iter() {
-                args.push(traverse(child, query, glb, scope, ctx, ctr.clone(), cnv.clone())?);
+                args.push(traverse(child, query, glb, scope, cnv)?);
             }
             //println!("{command:?} {args:?}\n");
-            run_command(query, &name, args, glb, scope, ctx, ctr, cnv)
+            run_command(query, &name, args, glb, scope, cnv)
         },
     }
 
@@ -117,9 +115,7 @@ pub fn add_command(
 }
 
 pub fn run_command(query : &QueryW,name : &String, args: Vec<Type>, glb : &mut Globals, scope : &Scope, 
-    ctx : &mut Option<Context>,
-    ctr : Rc<Option<TextureCreator<WindowContext>>>,
-    cnv : Rc<Option<Canvas>>) 
+    cnv : &mut Option<Canvas>)
 -> Result<Type, Box<dyn Error>>{
 
     let a = Type::STR(name.clone());
@@ -139,7 +135,7 @@ pub fn run_command(query : &QueryW,name : &String, args: Vec<Type>, glb : &mut G
         }
     }
 
-    command.1(args, glb, scope, &query, ctx, ctr , cnv)
+    command.1(args, glb, scope, &query, cnv)
 }
 
 pub fn get_variable(val : &Type, stack : &Stack) -> Result<Type, ERROR> {
@@ -164,7 +160,14 @@ pub fn get_variable(val : &Type, stack : &Stack) -> Result<Type, ERROR> {
 
 }
 
+pub fn args_to_vars(v : &Vec<Type>, stack : &Stack) -> Result<Vec<Type>, ERROR> {
+    let mut n_v = vec![];
+    for a in v {
+        n_v.push(get_variable(a, stack)?)
+    }
 
+    Ok(n_v)
+}
 pub fn find_root_scopes(lines : &Vec<String>) -> 
     Result<HashMap<String, (usize, usize)>, Box<dyn Error>>
 {
@@ -269,15 +272,13 @@ pub fn _print_scope_tree(scope : &Scope, indent : &mut usize, _begin : &usize) {
 
 
 pub fn traverse_scope(scope : &Scope, query : &QueryW, glb : &mut Globals,
-    ctx : &mut Option<Context>,
-    ctr : Rc<Option<TextureCreator<WindowContext>>>,
-    cnv : Rc<Option<Canvas>>
+    cnv : &mut Option<Canvas>
     ) -> Result<(), ERROR> {
     let mut i = 0;
 
     while i < scope.nodes.len() {
         if let Some(ref node) = scope.nodes[i] {
-            traverse(node, query, glb, scope, ctx, ctr.clone(), cnv.clone())?;
+            traverse(node, query, glb, scope, cnv)?;
         }
         i+=1;
         glb.curr = i;
@@ -288,8 +289,11 @@ pub fn traverse_scope(scope : &Scope, query : &QueryW, glb : &mut Globals,
 
 
 pub fn is_destination(val : &Type, stack : &Stack, name : &str) -> Result<String, ERROR> {
-    let Type::STR(name) = get_variable(val, &stack)? else {
-        return gerr!("Error: Invalid destination [{:?}] in [{name}]", val);
-    };
-    Ok(name)
+    match get_variable(val, stack)? {
+        Type::STR(name) => {return Ok(name.clone());},
+        Type::CHAR(name) => {return Ok(name.to_string().clone());},
+        _ => {
+            return gerr!("Error: Invalid destination [{:?}] in [{name}]", val);
+        }
+    }
 }
