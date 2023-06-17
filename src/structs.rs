@@ -63,17 +63,17 @@ impl Type {
     } 
 }
 
-pub fn parse_type(value : &String) -> Type{
+pub fn parse_type(value : &String) -> Result<Type, ERROR>{
     if let Ok(i) = value.parse::<i32>() {
-        return Type::I32(i);
+        return Ok(Type::I32(i));
     } else if let Ok(f) = value.parse::<f32>() {
-        return Type::F32(f);
+        return Ok(Type::F32(f));
     } else if let Ok(b) = value.parse::<bool>() {
-        return Type::BOOL(b);
+        return Ok(Type::BOOL(b));
     } else if let Ok(c) = value.parse::<char>() {
-        return Type::CHAR(c);
+        return Ok(Type::CHAR(c));
     }
-    return Type::STR(snailquote::unescape(value).unwrap());
+    return Ok(Type::STR(snailquote::unescape(value)?));
 }
 
 #[allow(dead_code)]

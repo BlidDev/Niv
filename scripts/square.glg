@@ -1,0 +1,76 @@
+(
+)
+
+
+#MAIN
+    
+    [set] [cw][16]
+    [set] [ch][9]
+
+    [set] [sw][3]
+    [set] [sh][3]
+
+    [set] [posx][0]
+    [set] [posy][0]
+
+    [init] [848][480][$cw][$ch][Canvas Test]
+
+
+    [set_clear] [0][49][150]
+    [clear]
+
+    [set] [lx][[cal][$cw][-][[cal][$sw][-][1]]]
+    [set] [ly][[cal][$ch][-][[cal][$sh][-][1]]]
+
+    [while][ [cal][ [cal][[key_pressed][Q]][&][[cal][[handle_input]][!][true]] ][=][false] ] 
+    {
+        [clear]
+
+        
+        [if][[key_pressed][D]][=][true]
+        {
+            [op][posx][+][1]
+        }
+        [if][[key_pressed][A]][=][true]
+        {
+            [op][posx][-][1]
+        }
+
+        [if][[key_pressed][W]][=][true]
+        {
+            [op][posy][-][1]
+        }
+        [if][[key_pressed][S]][=][true]
+        {
+            [op][posy][+][1]
+        }
+
+        [if][$posx][=][$lx] 
+        {
+            [set][posx][[cal][$lx][-][1]]
+        }
+        [if][$posy][=][$ly] 
+        {
+            [set][posy][[cal][$ly][-][1]]
+        }
+
+
+        [if][$posx][<][0] 
+        {
+            [set][posx][0]
+        }
+
+        [if][$posy][<][0] 
+        {
+            [set][posy][0]
+        }
+        [set_area][$posx][$posy][$sw][$sh][150][48][99]
+        //[set_pixel][$posx][$posy][39][48][99]
+        [apply]
+        [display]
+
+        [sleep][10]
+    }
+
+ 
+#MAIN

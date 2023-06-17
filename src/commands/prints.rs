@@ -1,5 +1,7 @@
 use std::io::Write;
 
+use unescape::unescape;
+
 use crate::{structs::{Globals, Type, ERROR, GError, TypeIndex, parse_type}, util::get_variable, gerr};
 
 
@@ -15,13 +17,13 @@ pub fn print(args : Vec<Type>, glb : &Globals) ->Result<Type, ERROR> {
         return gerr!("Error: No arguments given to [print]");
     }
 
-    let Type::STR(format) = args[0].clone() else {
+    let Type::STR(format) = get_variable(&args[0].clone(),&&glb.stack)? else {
         return gerr!("Error: Invalid format in [print] [{:?}]", args[0].clone());
     };
 
     let matches = format.matches("{}").count();
     if matches < args.len() - 1 {
-        return gerr!("Error: [{:?}] positionals were given in [print] but only [{}] provided", matches, args.len() - 1);
+        return gerr!("Error: [{:?}] positionals were given in [print] but [{}] provided", matches, args.len() - 1);
     }
 
     let mut format = format.clone();
@@ -46,7 +48,7 @@ pub fn input(args : Vec<Type>, glb : &Globals) -> Result<Type, ERROR> {
     _ = std::io::stdin().read_line(&mut line)?;
 
     line.pop();
-    Ok(Type::STR(line))
+    Ok(Type::STR(unescape(&line).unwrap()))
 }
 
 
@@ -67,7 +69,11 @@ pub fn inputcast(args : Vec<Type>, glb : &Globals) -> Result<Type, ERROR> {
     _ = std::io::stdin().read_line(&mut line)?;
     line.pop();
 
-    let var = parse_type(&line);
+
+    let line = unescape(&line).unwrap();
+
+
+    let var = parse_type(&line)?;
 
     if var.dis() != index.clone() as usize {
         return gerr!("Error: Could not parse {line} as {:?}, got {var:?} instead", index);

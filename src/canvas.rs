@@ -1,5 +1,5 @@
 
-use sfml::{window::{ContextSettings, Style, Event}, graphics::{RenderWindow, RenderTarget, Color, Texture, Sprite, Transformable}, SfBox};
+use sfml::{window::{ContextSettings, Style, Event}, graphics::{RenderWindow, RenderTarget, Color, Texture, Sprite, Transformable}, SfBox, system::Vector2};
 
 use crate::{structs::{ERROR, GError}, gerr};
 
@@ -21,7 +21,7 @@ pub struct Canvas {
 
 impl Canvas {
     pub fn set_pixel(&mut self, pos : Vec2, r : u8, g : u8, b : u8) {
-        let pos = (pos.0.clamp(0, self.c_size.0 - 1),pos.1.clamp(0, self.c_size.1 - 1));
+        let pos = (pos.0.clamp(0, self.c_size.0 ),pos.1.clamp(0, self.c_size.1));
         let offest = (pos.1 * (self.c_size.0 * 4) + (pos.0 * 4)) as usize;
         self.pixels[offest + 0] = r;
         self.pixels[offest + 1] = g;
@@ -31,8 +31,8 @@ impl Canvas {
     }
 
     pub fn set_area(&mut self, pos : Vec2, size : Vec2, r : u8, g : u8, b : u8) -> Result<(), ERROR>{
-        if  pos.0 + size.0 >= self.c_size.0 ||
-            pos.1 + size.1 >= self.c_size.1 {
+        if  pos.0 + size.0 > self.c_size.0 ||
+            pos.1 + size.1 > self.c_size.1 {
                 return gerr!("Error: area in [set_area] does not fit the canvas size [x: {}, y: {}, w: {}, h: {}]", pos.0, pos.1, size.0, size.1);
         }
 
@@ -132,9 +132,13 @@ impl CanvasBuilder {
         let settings = self.settings.unwrap_or(
             ContextSettings {
                 antialiasing_level : 0,
+                
                 ..Default::default()
             }
         );
+
+
+
 
 
         let mut can = Canvas {
@@ -161,6 +165,10 @@ impl CanvasBuilder {
 
         }; 
 
+        let mut size = sfml::window::VideoMode::desktop_mode();
+        size.width -= w_size.0 /2;
+        size.height -= w_size.1 /2;
+        can.window.set_position(Vector2::new((size.width as i32/ 2) + 1920, size.height as i32/ 2));
         
         unsafe { 
             can.texture.update_from_pixels(&can.pixels, c_size.0, c_size.1, 0, 0);
