@@ -1,4 +1,4 @@
-use crate::{structs::{Globals, Type, ERROR, GError, QueryW, Scope}, util::{get_variable, traverse_scope, traverse}, gerr, canvas::Canvas};
+use crate::{structs::{Globals, Type, ERROR, GError, QueryW, Scope}, util::{get_variable, traverse_scope, traverse}, gerr, canvas::Canvas, commands::prints::print};
 
 use sdl2::{render::TextureCreator, video::WindowContext};
 use std::rc::Rc;
@@ -19,6 +19,23 @@ pub fn ifcommand(args : Vec<Type>, glb : &mut Globals, qr : &QueryW, scp : &Scop
     }
 
     Ok(Type::VOID())
+}
+
+pub fn single_if(args : Vec<Type>, glb : &mut Globals, qr : &QueryW, scp : &Scope, cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
+
+    let Some(Type::NODE(ref node)) = args.last() else {
+        return gerr!("Error: [singleif] need NODE as argument but got {:?} instead", args[0])
+    };
+    let v = cal(args[0..3].to_vec(), glb)?;
+    let Type::BOOL(ref b) = v else {
+        return gerr!("Error: [singleif] check returned [{:?}] instead of BOOL]",
+            v);
+    };
+
+    if !b { return Ok(Type::VOID()); }
+
+
+    traverse(node, qr, glb, scp, cnv)
 }
 
 pub fn whilecommand(args : Vec<Type>, glb : &mut Globals, qr : &QueryW, scp : &Scope,

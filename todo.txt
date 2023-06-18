@@ -1,0 +1,4 @@
+V - Add >= and <= operators
+V - Add format command
+V - Make TypeIndex input more intuative (i32, str, etc.)
+V - Single line if statement

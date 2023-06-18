@@ -9,7 +9,7 @@ pub fn set(args : Vec<Type>, glb : &mut Globals) ->Result<Type, ERROR> {
     //println!("Setting [{}] = [{:?}]", name, v.clone());
     *glb.stack.entry(name).or_insert(v.clone()) = v.clone();
 
-    Ok(args[1].clone())
+    Ok(v.clone())
 }
 
 

@@ -1,4 +1,4 @@
-use std::{collections::HashMap, fmt::Display, str::FromStr, rc::Rc};
+use std::{collections::HashMap, fmt::Display, str::FromStr};
 use device_query::{DeviceState, Keycode};
 
 use crate::{gerr, canvas::Canvas};
@@ -93,7 +93,7 @@ impl FromStr for TypeIndex {
     type Err = ERROR;
 
    fn from_str(s: &str) -> Result<Self, Self::Err> {
-       match s {
+       match s.to_uppercase().as_str() {
         "VOID" => return Ok(Self::VOID),
         "I32"  => return Ok(Self::I32),
         "F32"  => return Ok(Self::F32),
@@ -101,7 +101,7 @@ impl FromStr for TypeIndex {
         "CHAR" => return Ok(Self::CHAR),
         "STR"  => return Ok(Self::STR),
         "NODE" => return Ok(Self::NODE),
-        _ => gerr!("Error: Could not parse {} as TypeIndex", s)
+        _ => gerr!("Error: Could not parse [{}] as TypeIndex", s)
        }
    } 
 }

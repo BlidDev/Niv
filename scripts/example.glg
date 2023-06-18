@@ -9,6 +9,8 @@
 
     [set] [$name] [[cal][6][+][6] ]
 
+    [singleif][true][=][true][[print]["hello\n"]]
+
     [print] ["Your input was: {}\n{} {}\n"] [[input]["Enter a line> "]] [$name] [[cal][$var][+][8] ]
     
 

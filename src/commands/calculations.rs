@@ -4,7 +4,7 @@ use crate::{structs::{Globals, Type, ERROR, GError}, util::{is_destination, get_
 
 use super::variables::set;
 
-type Fun  = HashMap<char, fn(Type,Type)-> Result<Type, ERROR>>;
+type Fun<'a>  = HashMap<&'a str, fn(Type,Type)-> Result<Type, ERROR>>;
 
 pub fn cal(args : Vec<Type>, glb : &Globals) ->Result<Type, ERROR> {
 
@@ -17,27 +17,32 @@ pub fn cal(args : Vec<Type>, glb : &Globals) ->Result<Type, ERROR> {
         return gerr!("Error: Trying to run [cal] on mismatching types [{:?}] and [{:?}]", num1, num2);
     }
 
-    let Type::CHAR(ref t_op) = op else {
-        return gerr!("Error: Trying to run [cal] with invalid operator [{:?}]", op)
+    let op : String = match op {
+        Type::CHAR(ref t_op) => t_op.to_string(),
+        Type::STR(ref t_op) => t_op.to_string(),
+
+        _ =>return gerr!("Error: Trying to run [cal] with invalid operator [{:?}]", op),
     };
 
     let mut map = Fun::new();
-    map.insert('+', add);
-    map.insert('-', sub);
-    map.insert('*', mul);
-    map.insert('/', div);
-    map.insert('=', eql);
-    map.insert('!', neql);
-    map.insert('>', bigger);
-    map.insert('<', smaller);
-    map.insert('&', and);
-    map.insert('|', or);
+    map.insert("+", add);
+    map.insert("-", sub);
+    map.insert("*", mul);
+    map.insert("/", div);
+    map.insert("=", eql);
+    map.insert("!", neql);
+    map.insert(">", bigger);
+    map.insert("<", smaller);
+    map.insert("&", and);
+    map.insert("|", or);
+    map.insert(">=", bigger_or_eql);
+    map.insert("<=", smaller_or_eql);
     
-    if !map.contains_key(t_op) {
+    if !map.contains_key(op.as_str()) {
         return gerr!("Error: Trying to run [cal] with invalid operator [{:?}]", op)
     }
 
-    map[&t_op](num1, num2)
+    map[op.as_str()](num1, num2)
 }
 
 

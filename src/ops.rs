@@ -104,6 +104,31 @@ pub fn smaller(a : Type, b : Type) -> Result<Type, ERROR> {
     }
 }
 
+pub fn smaller_or_eql(a : Type, b : Type) -> Result<Type, ERROR> {
+
+    let (Type::BOOL(result1), Type::BOOL(result2)) = 
+        (smaller(a.clone(), b.clone())?, eql(a.clone(), b.clone())?)
+        else {
+            return gerr!("Error: wrong args in [smaller_or_eql]: [{:?}, {:?}]", a,b);
+
+    };
+
+    Ok(Type::BOOL(result1 || result2))
+}
+
+
+pub fn bigger_or_eql(a : Type, b : Type) -> Result<Type, ERROR> {
+
+    let (Type::BOOL(result1), Type::BOOL(result2)) = 
+        (bigger(a.clone(), b.clone())?, eql(a.clone(), b.clone())?)
+        else {
+            return gerr!("Error: wrong args in [smaller_or_eql]: [{:?}, {:?}]", a,b);
+
+    };
+
+    Ok(Type::BOOL(result1 || result2))
+}
+
 #[allow(dead_code)]
 pub fn neql(a : Type, b : Type) -> Result<Type, ERROR> {
 

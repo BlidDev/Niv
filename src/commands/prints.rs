@@ -38,6 +38,30 @@ pub fn print(args : Vec<Type>, glb : &Globals) ->Result<Type, ERROR> {
     Ok(Type::VOID())
 }
 
+
+pub fn format_command(args : Vec<Type>, glb : &Globals) ->Result<Type, ERROR> { 
+    if args.len() < 1 { 
+        return gerr!("Error: No arguments given to [format]");
+    }
+
+    let Type::STR(format) = &args[0].clone() else {
+        return gerr!("Error: Invalid format in [format] [{:?}]", args[0].clone());
+    };
+
+    let matches = format.matches("{}").count();
+    if matches < args.len() - 1 {
+        return gerr!("Error: [{:?}] positionals were given in [format] but [{}] provided", matches, args.len() - 1);
+    }
+
+    let mut format = format.clone();
+    for i in 0..matches {
+        let val = get_variable(&args[i + 1], &glb.stack)?;
+        format = format.replacen("{}", &format!("{}", val),1);
+    }
+    
+    Ok(Type::STR(format))
+}
+
 pub fn input(args : Vec<Type>, glb : &Globals) -> Result<Type, ERROR> {
     if !args.is_empty() {
         print(args.clone(), glb)?;

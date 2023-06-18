@@ -91,10 +91,20 @@ pub fn traverse(node : &NodeType, query : &QueryW, glb : &mut Globals, scope : &
                 return run_command(query, &name, vec![Type::NODE(childern[0].clone())], glb, scope, cnv)
             }
 
-            let mut args : Vec<Type> = vec![];
-            for child in childern.iter() {
-                args.push(traverse(child, query, glb, scope, cnv)?);
+            if name == "singleif" {
+                let mut args : Vec<Type> = vec![];
+                for i in 0..childern.len() - 1  {
+                    args.push(traverse(&childern[i], query, glb, scope, cnv)?);
+                }
+                args.push(Type::NODE(childern.last().unwrap().clone()));
+                return run_command(query, &name, args, glb, scope, cnv)
             }
+
+            let mut args : Vec<Type> = vec![];
+            for child in childern  {
+                args.push(traverse(&child, query, glb, scope, cnv)?);
+            }
+
             //println!("{command:?} {args:?}\n");
             run_command(query, &name, args, glb, scope, cnv)
         },
