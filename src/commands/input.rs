@@ -1,6 +1,6 @@
 use device_query::Keycode;
 
-use crate::{structs::{Type, ERROR, GError, Globals}, gerr, canvas::{Canvas, CanvasBuilder}, sgerr, util::args_to_vars, commands::variables::set};
+use crate::{structs::{Type, ERROR, GError, Globals}, gerr, util::args_to_vars};
 
 pub fn key_pressed(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
 

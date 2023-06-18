@@ -1,4 +1,4 @@
-use std::{io::{BufReader, BufRead}, fs::File, rc::Rc, env};
+use std::{io::{BufReader, BufRead}, fs::File, env};
 
 mod util;
 mod structs;

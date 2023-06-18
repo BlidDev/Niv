@@ -1,5 +1,5 @@
 use device_query::DeviceQuery;
-use sfml::window::{Event, Key, Style};
+use sfml::window::{Event, Style};
 use crate::{structs::{Type, ERROR, GError, Globals}, gerr, canvas::{Canvas, CanvasBuilder}, sgerr, util::args_to_vars, commands::variables::set};
 
 

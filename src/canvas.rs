@@ -1,5 +1,5 @@
 
-use sfml::{window::{ContextSettings, Style, Event}, graphics::{RenderWindow, RenderTarget, Color, Texture, Sprite, Transformable}, SfBox, system::Vector2};
+use sfml::{window::{ContextSettings, Style, Event}, graphics::{RenderWindow, RenderTarget, Texture, Sprite, Transformable}, SfBox, system::Vector2};
 
 use crate::{structs::{ERROR, GError}, gerr};
 
@@ -101,6 +101,7 @@ impl CanvasBuilder {
         CanvasBuilder::default()
     }
 
+    #[allow(dead_code)]
     pub fn settings(mut self, settings : ContextSettings) -> CanvasBuilder {
         self.settings = Some(settings);
         self
@@ -166,9 +167,9 @@ impl CanvasBuilder {
         }; 
 
         let mut size = sfml::window::VideoMode::desktop_mode();
-        size.width -= w_size.0 /2;
+        size.width  -= w_size.0 /2;
         size.height -= w_size.1 /2;
-        can.window.set_position(Vector2::new((size.width as i32/ 2) + 1920, size.height as i32/ 2));
+        can.window.set_position(Vector2::new(size.width as i32/ 2, size.height as i32/ 2));
         
         unsafe { 
             can.texture.update_from_pixels(&can.pixels, c_size.0, c_size.1, 0, 0);

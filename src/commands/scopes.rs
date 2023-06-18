@@ -1,7 +1,5 @@
-use crate::{structs::{Globals, Type, ERROR, GError, QueryW, Scope}, util::{get_variable, traverse_scope, traverse}, gerr, canvas::Canvas, commands::prints::print};
+use crate::{structs::{Globals, Type, ERROR, GError, QueryW, Scope}, util::{get_variable, traverse_scope, traverse}, gerr, canvas::Canvas};
 
-use sdl2::{render::TextureCreator, video::WindowContext};
-use std::rc::Rc;
 use super::calculations::cal;
 
 pub fn ifcommand(args : Vec<Type>, glb : &mut Globals, qr : &QueryW, scp : &Scope,
