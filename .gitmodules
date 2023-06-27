@@ -1,3 +1,0 @@
-[submodule "framework"]
-	path = vendor/framework
-	url = https://github.com/BlidDev/engine_framework
