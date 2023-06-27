@@ -9,8 +9,6 @@ edition = "2021"
 unescape = "0.1.0"
 snailquote = "0.3.1"
 unstringify = "0.1.4"
-sdl2 = "0.35.2"
-framework = {path =  "vendor/framework", features = ["canvas"]}
 sfml = "0.20.0"
 device_query = "*"
 rand = "*"
