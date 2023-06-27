@@ -86,7 +86,7 @@ pub fn traverse(node : &NodeType, query : &QueryW, glb : &mut Globals, scope : &
                 return gerr!("Error: Command is [{command:?}] instead of STR");
             };
 
-            if name == "while" {
+            if "while" == name {
                 return run_command(query, &name, vec![Type::NODE(childern[0].clone())], glb, scope, cnv)
             }
 

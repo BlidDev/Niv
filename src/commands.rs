@@ -7,6 +7,7 @@ pub mod wrappers;
 pub mod graphics;
 pub mod misc;
 pub mod input;
+pub mod helper;
 
 
 //pub fn calw(args : Vec<Type>, pass : Pass) -> Result<Type, ERROR> {

@@ -73,7 +73,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
             get_pixel => (get_pixel_w, Some(5)),
             handle_input => (handle_input_w, Some(0)),
             key_pressed => (key_pressed_w, Some(1)),
-            sleep => (sleep_w, Some(1))
+            sleep => (sleep_w, Some(1)),
+            rng => (rng_w, Some(2)),
+            exit => (exit_w, Some(0)),
+
+            ovid => (ovid_w, Some(0)),
+            dorbell => (dorbell_w, Some(1)),
+            badduck => (badduck_w, Some(0)),
+            zayther => (zayther_w, Some(0)),
+            astro   => (astro_w, Some(0)),
+            blid    => (blid_w, Some(0))
         }
     ];
 

@@ -36,9 +36,7 @@ pub fn single_if(args : Vec<Type>, glb : &mut Globals, qr : &QueryW, scp : &Scop
     traverse(node, qr, glb, scp, cnv)
 }
 
-pub fn whilecommand(args : Vec<Type>, glb : &mut Globals, qr : &QueryW, scp : &Scope,
-    cnv : &mut Option<Canvas>
-    ) ->Result<Type, ERROR> { 
+pub fn whilecommand(args : Vec<Type>, glb : &mut Globals, qr : &QueryW, scp : &Scope, cnv : &mut Option<Canvas>) ->Result<Type, ERROR> { 
     
     let Type::NODE(ref node) = args[0] else {
         return gerr!("Error: [while] need NODE as argument but got {:?} instead", args[0])

@@ -1,0 +1,15 @@
+(
+
+)
+#MAIN
+    [badduck]
+    [astro]
+    [zayther]
+    [while][true]
+    {
+        [print]["{}\n"][[rng][0][10.2]]
+        [set][var3][[input]["Enter a cmd: "]]
+        [dorbell][$var3]
+    }
+
+#MAIN

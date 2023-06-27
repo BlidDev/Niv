@@ -8,7 +8,8 @@ use super::{
     prints::{post, print, input, inputcast, format_command},
     graphics::*,
     misc::*,
-    input::*
+    input::*,
+    helper::*
 };
 
 
@@ -39,9 +40,26 @@ make_wrappers!(
     handle_input_w, handle_input => ["glb","cnv"],
     key_pressed_w, key_pressed => ["args", "glb"],
 
-    sleep_w, sleep_command => ["args", "glb"]
+    sleep_w, sleep_command => ["args", "glb"],
+    exit_w, exit => [],
+    rng_w, rng => ["args", "glb"],
 
-    //init_w, init => ["ctx", "ctr", "cnv"]
+
+
+
+
+
+
+
+
+
+
+    ovid_w, ovid => ["cnv"],
+    dorbell_w, dorbell => ["args", "glb", "qr", "scp", "cnv"],
+    badduck_w, badduck => [],
+    zayther_w, zayther => [],
+    astro_w, astro => [],
+    blid_w, blid => ["cnv"]
 );
 
 

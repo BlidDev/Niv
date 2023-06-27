@@ -159,27 +159,27 @@ pub fn display(cnv : &mut Option<Canvas>) -> Result<Type,ERROR> {
 
 
 pub fn handle_input(glb  : &mut Globals, cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
-    let Some(cnv_o) = cnv else {
+    if let Some(cnv_o) = cnv {
         if glb.canvas_should_close {
             return Ok(Type::BOOL(true));
         }
-        return gerr!("Error: Canvas used before being initilized")
-    };
 
-    'events: while let Some(event) =  cnv_o.window.poll_event(){
-        
+        'events: while let Some(event) =  cnv_o.window.poll_event(){
+
             match event {
                 Event::Closed =>
-                 {cnv_o.window.close(); glb.canvas_should_close = true; break 'events;},
+                {cnv_o.window.close(); glb.canvas_should_close = true; break 'events;},
                 _ => {}
-                
+
             }
-    }
-    
-    if glb.canvas_should_close {
-        *cnv = None;
-        return  Ok(Type::BOOL(true));
-    }
+        }
+
+        if glb.canvas_should_close {
+            *cnv = None;
+            return  Ok(Type::BOOL(true));
+        }
+    };
+
 
     glb.keys = glb.device_state.get_keys();
     
