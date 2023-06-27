@@ -1,16 +1,11 @@
-(
+#MAIN |
 
-)
-
-#MAIN
-
-    [init][848][480][48][27][Window Example]
+    [init][848][480][96][54][Window Example]
 
     [set_clear] [100][100][100]
     [clear]
     [apply]
 
-    [blid]
 
     [while][[cal][[handle_input]][!][true]]
     {
