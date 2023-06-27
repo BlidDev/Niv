@@ -1,7 +1,7 @@
 use std::{collections::HashMap, error::Error};
 //use framework::{canvas::canvas::Canvas, sdl2::context::Context};
 
-use crate::{structs::{NodeType, Type, parse_type, CommandQuery, Command, GError, ERROR, Scope, Stack, Globals, QueryW}, gerr, canvas::Canvas};
+use crate::{structs::{NodeType, Type, parse_type, CommandQuery, Command, GError, ERROR, Scope, Stack, Globals, QueryW, Roots}, gerr, canvas::Canvas};
 
 
 #[allow(dead_code)]
@@ -71,7 +71,7 @@ pub fn make_tree(
 }
 
 
-pub fn traverse(node : &NodeType, query : &QueryW, glb : &mut Globals, scope : &Scope,
+pub fn traverse(node : &NodeType, roots : &Roots,query : &QueryW, glb : &mut Globals, scope : &Scope,
     cnv : &mut Option<Canvas>
     ) -> Result<Type, Box<dyn std::error::Error>> {
     match node {
@@ -81,31 +81,31 @@ pub fn traverse(node : &NodeType, query : &QueryW, glb : &mut Globals, scope : &
         }
 
         NodeType::Nested(command, childern) => {
-            let command = traverse(command, query, glb, scope, cnv)?;
+            let command = traverse(command, roots, query, glb, scope, cnv)?;
             let Type::STR(ref name) = command else {
                 return gerr!("Error: Command is [{command:?}] instead of STR");
             };
 
             if "while" == name {
-                return run_command(query, &name, vec![Type::NODE(childern[0].clone())], glb, scope, cnv)
+                return run_command(roots,query, &name, vec![Type::NODE(childern[0].clone())], glb, scope, cnv)
             }
 
             if name == "singleif" {
                 let mut args : Vec<Type> = vec![];
                 for i in 0..childern.len() - 1  {
-                    args.push(traverse(&childern[i], query, glb, scope, cnv)?);
+                    args.push(traverse(&childern[i], roots, query, glb, scope, cnv)?);
                 }
                 args.push(Type::NODE(childern.last().unwrap().clone()));
-                return run_command(query, &name, args, glb, scope, cnv)
+                return run_command(roots, query, &name, args, glb, scope, cnv)
             }
 
             let mut args : Vec<Type> = vec![];
             for child in childern  {
-                args.push(traverse(&child, query, glb, scope, cnv)?);
+                args.push(traverse(&child, roots,  query, glb, scope, cnv)?);
             }
 
             //println!("{command:?} {args:?}\n");
-            run_command(query, &name, args, glb, scope, cnv)
+            run_command(roots, query, &name, args, glb, scope, cnv)
         },
     }
 
@@ -123,7 +123,7 @@ pub fn add_command(
         //.unwrap_or_else(||panic!("ERROR: Could not add command: [{}]", name));
 }
 
-pub fn run_command(query : &QueryW,name : &String, args: Vec<Type>, glb : &mut Globals, scope : &Scope, 
+pub fn run_command(roots : &Roots,query : &QueryW,name : &String, args: Vec<Type>, glb : &mut Globals, scope : &Scope, 
     cnv : &mut Option<Canvas>)
 -> Result<Type, Box<dyn Error>>{
 
@@ -144,7 +144,7 @@ pub fn run_command(query : &QueryW,name : &String, args: Vec<Type>, glb : &mut G
         }
     }
 
-    command.1(args, glb, scope, &query, cnv)
+    command.1(args, roots, glb, scope, &query, cnv)
 }
 
 pub fn get_variable(val : &Type, stack : &Stack) -> Result<Type, ERROR> {
@@ -178,9 +178,9 @@ pub fn args_to_vars(v : &Vec<Type>, stack : &Stack) -> Result<Vec<Type>, ERROR> 
     Ok(n_v)
 }
 pub fn find_root_scopes(lines : &Vec<String>) -> 
-    Result<HashMap<String, (usize, usize)>, Box<dyn Error>>
+    Result<HashMap<String, (usize, usize, Vec<String>)>, Box<dyn Error>>
 {
-    let mut map : HashMap<String, (usize, Option<usize>)>= HashMap::new();
+    let mut map : HashMap<String, (usize, Option<usize>, Vec<String>)>= HashMap::new();
 
 
     for (i, line) in lines.iter().enumerate() {
@@ -190,21 +190,38 @@ pub fn find_root_scopes(lines : &Vec<String>) ->
 
         let mut chars = line.chars();
         chars.next();
-        let name = chars.as_str().to_string();
-        if let Some(ref mut scope) = map.get_mut(&name) {
-            scope.1 = Some(i);
-            continue;
+        // Check for arg list
+
+        if !chars.as_str().contains("|") {
+            let name = chars.as_str().to_string();
+            if let Some(ref mut scope) = map.get_mut(&name) {
+                scope.1 = Some(i);
+                continue;
+            }
+
+            return gerr!("Error: No arguments \'|\' given in root scope [{}]",chars.as_str())
         }
 
-        map.insert(name.clone(), (i, None));
+
+        let (name, args) = {
+            let s : Vec<String >= chars.as_str().split("|").map(|a| a.to_string()).collect();
+            let n = s[0].to_string();
+            let args : Vec<String>= s[1].split_whitespace().map(|a| a.to_string()).collect();
+
+
+            (n, args)
+        };
+        //println!("{} {:?}", name, args);
+
+        map.insert(name.clone().trim_end().to_string(), (i, None, args));
     }
 
     let mut rmap = HashMap::new();
-    for (name, (s, e)) in map {
+    for (name, (s, e, v)) in map {
         if e.is_none() {
             return gerr!("Error: Could not find closing [#{}]", name);
         }
-        rmap.insert(name, (s,e.unwrap()));
+        rmap.insert(name, (s,e.unwrap(), v));
     }
 
     Ok(rmap)
@@ -280,14 +297,25 @@ pub fn _print_scope_tree(scope : &Scope, indent : &mut usize, _begin : &usize) {
 }
 
 
-pub fn traverse_scope(scope : &Scope, query : &QueryW, glb : &mut Globals,
+pub fn traverse_root_scope(name : &str, roots : &Roots,query : &QueryW, glb : &mut Globals,
+    cnv : &mut Option<Canvas>
+) -> Result<(), ERROR> {
+    let s = roots.get(name).expect(&format!("Error: Root scope [{}] not found", name));
+
+    traverse_scope(roots, s, query, glb, cnv)?;
+
+    Ok(())
+}
+
+
+pub fn traverse_scope(roots : &Roots, scope : &Scope, query : &QueryW, glb : &mut Globals,
     cnv : &mut Option<Canvas>
     ) -> Result<(), ERROR> {
     let mut i = 0;
 
     while i < scope.nodes.len() {
         if let Some(ref node) = scope.nodes[i] {
-            traverse(node, query, glb, scope, cnv)?;
+            traverse(node, roots, query, glb, scope, cnv)?;
         }
         i+=1;
         glb.curr = i;

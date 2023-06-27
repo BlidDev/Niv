@@ -1,6 +1,6 @@
 use rand::{thread_rng, Rng};
 
-use crate::{structs::{Type, ERROR, Scope, QueryW, Globals, NodeType, GError}, canvas::{Canvas, product}, util::{traverse, run_command, get_variable, make_tree}, gerr};
+use crate::{structs::{Type, ERROR, Scope, QueryW, Globals, NodeType, GError, Roots}, canvas::{Canvas, product}, util::{traverse, run_command, get_variable, make_tree}, gerr};
 
 
 pub fn ovid(cnv : &mut Option<Canvas>) ->Result<Type, ERROR> {
@@ -31,7 +31,7 @@ pub fn ovid(cnv : &mut Option<Canvas>) ->Result<Type, ERROR> {
 }
 
 
-pub fn dorbell(args : Vec<Type>, glb : &mut Globals, qr : &QueryW, scp : &Scope,
+pub fn dorbell(args : Vec<Type>, roots : &Roots,glb : &mut Globals, qr : &QueryW, scp : &Scope,
     cnv : &mut Option<Canvas>
 ) -> Result<Type, ERROR> {
 
@@ -43,15 +43,15 @@ pub fn dorbell(args : Vec<Type>, glb : &mut Globals, qr : &QueryW, scp : &Scope,
         return Ok(Type::VOID())
     };
 
-    let Type::STR(name) = traverse(&n, qr, glb, scp, cnv)? else {
+    let Type::STR(name) = traverse(&n, roots, qr, glb, scp, cnv)? else {
         return Ok(Type::VOID())
     };
 
     let mut args : Vec<Type> = vec![];
     for child in c  {
-        args.push(traverse(&child, qr, glb, scp, cnv)?);
+        args.push(traverse(&child, roots, qr, glb, scp, cnv)?);
     }
-    Ok(run_command(qr,&name, args, glb, scp, cnv)?)
+    Ok(run_command(roots, qr,&name, args, glb, scp, cnv)?)
 
 }
 

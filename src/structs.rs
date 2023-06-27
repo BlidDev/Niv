@@ -127,7 +127,7 @@ impl std::error::Error for GError {}
 pub type ERROR = Box<dyn std::error::Error>;
 
 pub struct QueryW(pub CommandQuery);
-pub type Command = fn(Vec<Type>, &mut Globals, &Scope, &QueryW, &mut Option<Canvas>) -> Result<Type, ERROR>;
+pub type Command = fn(Vec<Type>, &Roots, &mut Globals, &Scope, &QueryW, &mut Option<Canvas>) -> Result<Type, ERROR>;
 pub type CommandQuery = HashMap<String, (Option<usize>, Command)>;
 pub type Stack = HashMap<String, Type>;
 
@@ -144,5 +144,7 @@ pub struct Globals<'a> {
     pub s : &'a str,
     pub device_state : DeviceState,
     pub keys : Vec<Keycode>,
-    pub canvas_should_close : bool
+    pub canvas_should_close : bool,
+    pub args_list : HashMap<String, Vec<String>>
 }
+pub type Roots = HashMap<String, Scope>;

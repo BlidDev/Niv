@@ -1,4 +1,4 @@
-use std::{io::{BufReader, BufRead}, fs::File, env};
+use std::{io::{BufReader, BufRead}, fs::File, env, collections::HashMap};
 
 mod util;
 mod structs;
@@ -30,8 +30,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
 
     let roots = find_root_scopes(&lines)?;
 
-    let main = root_to_scope_tree(&lines, 
-        &roots.get("MAIN").expect("Error: Root scope [MAIN] not found"))?;
+
+    let (roots, args_list) = {
+        let mut v = HashMap::new();
+        let mut an = HashMap::new();
+
+        for (name, (start, end, args)) in roots.iter() {
+
+            let temp = root_to_scope_tree(&lines, &(*start, *end))?;
+            an.insert(name.clone(), args.clone());
+            v.insert(name.clone(),temp);
+        }
+        (v, an)
+    };
+
+    //let main = roots.get("MAIN").expect("Error: Root scope [MAIN] not found");
 
     let _code : Vec<String> = lines.iter().filter(|l| 
         { 
@@ -43,8 +56,30 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
 
     let mut query = CommandQuery::new();
 
+    register_commands(&mut query);
+
+
+    
+    let mut glb = Globals {
+        stack : Stack::default(),
+        curr : 0,
+        s : " ",
+        device_state : DeviceState::new(),
+        keys : vec![],
+        canvas_should_close : false,
+        args_list
+    };
+    let mut cnv = None;
+    traverse_root_scope("MAIN", &roots, &QueryW(query.clone()), &mut glb,  &mut cnv)?;
+
+    Ok(())
+}
+
+
+fn register_commands(query : &mut CommandQuery)
+{
     commands![
-        (query),
+        (*query),
         {
             set =>      (set_w, Some(2)),
             release =>  (release_w, Some(1)),
@@ -60,7 +95,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
             inputcast =>(inputcast_w,None),
 
             if =>       (ifcommand_w,Some(3)),
-            singleif =>       (singleif_w,Some(4)),
+            singleif=>       (singleif_w,Some(4)),
             while =>    (whilecommand_w,Some(1)),
 
             init => (init_w, Some(5)),
@@ -71,11 +106,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
             set_pixel => (set_pixel_w, Some(5)),
             set_area => (set_area_w, Some(7)),
             get_pixel => (get_pixel_w, Some(5)),
+
             handle_input => (handle_input_w, Some(0)),
             key_pressed => (key_pressed_w, Some(1)),
+
             sleep => (sleep_w, Some(1)),
             rng => (rng_w, Some(2)),
             exit => (exit_w, Some(0)),
+
+            run => (run_w, None),
 
             ovid => (ovid_w, Some(0)),
             dorbell => (dorbell_w, Some(1)),
@@ -85,21 +124,4 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
             blid    => (blid_w, Some(0))
         }
     ];
-
-
-    
-    let mut glb = Globals {
-        stack : Stack::default(),
-        curr : 0,
-        s : " ",
-        device_state : DeviceState::new(),
-        keys : vec![],
-        canvas_should_close : false
-    };
-    let mut cnv = None;
-    traverse_scope(&main, &QueryW(query.clone()), &mut glb,  &mut cnv)?;
-
-    Ok(())
 }
-
-

@@ -1,4 +1,4 @@
-use crate::{structs::{Globals, Type, ERROR, Scope, QueryW}, make_wrapper, make_wrappers};
+use crate::{structs::{Globals, Type, ERROR, Scope, QueryW, Roots}, make_wrapper, make_wrappers};
 use crate::canvas::Canvas;
 
 use super::{
@@ -26,9 +26,11 @@ make_wrappers!(
     post_w, post => ["glb"],
     input_w, input => ["args", "glb"],
     inputcast_w, inputcast => ["args", "glb"],
-    ifcommand_w, ifcommand => ["args", "glb", "qr", "scp", "cnv"],
-    singleif_w, single_if => ["args", "glb", "qr", "scp", "cnv"],
-    whilecommand_w, whilecommand => ["args", "glb", "qr", "scp", "cnv"],
+
+    ifcommand_w, ifcommand => ["args", "roots", "glb", "qr", "scp", "cnv"],
+    singleif_w, single_if => ["args", "roots", "glb", "qr", "scp", "cnv"],
+    whilecommand_w, whilecommand => ["args", "roots","glb", "qr", "scp", "cnv"],
+
     init_w, init => ["args", "glb", "cnv"],
     set_clear_w, set_clear => ["args", "glb", "cnv"],
     clear_w, clear => ["cnv"],
@@ -37,6 +39,7 @@ make_wrappers!(
     set_pixel_w, set_pixel => ["args", "glb", "cnv"],
     set_area_w, set_area => ["args", "glb", "cnv"],
     get_pixel_w, get_pixel => ["args", "glb", "cnv"],
+
     handle_input_w, handle_input => ["glb","cnv"],
     key_pressed_w, key_pressed => ["args", "glb"],
 
@@ -45,7 +48,7 @@ make_wrappers!(
     rng_w, rng => ["args", "glb"],
 
 
-
+    run_w, run => ["args", "roots", "glb", "qr", "cnv"],
 
 
 
@@ -55,7 +58,7 @@ make_wrappers!(
 
 
     ovid_w, ovid => ["cnv"],
-    dorbell_w, dorbell => ["args", "glb", "qr", "scp", "cnv"],
+    dorbell_w, dorbell => ["args", "roots", "glb", "qr", "scp", "cnv"],
     badduck_w, badduck => [],
     zayther_w, zayther => [],
     astro_w, astro => [],

@@ -1,0 +1,28 @@
+
+#MAIN |
+    [print]["hey "]
+    [run][TEST]
+    [run][TEST2][3][4]
+
+#MAIN
+
+
+#TEST |
+
+
+    [print]["this is test\n"]
+
+#TEST
+
+
+
+#TEST2 | a1 a2
+
+    [while][[cal][$a2][>][0]]
+    {
+        [print]["{}\n"][$a1]
+
+        [op][a2][-][1]
+    }
+
+#TEST2

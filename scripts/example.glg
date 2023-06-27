@@ -1,7 +1,4 @@
-
-(
-)
-#MAIN
+#MAIN 
 
     [set] [name] [var2]
     [set] [name2] [c]
@@ -21,7 +18,6 @@
         [if][[cal][c][!][$name2]][=][true]
         {
             [print]["this wont D:\n"]
-            [print] ["hey bro\n"]
         }
     }
 
@@ -32,5 +28,5 @@
     }
 
 
-#MAIN
+#MAIN 
 
