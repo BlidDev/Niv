@@ -35,6 +35,7 @@ pub fn cal(args : Vec<Type>, glb : &Globals) ->Result<Type, ERROR> {
     map.insert("<", smaller);
     map.insert("&", and);
     map.insert("|", or);
+    map.insert("^", pow);
     map.insert(">=", bigger_or_eql);
     map.insert("<=", smaller_or_eql);
     
@@ -55,4 +56,22 @@ pub fn op(args : Vec<Type>, glb : &mut Globals) ->Result<Type, ERROR> {
     let value = cal(vec![Type::STR(format!("${}", des.clone())), op, b], glb)?;
 
     set(vec![Type::STR(des.clone()), value], glb)
+}
+
+
+pub fn sqrt(args : Vec<Type>, glb : &Globals) -> Result<Type,ERROR> {
+    let a = get_variable(&args.first().unwrap(), &glb.stack)?;
+
+    match a {
+        Type::I32(num) => {
+            if num < 0 { return gerr!("Error: negative number given to [sqrt]: [{:?}]", num); }
+            return Ok(Type::F32( (num as f32).sqrt() ))
+        },
+        Type::F32(num) => {
+            if num < 0.0 { return gerr!("Error: negative number given to [sqrt]: [{:?}]", num); }
+            return Ok(Type::F32( num.sqrt() ))
+        },
+       _ => return gerr!("Error: wrong argument given to [sqrt]: [{:?}]",a), 
+
+    }
 }

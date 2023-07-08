@@ -5,6 +5,7 @@ mod structs;
 mod macros;
 mod ops;
 mod canvas;
+mod types;
 pub mod commands;
 
 use device_query::DeviceState;
@@ -87,6 +88,7 @@ fn register_commands(query : &mut CommandQuery)
 
             cal =>      (cal_w,Some(3)),
             op =>       (op_w,Some(3)),
+            sqrt =>     (sqrt_w, Some(1)),
 
             post =>     (post_w,Some(0)),
             print =>    (print_w,None),

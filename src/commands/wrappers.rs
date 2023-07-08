@@ -19,8 +19,11 @@ make_wrappers!(
     set_w ,set => ["args", "glb"],
     release_w, release => ["args","glb"],
     reset_w, reset => ["glb"],
+
     cal_w, cal => ["args", "glb"],
     op_w, op => ["args", "glb"],
+    sqrt_w, sqrt => ["args", "glb"],
+
     print_w, print => ["args", "glb"],
     format_w, format_command => ["args", "glb"],
     post_w, post => ["glb"],

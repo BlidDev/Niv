@@ -62,6 +62,22 @@ pub fn div(a : Type, b : Type) -> Result<Type, ERROR> {
 }
 
 #[allow(dead_code)]
+pub fn pow(a : Type, b : Type) -> Result<Type, ERROR> {
+
+    if let (Type::I32(n1), Type::I32(n2)) = (a.clone(),b.clone()) {
+        if n2 < 0 { 
+            return gerr!("Error: Invaild exponent: [{:?}]", n2);
+        }
+        return Ok(Type::I32(n1.pow(n2 as u32)))
+    }
+    else if let (Type::F32(n1), Type::I32(n2)) = (a.clone(),b.clone()) {
+        return Ok(Type::F32(n1.powi(n2)))
+    }
+
+    gerr!("Error: Tyring to pow [{:?}] and [{:?}]", a,b)
+}
+
+#[allow(dead_code)]
 pub fn eql(a : Type, b : Type) -> Result<Type, ERROR> {
 
     match (&a,&b) {
