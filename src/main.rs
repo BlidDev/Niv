@@ -5,11 +5,12 @@ mod structs;
 mod macros;
 mod ops;
 mod canvas;
-mod types;
+mod user_type;
 pub mod commands;
 
 use device_query::DeviceState;
 use structs::{Stack, Globals, QueryW};
+use user_type::register_types;
 use util::*;
 use commands::wrappers::*;
 use crate::structs::{CommandQuery, GError};
@@ -68,9 +69,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
         device_state : DeviceState::new(),
         keys : vec![],
         canvas_should_close : false,
-        args_list
+        args_list,
+
+        registered_types : HashMap::new(),
     };
     let mut cnv = None;
+    register_types(&lines, &mut glb)?;
     traverse_root_scope("MAIN", &roots, &QueryW(query.clone()), &mut glb,  &mut cnv)?;
 
     Ok(())
@@ -85,6 +89,10 @@ fn register_commands(query : &mut CommandQuery)
             set =>      (set_w, Some(2)),
             release =>  (release_w, Some(1)),
             reset =>    (reset_w, Some(0)),
+
+            make =>     (make_w, None),
+            setf =>     (setf_w, Some(3)),
+            getf =>     (getf_w, Some(2)),
 
             cal =>      (cal_w,Some(3)),
             op =>       (op_w,Some(3)),

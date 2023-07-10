@@ -9,7 +9,7 @@ use super::{
     graphics::*,
     misc::*,
     input::*,
-    helper::*
+    helper::*, utype::{make_type, setf, getf},
 };
 
 
@@ -19,6 +19,10 @@ make_wrappers!(
     set_w ,set => ["args", "glb"],
     release_w, release => ["args","glb"],
     reset_w, reset => ["glb"],
+
+    make_w, make_type => ["args","glb"],
+    setf_w, setf  => ["args","glb"],
+    getf_w, getf  => ["args","glb"],
 
     cal_w, cal => ["args", "glb"],
     op_w, op => ["args", "glb"],

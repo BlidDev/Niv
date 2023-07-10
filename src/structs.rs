@@ -1,7 +1,7 @@
 use std::{collections::HashMap, fmt::Display, str::FromStr};
 use device_query::{DeviceState, Keycode};
 
-use crate::{gerr, canvas::Canvas};
+use crate::{gerr, canvas::Canvas, user_type::UserType};
 
 
 //#[derive(Debug)]
@@ -30,6 +30,7 @@ pub enum Type {
     BOOL(bool),
     CHAR(char),
     STR(String),
+    UTYPE(UserType),
     NODE(Box<NodeType>)
 }
 
@@ -42,6 +43,7 @@ impl Display for Type {
             Self::BOOL(a)=> write!(f, "{a}"),
             Self::CHAR(a)=> write!(f, "{a}"),
             Self::STR(a) => write!(f, "{a}"),
+            Self::UTYPE(a) => write!(f, "{}{:?}", a.type_name,a.feilds),
             Self::NODE(a) => write!(f, "{a:?}"),
        }
    } 
@@ -58,7 +60,8 @@ impl Type {
            Self::BOOL(_)=> 3, 
            Self::CHAR(_)=> 4, 
            Self::STR(_) => 5, 
-           Self::NODE(_) => 6, 
+           Self::UTYPE(_) => 6, 
+           Self::NODE(_) => 7, 
         }
     } 
 }
@@ -86,6 +89,7 @@ pub enum TypeIndex {
     BOOL,
     CHAR,
     STR ,
+    UTYPE,
     NODE, 
 }
 
@@ -100,6 +104,7 @@ impl FromStr for TypeIndex {
         "BOOL" => return Ok(Self::BOOL),
         "CHAR" => return Ok(Self::CHAR),
         "STR"  => return Ok(Self::STR),
+        "UTYPE" => return Ok(Self::UTYPE),
         "NODE" => return Ok(Self::NODE),
         _ => gerr!("Error: Could not parse [{}] as TypeIndex", s)
        }
@@ -145,6 +150,8 @@ pub struct Globals<'a> {
     pub device_state : DeviceState,
     pub keys : Vec<Keycode>,
     pub canvas_should_close : bool,
-    pub args_list : HashMap<String, Vec<String>>
+    pub args_list : HashMap<String, Vec<String>>,
+
+    pub registered_types : HashMap<String, UserType>,
 }
 pub type Roots = HashMap<String, Scope>;

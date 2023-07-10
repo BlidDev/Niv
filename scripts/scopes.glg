@@ -1,9 +1,4 @@
-#MAIN |
-    [print]["hey "]
-    [run][TEST]
-    [run][TEST2][3][4]
 
-#MAIN
 
 
 #TEST |
@@ -12,6 +7,7 @@
     [print]["this is test\n"]
 
 #TEST
+
 
 
 
@@ -25,3 +21,30 @@
     }
 
 #TEST2
+
+
+
+
+
+#MAIN |
+    [print]["hey "]
+    [run][TEST]
+    [run][TEST2][3][4]
+    [run][TEST3]
+#MAIN
+
+@TYPE1
+    a : 0
+    b : ""
+@TYPE1
+
+
+#TEST3|
+
+    [post]
+    [set][obj1][ [make][TYPE1][1][hey] ]
+    [post]
+    [setf][obj1][a][5]
+    [print]["{}\n"][$obj1]
+    [print]["{}\n"][[getf][obj1][a]]
+#TEST3 

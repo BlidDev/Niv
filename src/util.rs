@@ -219,7 +219,7 @@ pub fn find_root_scopes(lines : &Vec<String>) ->
     let mut rmap = HashMap::new();
     for (name, (s, e, v)) in map {
         if e.is_none() {
-            return gerr!("Error: Could not find closing [#{}]", name);
+            return gerr!("Error: could not find closing [#{}]", name);
         }
         rmap.insert(name, (s,e.unwrap(), v));
     }
