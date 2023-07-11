@@ -12,3 +12,5 @@ unstringify = "0.1.4"
 sfml = "0.20.0"
 device_query = "*"
 rand = "*"
+
+clap = {version = "*", features = ["derive"]}

@@ -1,0 +1,4 @@
+
+#FUNC | a1
+    [print] ["FUNC: you gave me {}\n"][$a1]
+#FUNC

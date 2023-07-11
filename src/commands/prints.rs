@@ -97,7 +97,7 @@ pub fn inputcast(args : Vec<Type>, glb : &Globals) -> Result<Type, ERROR> {
     let line = unescape(&line).unwrap();
 
 
-    let var = parse_type(&line)?;
+    let var = parse_type(&line,glb)?;
 
     if var.dis() != index.clone() as usize {
         return gerr!("Error: Could not parse {line} as {:?}, got {var:?} instead", index);

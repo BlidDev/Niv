@@ -76,7 +76,7 @@ pub fn traverse(node : &NodeType, roots : &Roots,query : &QueryW, glb : &mut Glo
     ) -> Result<Type, Box<dyn std::error::Error>> {
     match node {
         NodeType::Value(value) => {
-            let o = Ok(parse_type(value)?);
+            let o = Ok(parse_type(value, &glb)?);
             return o;
         }
 

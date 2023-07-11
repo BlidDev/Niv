@@ -1,4 +1,4 @@
-use crate::{structs::{Type, ERROR, Globals, GError}, gerr, util::args_to_vars, sgerr};
+use crate::{structs::{Type, ERROR, Globals, GError}, gerr, util::args_to_vars};
 
 
 pub fn make_type(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
@@ -21,10 +21,10 @@ pub fn make_type(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
 
     let mut user_type = template.clone();
 
-    for (i, (_, val)) in user_type.feilds.iter_mut().enumerate() {
-        *val = args[i + 1].clone();
-    }
 
+    for (i,field) in user_type.field_order.iter().enumerate() {
+        *user_type.feilds.get_mut(field).expect(&format!("Error: could not find feild [{}] in user_type object of type [{}]", field, user_type.type_name)) = args[i+1].clone();
+    }
 
 
 

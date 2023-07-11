@@ -27,24 +27,27 @@
 
 
 #MAIN |
-    [print]["hey "]
-    [run][TEST]
-    [run][TEST2][3][4]
+    //[print]["hey "]
+    //[run][TEST]
+    //[run][TEST2][3][4]
     [run][TEST3]
 #MAIN
 
 @TYPE1
     a : 0
-    b : ""
+    b : ~*TYPE2
 @TYPE1
 
+@TYPE2
+    c : 0
+    d : ""
+@TYPE2
 
 #TEST3|
 
-    [post]
-    [set][obj1][ [make][TYPE1][1][hey] ]
-    [post]
-    [setf][obj1][a][5]
+    [set][obj1][ ~*TYPE1 ] // to use the default ones
+    [print]["\n\n{}\n\n"][$obj1]
+    [set][obj1][ [make][TYPE1][1][~*TYPE2] ] // to have custom value
     [print]["{}\n"][$obj1]
-    [print]["{}\n"][[getf][obj1][a]]
+    //[print]["{}\n"][[getf][obj1][a]]
 #TEST3 

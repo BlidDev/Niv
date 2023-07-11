@@ -1,12 +1,13 @@
-use std::{collections::HashMap, any::type_name};
+use std::collections::HashMap;
 
-use crate::{structs::{Type, Globals, ERROR, GError, parse_type}, gerr, util::args_to_vars, sgerr};
+use crate::{structs::{Type, Globals, ERROR, GError, parse_type}, gerr};
 
 
 
 #[derive(Debug, Clone)]
 pub struct UserType {
     pub feilds    : HashMap<String,Type>,
+    pub field_order : Vec<String>,
     pub type_name : String
 }
 
@@ -48,9 +49,10 @@ pub fn find_user_types(lines : &Vec<String>) ->
 
 pub fn range_to_user_type(
     lines : &Vec<String>,
-    (start, end) : &(usize, usize)
+    (start, end) : &(usize, usize),
 ) -> Result<UserType, ERROR> {
     let mut fields = HashMap::new();
+    let mut field_order = vec![];
 
     for i in *start+1..*end {
         let mut line = lines[i].clone();
@@ -63,11 +65,12 @@ pub fn range_to_user_type(
             return gerr!("Error: invalid line in user type [{}]", line);
         };
 
-        fields.insert(name.clone(), parse_type(val)?);
+        fields.insert(name.clone(), Type::STR(val.clone()));
+        field_order.push(name.clone());
 
     }
 
-    Ok(UserType { feilds : fields, type_name : "".to_owned()})
+    Ok(UserType { feilds : fields, field_order, type_name : "".to_owned()})
 }
 
 
@@ -94,6 +97,26 @@ pub fn register_types(lines : &Vec<String>, glb : &mut Globals) -> Result<(), ER
     for (name, range) in ranges {
         let user_type = range_to_user_type(lines, &range)?;
         register_type(name, user_type, glb)?;
+    }
+
+    let mut registered_types = glb.registered_types.clone();
+
+    for _ in 0..200 {
+        for (_, t) in registered_types.iter_mut() {
+            for (_, f) in t.feilds.iter_mut() {
+                if let Type::STR(s) = f {
+                    *f = parse_type(&s, glb)?;
+                }
+                else if let Type::UTYPE(ut) = f {
+                    let mut s = "~*".to_string();
+                    s.extend(ut.type_name.chars());
+                    *f = parse_type(&s, glb)?;
+                }
+
+            }
+        }
+
+        glb.registered_types = registered_types.clone();
     }
 
     Ok(())

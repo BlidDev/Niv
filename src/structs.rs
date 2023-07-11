@@ -43,7 +43,22 @@ impl Display for Type {
             Self::BOOL(a)=> write!(f, "{a}"),
             Self::CHAR(a)=> write!(f, "{a}"),
             Self::STR(a) => write!(f, "{a}"),
-            Self::UTYPE(a) => write!(f, "{}{:?}", a.type_name,a.feilds),
+            Self::UTYPE(a) => {
+                write!(f, "{}[", a.type_name)?;
+                for (i, fld) in a.field_order.iter().enumerate() {
+                    let tmp = a.feilds.get(fld).unwrap();
+                    write!(f, "{} : ", fld)?;
+                    match tmp {
+                        Type::STR(s)  => write!(f, "\"{}\"", s)?, 
+                        Type::CHAR(c) => write!(f, "\'{}\'", c)?, 
+                        _=> write!(f, "{}", tmp)?
+                    }
+
+                    if i < a.field_order.len() -1 { write!(f, ", ")?; }
+                }
+
+                write!(f, "]")
+            },
             Self::NODE(a) => write!(f, "{a:?}"),
        }
    } 
@@ -66,7 +81,7 @@ impl Type {
     } 
 }
 
-pub fn parse_type(value : &String) -> Result<Type, ERROR>{
+pub fn parse_type(value : &String, glb : &Globals) -> Result<Type, ERROR>{
     if let Ok(i) = value.parse::<i32>() {
         return Ok(Type::I32(i));
     } else if let Ok(f) = value.parse::<f32>() {
@@ -76,7 +91,15 @@ pub fn parse_type(value : &String) -> Result<Type, ERROR>{
     } else if let Ok(c) = value.parse::<char>() {
         return Ok(Type::CHAR(c));
     }
-    return Ok(Type::STR(snailquote::unescape(value)?));
+    let mut s = snailquote::unescape(value)?.clone();
+
+    if s.len() < 3 { return Ok(Type::STR(s)); }
+    if !s.starts_with("~*") { return Ok(Type::STR(s)); }
+    s = s[2..].to_string();
+
+    if glb.registered_types.get(&s).is_none() { return Ok(Type::STR(s)); }
+    
+    Ok(Type::UTYPE(glb.registered_types.get(&s).unwrap().clone()))
 }
 
 #[allow(dead_code)]

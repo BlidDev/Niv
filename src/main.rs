@@ -1,4 +1,4 @@
-use std::{io::{BufReader, BufRead}, fs::File, env, collections::HashMap};
+use std::collections::HashMap;
 
 mod util;
 mod structs;
@@ -6,30 +6,31 @@ mod macros;
 mod ops;
 mod canvas;
 mod user_type;
+mod args;
 pub mod commands;
 
+use args::Arguments;
+use clap::Parser;
 use device_query::DeviceState;
 use structs::{Stack, Globals, QueryW};
 use user_type::register_types;
 use util::*;
 use commands::wrappers::*;
-use crate::structs::{CommandQuery, GError};
+use crate::structs::CommandQuery;
 
 
 
 fn main() -> Result<(), Box<dyn std::error::Error>>{
 
-    let env = env::args();
-    if env.len() != 2 {
-        return gerr!("Error: file path not provided, usage: lang.exe path/to/script.glg");
-    }
-    let name = env.last().unwrap();
+    let args =  Arguments::parse();
+    //println!("{:?}", args);
+    let lines = args.args_to_lines()?;
+
+
+    //println!("{:#?}", lines);
+    
 
     
-    let reader = BufReader::new(File::open(&name)?);
-
-    let lines : Vec<String> = reader.lines().map(|l| l.unwrap().trim().to_string()).collect();
-
     let roots = find_root_scopes(&lines)?;
 
 
@@ -75,8 +76,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
     };
     let mut cnv = None;
     register_types(&lines, &mut glb)?;
+    //println!("{:#?}", glb.registered_types);
     traverse_root_scope("MAIN", &roots, &QueryW(query.clone()), &mut glb,  &mut cnv)?;
-
+ 
     Ok(())
 }
 
