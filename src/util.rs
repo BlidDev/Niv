@@ -133,7 +133,6 @@ pub fn run_command(roots : &Roots,query : &QueryW,name : &String, args: Vec<Type
     };
 
     let Some(command) = query.0.get(&name) else {
-
         return gerr!("ERROR: The command [{}] could not be found",name);
     };
 
