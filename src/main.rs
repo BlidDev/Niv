@@ -25,6 +25,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
     let args =  Arguments::parse();
     //println!("{:?}", args);
     let lines = args.args_to_lines()?;
+    let lines = remove_comments_from_lines(&lines)?;
 
 
     //println!("{:#?}", lines);
@@ -47,15 +48,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
         (v, an)
     };
 
-    //let main = roots.get("MAIN").expect("Error: Root scope [MAIN] not found");
-
     let _code : Vec<String> = lines.iter().filter(|l| 
         { 
             let l2 = (*l).clone();
             !(balanced_braces(&[l2], '[', ']').is_empty())
         }).map(|l| l.to_string()).collect();
 
-    //println!("\nCall Order:\n");
 
     let mut query = CommandQuery::new();
 
@@ -74,10 +72,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
 
         registered_types : HashMap::new(),
     };
+
+    let query = QueryW(query.clone());
+    validate_root_scopes_names(&roots, &query)?;
+
     let mut cnv = None;
     register_types(&lines, &mut glb)?;
-    //println!("{:#?}", glb.registered_types);
-    traverse_root_scope("MAIN", &roots, &QueryW(query.clone()), &mut glb,  &mut cnv)?;
+    traverse_root_scope("MAIN", &roots, &query, &mut glb,  &mut cnv)?;
  
     Ok(())
 }

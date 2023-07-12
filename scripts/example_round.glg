@@ -1,0 +1,38 @@
+#MAIN |
+
+    (set) (name) (var2)
+    (set) (name2) (c)
+    (set) (var) ((cal) ((cal)(5)(+)(9))(-)(5)) 
+    (run) (CALCTEST)($var)
+
+    (set) ($name) ((cal)(6)(+)(6) )
+
+    (singleif)(true)(=)(true)((print)("hello\n"))
+
+    (print) ("Your input was: {}\n{} {}\n") ((input)("Enter a line> ")) ($name) ((cal)($var)(+)(8) )
+    
+
+    (if) ( (cal)(true)(&)(true) )(!)(false)
+    {
+        (print) ("this works\n")
+
+        (if)((cal)(c)(!)($name2))(=)(true)
+        {
+            (print)("this wont D:\n")
+        }
+    }
+
+    (while) ((cal)($var)(<)(5) )
+    {
+        (print) ("test - {}\n") ($var)
+        (op) (var)(+)(1)
+    }
+
+
+#MAIN 
+
+#CALCTEST | arg
+    (print)("{}\n")((cal)(5)(^)(3))
+    (print)("{}\n")((sqrt)($arg))
+#CALCTEST
+

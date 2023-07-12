@@ -65,6 +65,10 @@ pub fn range_to_user_type(
             return gerr!("Error: invalid line in user type [{}]", line);
         };
 
+        if field_order.contains(name) {
+            return gerr!("Error: field [{}] is defined more than once in [{}]", name, lines[*start]);
+        }
+
         fields.insert(name.clone(), Type::STR(val.clone()));
         field_order.push(name.clone());
 

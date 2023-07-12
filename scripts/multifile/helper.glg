@@ -1,4 +1,15 @@
 
-#FUNC | a1
-    [print] ["FUNC: you gave me {}\n"][$a1]
-#FUNC
+#func | a1
+    [print] ["func: you gave me {}\n"][$a1]
+#func
+
+
+@VEC2
+    x : 0
+    y : 0
+@VEC2
+
+
+#make_vec2 | name x y
+    [set][$name][[make][VEC2][$x][$y]]
+#make_vec2 

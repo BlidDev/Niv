@@ -1,7 +1,7 @@
 use std::{collections::HashMap, error::Error};
 //use framework::{canvas::canvas::Canvas, sdl2::context::Context};
 
-use crate::{structs::{NodeType, Type, parse_type, CommandQuery, Command, GError, ERROR, Scope, Stack, Globals, QueryW, Roots}, gerr, canvas::Canvas};
+use crate::{structs::{NodeType, Type, parse_type, CommandQuery, Command, GError, ERROR, Scope, Stack, Globals, QueryW, Roots}, gerr, canvas::Canvas, commands::scopes::run};
 
 
 #[allow(dead_code)]
@@ -133,7 +133,13 @@ pub fn run_command(roots : &Roots,query : &QueryW,name : &String, args: Vec<Type
     };
 
     let Some(command) = query.0.get(&name) else {
-        return gerr!("ERROR: The command [{}] could not be found",name);
+        if !roots.contains_key(&name) {
+            return gerr!("ERROR: The command [{}] could not be found",name);
+        };
+
+        let mut tmp = vec![Type::STR(name)];
+        for a in args {tmp.push(a.clone());}
+        return run(tmp, roots, glb, query, cnv)
     };
 
     if let Some(limit) = command.0 {
@@ -192,7 +198,7 @@ pub fn find_root_scopes(lines : &Vec<String>) ->
         // Check for arg list
 
         if !chars.as_str().contains("|") {
-            let name = chars.as_str().to_string();
+            let name = chars.as_str().trim().to_string();
             if let Some(ref mut scope) = map.get_mut(&name) {
                 scope.1 = Some(i);
                 continue;
@@ -332,4 +338,29 @@ pub fn is_destination(val : &Type, stack : &Stack, name : &str) -> Result<String
             return gerr!("Error: Invalid destination [{:?}] in [{name}]", val);
         }
     }
+}
+
+
+pub fn validate_root_scopes_names(roots : &Roots, query : &QueryW) -> Result<(), ERROR> {
+
+    for (name, _) in roots.iter() {
+        if query.0.contains_key(name) {
+            return gerr!("Error: root scope name is [{}] which is a reserved keyword", name);
+        }
+    }
+
+    Ok(())
+}
+
+
+pub fn remove_comments_from_lines(lines : &Vec<String>) -> Result<Vec<String>, ERROR> {
+    let new_lines = 
+        lines.iter()
+        .map(|l| {
+            let v : Vec<&str>= l.split("//").collect();
+            v[0].to_string()
+        })
+        .map(|l| l.clone())
+        .collect();
+    Ok(new_lines)
 }
