@@ -9,6 +9,7 @@
 
     [singleif][true][=][true][[print]["hello\n"]]
 
+
     [print] ["Your input was: {}\n{} {}\n"] [[input]["Enter a line> "]] [$name] [[cal][$var][+][8] ]
     
 
@@ -22,6 +23,7 @@
         }
     }
 
+    [set][var][0]
     [while] [[cal][$var][<][5] ]
     {
         [print] ["test - {}\n"] [$var]

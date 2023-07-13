@@ -1,5 +1,7 @@
 #MAIN |
 
+    (set)(cmd)("(print)(\\nthis should not be \"printed\\n)")
+    (print)("{}")($cmd)
     (set) (name) (var2)
     (set) (name2) (c)
     (set) (var) ((cal) ((cal)(5)(+)(9))(-)(5)) 
@@ -9,7 +11,6 @@
 
     (singleif)(true)(=)(true)((print)("hello\n"))
 
-    (print) ("Your input was: {}\n{} {}\n") ((input)("Enter a line> ")) ($name) ((cal)($var)(+)(8) )
     
 
     (if) ( (cal)(true)(&)(true) )(!)(false)

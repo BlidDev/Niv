@@ -19,11 +19,16 @@ pub fn init(
     };*/
 
     let args = args_to_vars(&args, &glb.stack)?;
+    let title = match &args[4] {
+        Type::STR(ref n) => n.clone(),
+        Type::CHAR(ref c) => c.to_string().clone(),
+        _ => return gerr!("Error: invalid window title in [init]: [{:?}]", args[4])
+    };
 
     sgerr!(
-        (Type::I32(w), Type::I32(h),Type::I32(cw),Type::I32(ch), Type::STR(title)),
-        (&args[0], &args[1], &args[2], &args[3], &args[4]), 
-        "Error: Invalid args for [init]: {args:?}");
+        (Type::I32(w), Type::I32(h),Type::I32(cw),Type::I32(ch)),
+        (&args[0], &args[1], &args[2], &args[3]), 
+        "Error: invalid args for [init]: {args:?}");
 
     *cnv = Some({
         CanvasBuilder::new()
@@ -43,7 +48,7 @@ pub fn set_clear(
     cnv : &mut Option<Canvas>,
 ) -> Result<Type, ERROR> {
     let Some(cnv) = cnv else {
-        return gerr!("Error: Canvas used before being initilized")
+        return gerr!("Error: canvas used before being initilized")
     };
 
     let args = args_to_vars(&args, &glb.stack)?;
@@ -51,15 +56,22 @@ pub fn set_clear(
     sgerr!(
         (Type::I32(r), Type::I32(g), Type::I32(b)),
         (&args[0], &args[1], &args[2]),
-        "Error: Invalid args for [init]: {args:?}"
+        "Error: invalid args for [init]: {args:?}"
     );
+
+    if *r > u8::MAX as i32 || *r < 0
+    || *g > u8::MAX as i32 || *g < 0
+    || *b > u8::MAX as i32 || *b < 0 
+    {
+        return gerr!("Error: rgb values out of range in [set_clear]: [r: {}, g: {}, b: {}]",r,g,b);
+    }
     cnv.set_clear(*r as u8, *g as u8, *b as u8);
     Ok(Type::VOID())
 }
 
 pub fn clear(cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
     let Some(cnv) = cnv else {
-        return gerr!("Error: Canvas used before being initilized")
+        return gerr!("Error: canvas used before being initilized")
     };
 
     cnv.clear();
@@ -69,7 +81,7 @@ pub fn clear(cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
 
 pub fn apply_pixels(cnv : &mut Option<Canvas>) -> Result<Type,ERROR> {
     let Some(cnv) = cnv else {
-        return gerr!("Error: Canvas used before being initilized")
+        return gerr!("Error: canvas used before being initilized")
     };
     cnv.apply();
     Ok(Type::VOID())
@@ -77,7 +89,7 @@ pub fn apply_pixels(cnv : &mut Option<Canvas>) -> Result<Type,ERROR> {
 
 pub fn set_pixel(args : Vec<Type>, glb  : &mut Globals, cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
     let Some(cnv) = cnv else {
-        return gerr!("Error: Canvas used before being initilized")
+        return gerr!("Error: canvas used before being initilized")
     };
     let args = args_to_vars(&args, &glb.stack)?;
 
@@ -85,8 +97,15 @@ pub fn set_pixel(args : Vec<Type>, glb  : &mut Globals, cnv : &mut Option<Canvas
         (Type::I32(x), Type::I32(y),
          Type::I32(r), Type::I32(g), Type::I32(b)),
         (&args[0], &args[1], &args[2], &args[3], &args[4]),
-        "Error: Invalid args for [init]: {args:?}"
+        "Error: invalid args for [set_pixel]: {args:?}"
     );
+
+    if *r > u8::MAX as i32 || *r < 0
+    || *g > u8::MAX as i32 || *g < 0
+    || *b > u8::MAX as i32 || *b < 0 
+    {
+        return gerr!("Error: rgb values out of range in [set_pixel]: [r: {}, g: {}, b: {}]",r,g,b);
+    }
 
     //println!("x: {} y: {}", *x, *y);
 
@@ -98,7 +117,7 @@ pub fn set_pixel(args : Vec<Type>, glb  : &mut Globals, cnv : &mut Option<Canvas
 
 pub fn set_area(args : Vec<Type>, glb  : &mut Globals, cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
     let Some(cnv) = cnv else {
-        return gerr!("Error: Canvas used before being initilized")
+        return gerr!("Error: canvas used before being initilized")
     };
     let args = args_to_vars(&args, &glb.stack)?;
 
@@ -107,7 +126,7 @@ pub fn set_area(args : Vec<Type>, glb  : &mut Globals, cnv : &mut Option<Canvas>
          Type::I32(w), Type::I32(h),
          Type::I32(r), Type::I32(g), Type::I32(b)),
         (&args[0], &args[1], &args[2], &args[3], &args[4], &args[5], &args[6]),
-        "Error: Invalid args for [init]: {args:?}"
+        "Error: invalid args for [set_area]: {args:?}"
     );
 
     cnv.set_area((*x as u32, *y as u32), (*w as u32, *h as u32), *r as u8, *g as u8, *b as u8)?;
@@ -117,7 +136,7 @@ pub fn set_area(args : Vec<Type>, glb  : &mut Globals, cnv : &mut Option<Canvas>
 
 pub fn get_pixel(args : Vec<Type>, glb  : &mut Globals, cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
     let Some(cnv) = cnv else {
-        return gerr!("Error: Canvas used before being initilized")
+        return gerr!("Error: canvas used before being initilized")
     };
 
     let args = args_to_vars(&args, &glb.stack)?;
@@ -126,7 +145,7 @@ pub fn get_pixel(args : Vec<Type>, glb  : &mut Globals, cnv : &mut Option<Canvas
             Type::I32(ref x), Type::I32(ref y), r, g, b, 
         ),
         (&args[0], &args[1], &args[2], &args[3], &args[4]),
-        "Error: Invalid arguments given to [get_pixel]: {:?}", args
+        "Error: invalid arguments given to [get_pixel]: {:?}", args
     );
 
     if  *x >= cnv.c_size.0 as i32 || *x < 0 ||
@@ -151,7 +170,7 @@ pub fn get_pixel(args : Vec<Type>, glb  : &mut Globals, cnv : &mut Option<Canvas
 
 pub fn display(cnv : &mut Option<Canvas>) -> Result<Type,ERROR> {
     let Some(cnv) = cnv else {
-        return gerr!("Error: Canvas used before being initilized")
+        return gerr!("Error: canvas used before being initilized")
     };
     cnv.display();
     Ok(Type::VOID())

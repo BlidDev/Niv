@@ -46,7 +46,7 @@ impl Display for Type {
             Self::UTYPE(a) => {
                 write!(f, "{}[", a.type_name)?;
                 for (i, fld) in a.field_order.iter().enumerate() {
-                    let tmp = a.feilds.get(fld).unwrap();
+                    let tmp = a.fields.get(fld).unwrap();
                     write!(f, "{} : ", fld)?;
                     match tmp {
                         Type::STR(s)  => write!(f, "\"{}\"", s)?, 

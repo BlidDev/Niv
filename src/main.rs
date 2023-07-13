@@ -23,16 +23,15 @@ use crate::structs::CommandQuery;
 fn main() -> Result<(), Box<dyn std::error::Error>>{
 
     let args =  Arguments::parse();
-    //println!("{:?}", args);
     let lines = args.args_to_lines()?;
     let lines = remove_comments_from_lines(&lines)?;
 
 
-    //println!("{:#?}", lines);
     
 
     
     let roots = find_root_scopes(&lines)?;
+
 
 
     let (roots, args_list) = {
@@ -47,6 +46,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
         }
         (v, an)
     };
+    
 
     let _code : Vec<String> = lines.iter().filter(|l| 
         { 

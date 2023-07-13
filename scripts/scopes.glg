@@ -3,8 +3,14 @@
 
 #TEST |
 
-
     [print]["this is test\n"]
+    [singleif]["hey"][=]["bye"][[print]["doesn't work\n"]]
+
+    [set][ans][]
+    [while][[cal][$ans][!]["exit"]]
+    {
+        [set][ans][[input]["Type exit to end loop:> "]]
+    }
 
 #TEST
 
@@ -15,7 +21,11 @@
 
     [while][[cal][$a2][>][0]]
     {
-        [print]["{}\n"][$a1]
+
+        [if][[cal][[cal][$a2][+][1] ][>][3]][=][true]
+        {
+            [print]["ahhh\n"]
+        }
 
         [op][a2][-][1]
     }
@@ -28,7 +38,7 @@
 
 #MAIN |
     //[print]["hey "]
-    //[run][TEST]
+    [TEST]
     //[run][TEST2][3][4]
     [run][TEST3]
 #MAIN
@@ -45,9 +55,10 @@
 
 #TEST3|
 
+    [TEST2][3][5]
     [set][obj1][ ~*TYPE1 ] // to use the default ones
     [print]["\n\n{}\n\n"][$obj1]
-    [set][obj1][ [make][TYPE1][1][~*TYPE2] ] // to have custom value
+    [set][obj1][[make][TYPE1][1][~*TYPE2]] // to have custom value
     [print]["{}\n"][$obj1]
     //[print]["{}\n"][[getf][obj1][a]]
 #TEST3 

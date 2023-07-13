@@ -6,7 +6,7 @@ use crate::{structs::{Type, Globals, ERROR, GError, parse_type}, gerr};
 
 #[derive(Debug, Clone)]
 pub struct UserType {
-    pub feilds    : HashMap<String,Type>,
+    pub fields    : HashMap<String,Type>,
     pub field_order : Vec<String>,
     pub type_name : String
 }
@@ -74,7 +74,7 @@ pub fn range_to_user_type(
 
     }
 
-    Ok(UserType { feilds : fields, field_order, type_name : "".to_owned()})
+    Ok(UserType { fields, field_order, type_name : "".to_owned()})
 }
 
 
@@ -107,7 +107,7 @@ pub fn register_types(lines : &Vec<String>, glb : &mut Globals) -> Result<(), ER
 
     for _ in 0..200 {
         for (_, t) in registered_types.iter_mut() {
-            for (_, f) in t.feilds.iter_mut() {
+            for (_, f) in t.fields.iter_mut() {
                 if let Type::STR(s) = f {
                     *f = parse_type(&s, glb)?;
                 }

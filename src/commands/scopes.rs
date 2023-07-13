@@ -12,9 +12,10 @@ pub fn ifcommand(args : Vec<Type>, roots : &Roots,glb : &mut Globals, qr : &Quer
     };
     if !*b {return Ok(Type::VOID());}
 
-    if let Some(scope) = scp.children.get(&(&glb.curr + 1)) {
-        traverse_scope(roots, scope, qr, glb, cnv)?;
-    }
+    let Some(scope) = scp.children.get(&(&glb.curr + 1)) else {
+        return gerr!("Error: could not find scope for [if]");
+    };
+    traverse_scope(roots, scope, qr, glb, cnv)?;
 
     Ok(Type::VOID())
 }
@@ -55,8 +56,12 @@ pub fn whilecommand(args : Vec<Type>, roots : &Roots, glb : &mut Globals, qr : &
         };
         if !*b {return Ok(Type::VOID());}
 
+
         if let Some(scope) = scp.children.get(&(&glb.curr + 1)) {
             traverse_scope(roots, scope, qr, glb, cnv)?;
+        }
+        else {
+            return gerr!("Error: could not find scope for [while] command");
         }
         glb.curr = curr;
     }

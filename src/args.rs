@@ -41,7 +41,9 @@ fn read_file_list(list : &Vec<String>) -> Result<Vec<String>, ERROR> {
         }
         let reader = BufReader::new(File::open(filename)?);
         for line in reader.lines() {
-            lines.push(line?);
+            let line = line?;
+            let line = line.replace("(", "[").replace(")", "]");
+            lines.push(line.trim().to_string());
         }
         
     }

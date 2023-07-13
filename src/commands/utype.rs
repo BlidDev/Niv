@@ -15,15 +15,15 @@ pub fn make_type(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
 
     let template = glb.registered_types.get(&type_name).expect(&format!("Error: could not find user_type type [{}]",type_name));
 
-    if template.feilds.len() != args.len() - 1 {
-        return gerr!("Error: user type object of type [{}] requires [{}] in order to be created but [{}] were provided", type_name, template.feilds.len(), args.len() - 1);
+    if template.fields.len() != args.len() - 1 {
+        return gerr!("Error: user type object of type [{}] requires [{}] arguments in order to be created but [{}] were provided", type_name, template.fields.len(), args.len() - 1);
     }
 
     let mut user_type = template.clone();
 
 
     for (i,field) in user_type.field_order.iter().enumerate() {
-        *user_type.feilds.get_mut(field).expect(&format!("Error: could not find feild [{}] in user_type object of type [{}]", field, user_type.type_name)) = args[i+1].clone();
+        *user_type.fields.get_mut(field).expect(&format!("Error: could not find field [{}] in user_type object of type [{}]", field, user_type.type_name)) = args[i+1].clone();
     }
 
 
@@ -61,12 +61,12 @@ pub fn setf(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
      };
 
 
-     if !obj.feilds.contains_key(&fname) {
+     if !obj.fields.contains_key(&fname) {
          return gerr!("Error: user_type object of type [{}] does not have a field called [{}]"
              ,obj.type_name, fname);
      }
 
-    let field = obj.feilds.get_mut(&fname).unwrap();
+    let field = obj.fields.get_mut(&fname).unwrap();
     *field = args[2].clone();
 
 
@@ -103,12 +103,12 @@ pub fn getf(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
      };
 
 
-     if !obj.feilds.contains_key(&fname) {
+     if !obj.fields.contains_key(&fname) {
          return gerr!("Error: user_type object of type [{}] does not have a field called [{}]"
              ,obj.type_name, fname);
      }
 
-    let field = obj.feilds.get_mut(&fname).unwrap();
+    let field = obj.fields.get_mut(&fname).unwrap();
 
 
 

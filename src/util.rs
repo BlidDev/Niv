@@ -32,7 +32,7 @@ pub fn balanced_braces(args: &[String], open: char, close: char) -> Vec<String> 
                 if n > 0 {
                     chars.push(c);
                 } else if n == 0 {
-                    let part = chars.iter().collect::<String>().trim().to_string();
+                    let part = chars.iter().collect::<String>().to_string();
                     parts.push(part);
                     chars.clear();
                 }
@@ -46,24 +46,33 @@ pub fn balanced_braces(args: &[String], open: char, close: char) -> Vec<String> 
 }
 
 pub fn make_tree(
-    line : &String
+    line : &String,
+    first : bool
     ) -> NodeType {
 
+
+    let line = line.clone();
+    let tmp = line.trim();
+    if tmp.starts_with("\"") && tmp.ends_with("\"") && first {
+        let line = snailquote::unescape(&line.clone()).unwrap();
+        return NodeType::Value(line.clone());
+    }
     
 
 
-    let balanced = balanced_braces(&[(*line).clone()], '[', ']');
+    let balanced = balanced_braces(&[line.clone()], '[', ']');
 
     if balanced.is_empty() {
-        return NodeType::Value((*line).clone());
+        let line = unescape::unescape(&line).unwrap();
+        return NodeType::Value(line)
     }
 
-    let mut n = NodeType::Nested(Box::new(make_tree(&balanced[0])), vec![]);
+    let mut n = NodeType::Nested(Box::new(make_tree(&balanced[0], true)), vec![]);
 
     if let NodeType::Nested(_, ref mut childern) = n {
 
         for i in 1..balanced.len() {
-            childern.push(Box::new(make_tree(&balanced[i])))
+            childern.push(Box::new(make_tree(&balanced[i], true)))
         }
     }
 
@@ -283,7 +292,7 @@ pub fn make_scope_tree(lines : &Vec<String>, indent : &mut usize) -> (Scope, usi
                         continue;
                     }
                 }
-                scope.nodes.push(Some(make_tree(&lines[i].clone())));
+                scope.nodes.push(Some(make_tree(&lines[i].clone(), true)));
                 i+=1;
             },
         }
