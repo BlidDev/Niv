@@ -20,7 +20,6 @@
     [while][ [cal][ [cal][[key_pressed][Q]][&][[cal][[handle_input]][!][true]] ][=][false] ] 
     {
         [clear]
-        [set_area] [4][3] [2][3] [50][50][255]
         
         [if][[key_pressed][D]][=][true]
         {

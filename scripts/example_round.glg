@@ -1,7 +1,6 @@
 #MAIN |
 
     (set)(cmd)("(print)(\\nthis should not be \"printed\\n)")
-    (print)("{}")($cmd)
     (set) (name) (var2)
     (set) (name2) (c)
     (set) (var) ((cal) ((cal)(5)(+)(9))(-)(5)) 

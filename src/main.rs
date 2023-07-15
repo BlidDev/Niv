@@ -26,9 +26,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
     let lines = args.args_to_lines()?;
     let lines = remove_comments_from_lines(&lines)?;
 
-
     
-
     
     let roots = find_root_scopes(&lines)?;
 

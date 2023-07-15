@@ -1,0 +1,67 @@
+
+
+VARIABLES===========
+set 
+release            V
+reset 
+====================
+             
+
+USERTYPE============
+make
+setf               V
+getf
+====================
+
+
+CALCULATIONS========
+cal 
+op                 V
+sqrt
+====================
+
+
+INPUT AND OUTPUT====
+post
+print
+format             V
+input 
+inputcast
+====================
+
+
+IF STATEMENTS=======
+if
+singleif           V
+while 
+====================
+
+
+GRAPHICS============
+init 
+set_clear 
+clear
+display 
+apply              V
+set_pixel 
+set_area 
+get_pixel
+====================
+             
+
+KEYBOARD INPUT======
+handle_input       V
+key_pressed 
+====================
+             
+
+MISC================
+sleep
+rng 
+exit 
+====================
+
+             
+ROOT SCOPES=========
+run
+====================

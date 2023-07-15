@@ -1,6 +1,6 @@
 
 #func | a1
-    [print] ["func: you gave me {}\n"][$a1]
+    [print] ["[func]: you gave me {}\n"][$a1]
 #func
 
 
