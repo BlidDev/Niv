@@ -1,4 +1,4 @@
-use std::{collections::HashMap, fmt::Display, str::FromStr};
+use std::{collections::HashMap, fmt::{Display, Debug}, str::FromStr};
 use device_query::{DeviceState, Keycode};
 
 use crate::{gerr, canvas::Canvas, user_type::UserType};
@@ -31,8 +31,10 @@ pub enum Type {
     CHAR(char),
     STR(String),
     UTYPE(UserType),
-    NODE(Box<NodeType>)
+    NODE(Box<NodeType>),
+    LIST(Vec<Type>)
 }
+
 
 impl Display for Type {
    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -60,6 +62,7 @@ impl Display for Type {
                 write!(f, "]")
             },
             Self::NODE(a) => write!(f, "{a:?}"),
+            Self::LIST(l) => write!(f, "{l:?}"),
        }
    } 
 }
@@ -69,16 +72,30 @@ impl Display for Type {
 impl Type {
     pub fn dis(&self) -> usize {
         match self {
-           Self::VOID() => 0,
-           Self::I32(_) => 1, 
-           Self::F32(_) => 2, 
-           Self::BOOL(_)=> 3, 
-           Self::CHAR(_)=> 4, 
-           Self::STR(_) => 5, 
+           Self::VOID()   => 0,
+           Self::I32(_)   => 1, 
+           Self::F32(_)   => 2, 
+           Self::BOOL(_)  => 3, 
+           Self::CHAR(_)  => 4, 
+           Self::STR(_)   => 5, 
            Self::UTYPE(_) => 6, 
-           Self::NODE(_) => 7, 
+           Self::NODE(_)  => 7, 
+           Self::LIST(_)  => 8, 
         }
     } 
+
+    pub fn to_string(&self) -> Result<String, ERROR> {
+        match self {
+           Self::VOID() => Ok(String::from("()")),
+           Self::I32(v) => Ok(v.to_string()),
+           Self::F32(v) => Ok(v.to_string()),
+           Self::BOOL(v)=> Ok(v.to_string()),
+           Self::CHAR(v)=> Ok(v.to_string()),
+           Self::STR(s) => Ok(s.clone()), 
+           Self::LIST(l) => Ok(format!("{l:?}")),
+           _ => gerr!("Error: Cannot turn [{:?}] into String", self),
+        }
+    }
 }
 
 pub fn parse_type(value : &String, glb : &Globals) -> Result<Type, ERROR>{
@@ -88,14 +105,36 @@ pub fn parse_type(value : &String, glb : &Globals) -> Result<Type, ERROR>{
         return Ok(Type::F32(f));
     } else if let Ok(b) = value.parse::<bool>() {
         return Ok(Type::BOOL(b));
-    } else if let Ok(c) = value.parse::<char>() {
-        return Ok(Type::CHAR(c));
     }
-    let mut s = snailquote::unescape(value)?.clone();
+    if value.trim_start().starts_with("'") && value.trim_end().ends_with("'") {
+        let mut v = value.clone(); 
+        v.pop();
+        v.remove(0);
+        if let Ok(c) = v.parse::<char>() {
+            return Ok(Type::CHAR(c));
+        }
+    }
 
+    let mut s = value.clone();//snailquote::unescape(value)?.clone();
     if s.len() < 3 { return Ok(Type::STR(s)); }
     if !s.starts_with("~*") { return Ok(Type::STR(s)); }
     s = s[2..].to_string();
+
+    if s.trim_start().starts_with("{") && s.trim_end().ends_with("}") { 
+        let mut lst  = vec![];
+        let (start, end) = (
+            s.find("{").unwrap() + 1, 
+            s.rfind("}").unwrap()
+            );
+        if end < start { return gerr!("Error: tyring to parse invalid list string: [{}]", s); }
+        let s = s.get(start..end).expect(&format!("Error: tyring to parse invalid list string: [{}]", s));
+
+        for element in s.split(",") {
+            lst.push(parse_type(&element.trim().to_string(), glb)?);
+        }
+
+        return Ok(Type::LIST(lst))
+    }
 
     if glb.registered_types.get(&s).is_none() { return Ok(Type::STR(s)); }
     
@@ -104,7 +143,7 @@ pub fn parse_type(value : &String, glb : &Globals) -> Result<Type, ERROR>{
 
 #[allow(dead_code)]
 #[repr(usize)]
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub enum TypeIndex {
     VOID = 0,
     I32,

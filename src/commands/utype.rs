@@ -49,7 +49,7 @@ pub fn setf(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
 
         Type::CHAR(ref c) => c.clone().to_string(),
         Type::STR(ref s) => s.clone(),
-         _ => return gerr!("Error: invalid user_type object name [{:?}] given to [setf] ", args[0])
+         _ => return gerr!("Error: invalid user_type field name [{:?}] given to [setf] ", args[0])
      };
 
      let Some(obj) = glb.stack.get_mut(&name) else {
@@ -91,7 +91,7 @@ pub fn getf(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
 
         Type::CHAR(ref c) => c.clone().to_string(),
         Type::STR(ref s) => s.clone(),
-         _ => return gerr!("Error: invalid user_type object name [{:?}] given to [setf] ", args[0])
+         _ => return gerr!("Error: invalid user_type field name [{:?}] given to [setf] ", args[0])
      };
 
      let Some(obj) = glb.stack.get_mut(&name) else {

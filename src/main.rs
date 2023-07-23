@@ -99,9 +99,17 @@ fn register_commands(query : &mut CommandQuery)
             op =>       (op_w,Some(3)),
             sqrt =>     (sqrt_w, Some(1)),
 
+            sin =>      (sin_w, Some(1)),
+            cos =>      (cos_w, Some(1)),
+            tan =>      (tan_w, Some(1)),
+            asin =>     (asin_w, Some(1)),
+            acos =>     (acos_w, Some(1)),
+            atan =>     (atan_w, Some(1)),
+
             post =>     (post_w,Some(0)),
             print =>    (print_w,None),
-            format =>    (format_w,None),
+            dbg =>      (dbg_w, Some(1)),
+            format =>   (format_w,None),
             input =>    (input_w,None),
             inputcast =>(inputcast_w,None),
 
@@ -124,8 +132,27 @@ fn register_commands(query : &mut CommandQuery)
             sleep => (sleep_w, Some(1)),
             rng => (rng_w, Some(2)),
             exit => (exit_w, Some(0)),
+            cst  => (cst_w, Some(2)),
 
             run => (run_w, None),
+
+            gete => (gete_w, Some(2)),
+            sete => (sete_w, Some(3)),
+            lclear => (list_clear_w, Some(1)),
+            lremove => (list_remove_w, Some(2)),
+            llen => (list_len_w, Some(1)),
+            lpush => (list_push_w, Some(2)),
+            lpop => (list_pop_w, Some(1)),
+            lempty => (list_empty_w, Some(0)),
+            repeat => (repeat_w, Some(2)),
+            repeatl => (repeatl_w, Some(2)),
+
+            stolist => (stolist_w, Some(1)),
+            ltostr  => (ltostr_w, Some(1)),
+
+            lines   => (lines_w, Some(1)),
+            words   => (words_w, Some(1)),
+            trim    => (trim_w , Some(1)),
 
             ovid => (ovid_w, Some(0)),
             dorbell => (dorbell_w, Some(1)),

@@ -75,3 +75,102 @@ pub fn sqrt(args : Vec<Type>, glb : &Globals) -> Result<Type,ERROR> {
 
     }
 }
+
+
+pub fn sin(args : Vec<Type>, glb : &Globals) -> Result<Type,ERROR> {
+    let a = get_variable(&args.first().unwrap(), &glb.stack)?;
+
+    match a {
+        Type::I32(num) => {
+            return Ok(Type::F32( (num as f32).to_radians().sin() ))
+        },
+        Type::F32(num) => {
+            return Ok(Type::F32( num.to_radians().sin()))
+        },
+       _ => return gerr!("Error: wrong argument given to [sin]: [{:?}]",a), 
+
+    }
+}
+
+
+
+pub fn cos(args : Vec<Type>, glb : &Globals) -> Result<Type,ERROR> {
+    let a = get_variable(&args.first().unwrap(), &glb.stack)?;
+
+    match a {
+        Type::I32(num) => {
+            return Ok(Type::F32( (num as f32).to_radians().cos() ))
+        },
+        Type::F32(num) => {
+            return Ok(Type::F32( num.to_radians().cos()))
+        },
+       _ => return gerr!("Error: wrong argument given to [cos]: [{:?}]",a), 
+
+    }
+}
+
+
+
+pub fn tan(args : Vec<Type>, glb : &Globals) -> Result<Type,ERROR> {
+    let a = get_variable(&args.first().unwrap(), &glb.stack)?;
+
+    match a {
+        Type::I32(num) => {
+            return Ok(Type::F32( (num as f32).to_radians().tan() ))
+        },
+        Type::F32(num) => {
+            return Ok(Type::F32( num.to_radians().tan()))
+        },
+       _ => return gerr!("Error: wrong argument given to [tan]: [{:?}]",a), 
+
+    }
+}
+
+pub fn asin(args : Vec<Type>, glb : &Globals) -> Result<Type,ERROR> {
+    let a = get_variable(&args.first().unwrap(), &glb.stack)?;
+
+    match a {
+        Type::I32(num) => {
+            return Ok(Type::F32( (num as f32).asin().to_degrees()))
+        },
+        Type::F32(num) => {
+            return Ok(Type::F32( num.asin().to_degrees()))
+        },
+       _ => return gerr!("Error: wrong argument given to [asin]: [{:?}]",a), 
+
+    }
+}
+
+
+
+pub fn acos(args : Vec<Type>, glb : &Globals) -> Result<Type,ERROR> {
+    let a = get_variable(&args.first().unwrap(), &glb.stack)?;
+
+    match a {
+        Type::I32(num) => {
+            return Ok(Type::F32( (num as f32).acos().to_degrees()))
+        },
+        Type::F32(num) => {
+            return Ok(Type::F32( num.acos().to_degrees()))
+        },
+       _ => return gerr!("Error: wrong argument given to [acos]: [{:?}]",a), 
+
+    }
+}
+
+
+
+pub fn atan(args : Vec<Type>, glb : &Globals) -> Result<Type,ERROR> {
+    let a = get_variable(&args.first().unwrap(), &glb.stack)?;
+
+    match a {
+        Type::I32(num) => {
+            return Ok(Type::F32( (num as f32).atan().to_degrees() ))
+        },
+        Type::F32(num) => {
+            return Ok(Type::F32( num.atan().to_degrees()))
+        },
+       _ => return gerr!("Error: wrong argument given to [tan]: [{:?}]",a), 
+
+    }
+}

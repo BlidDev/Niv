@@ -1,0 +1,34 @@
+sin  - V
+cos  - V
+tan  - V
+
+asin - V
+acos - V
+atan - V
+
+cst  - V
+
+Lists:
+    - gete - V
+    - sete - V
+    - push - V
+    - pop - V
+    - remove - V
+    - clear - V
+    - len - V
+    - lempty - V
+    - strings - V
+    - repeat  - V
+    - lrepeat - V
+
+- f32 round - V
+
+Strings:
+    - better char vs string parsing - V
+    - stolist - V
+    - ltostr - V
+    - lines - V
+    - words - V
+Files:
+    - readbuf
+    - writef

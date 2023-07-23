@@ -5,11 +5,14 @@ use super::{
     calculations::{*, op},
     variables::*,
     scopes::*,
-    prints::{post, print, input, inputcast, format_command},
+    prints::{dbg, post, print, input, inputcast, format_command},
     graphics::*,
     misc::*,
     input::*,
     helper::*, utype::{make_type, setf, getf},
+    cst::cst,
+    list::*,
+    str::*
 };
 
 
@@ -28,7 +31,15 @@ make_wrappers!(
     op_w, op => ["args", "glb"],
     sqrt_w, sqrt => ["args", "glb"],
 
+    sin_w, sin => ["args", "glb"],
+    cos_w, cos => ["args", "glb"],
+    tan_w, tan => ["args", "glb"],
+    asin_w, asin => ["args", "glb"],
+    acos_w, acos => ["args", "glb"],
+    atan_w, atan => ["args", "glb"],
+
     print_w, print => ["args", "glb"],
+    dbg_w, dbg => ["args", "glb"],
     format_w, format_command => ["args", "glb"],
     post_w, post => ["glb"],
     input_w, input => ["args", "glb"],
@@ -53,15 +64,30 @@ make_wrappers!(
     sleep_w, sleep_command => ["args", "glb"],
     exit_w, exit => [],
     rng_w, rng => ["args", "glb"],
+    cst_w, cst => ["args", "glb"],
 
 
     run_w, run => ["args", "roots", "glb", "qr", "cnv"],
 
 
+    gete_w , gete => ["args", "glb"],
+    sete_w , sete => ["args", "glb"],
 
+    list_clear_w, list_clear => ["args", "glb"],
+    list_remove_w, list_remove => ["args", "glb"],
+    list_len_w, list_len => ["args", "glb"],
+    list_push_w, list_push => ["args", "glb"],
+    list_pop_w, list_pop => ["args", "glb"],
+    list_empty_w, list_empty => [],
+    repeat_w, repeat => ["args", "glb"],
+    repeatl_w, repeatl => ["args", "glb"],
 
+    stolist_w, stolist => ["args", "glb"],
+    ltostr_w, ltostr => ["args", "glb"],
 
-
+    lines_w, lines => ["args", "glb"],
+    words_w, words => ["args", "glb"],
+    trim_w , trim  => ["args", "glb"],
 
 
     ovid_w, ovid => ["cnv"],

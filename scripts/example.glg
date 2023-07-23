@@ -1,5 +1,17 @@
 #MAIN |
 
+    [set][testvar][49]
+    [LIST][[dbg][$testvar]]
+    [set][testvar][[cst][f32][$testvar]]
+    [LIST][[dbg][$testvar]]
+
+
+    [print]["sin(90) = {}\n"][[sin][90]]
+    [print]["cos(90) = {}\n"][[cos][90]]
+    [print]["tan(90) = {}\n"][[tan][90]]
+    [print]["asin(1) = {}\n"] [[asin][1.0]]
+    [print]["acos(0) = {}\n"] [[acos][0]]
+    [print]["atan(90) = {}\n"][[atan][90]]
     [set] [name] [var2]
     [set] [name2] [c]
     [set] [var] [[cal] [[cal][5][+][9]][-][5]] 

@@ -34,3 +34,5 @@ pub fn rng(args : Vec<Type>,glb : &mut Globals) -> Result<Type, ERROR>{
 
     Ok(Type::I32(thread_rng().gen_range(start..end)))
 }
+
+

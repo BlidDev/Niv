@@ -1,0 +1,54 @@
+
+#MAIN | 
+
+   [set][b][~*{fjlw, 49.4, 9}]
+   [LIST][[gete][b][0]]]
+   [LIST][[sete][b][1][05]]]
+   [LIST][[lpush][b][~*{another, one}]]]
+   [print]["{}\n"][[dbg][$b]]
+   [lpop][b]
+   [LIST][[llen][b]]
+   [lclear][b]
+   [LIST][[dbg][$b]]
+   [LIST][[dbg][[lempty]]]
+   [LIST][[dbg][[repeat][~*{"bro", 4}][4]]]
+   [LIST][[dbg][[repeatl][$b][4]]]
+
+   [LIST][[dbg][[stolist]["heythere"]]]
+   [LIST][[dbg][[ltostr][~*{'h',  'e', 'l', 'o'}]]]
+   [print]["\n\n\n"]
+
+   [set][s][hejlkfe]
+   [LIST][[dbg][$s]]
+   [LIST][[gete][s][2]]
+   [LIST][[sete][s][2]['5']]
+   [LIST][$s]
+   [LIST][[lpush][s]['4']]]
+   [LIST][$s]
+   [LIST][[lpop][s]]
+   [LIST][$s]
+   [LIST][[lremove][s][2]]
+   [LIST][[llen][s]]
+   [LIST][$s]
+   [lclear][s]
+   [LIST][[dbg][$s]]
+   [LIST][[lempty]]
+
+   [LIST][[set][ls][[lines]["hello everyone \nand welcome back to the diamond minecart"]]]
+
+   [set][i][0]
+   [while] [[cal][$i][<][ [llen][ls] ]]
+   {
+        [set][tmp][[gete][ls][$i]]
+        [sete][ls][$i][[words][[trim][$tmp]]]
+        [op][i][+][1]
+   }
+
+   [LIST][$ls]
+
+
+#MAIN
+
+#LIST | v
+   [print]["{}\n"][$v]
+#LIST

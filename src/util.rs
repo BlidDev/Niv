@@ -374,3 +374,4 @@ pub fn remove_comments_from_lines(lines : &Vec<String>) -> Result<Vec<String>, E
         .collect();
     Ok(new_lines)
 }
+

@@ -22,6 +22,7 @@ pub fn print(args : Vec<Type>, glb : &Globals) ->Result<Type, ERROR> {
     };
 
     let matches = format.matches("{}").count();
+    
     if matches < args.len() - 1 {
         return gerr!("Error: [{:?}] positionals were given in [print] but [{}] provided", matches, args.len() - 1);
     }
@@ -36,6 +37,11 @@ pub fn print(args : Vec<Type>, glb : &Globals) ->Result<Type, ERROR> {
     std::io::stdout().flush()?;
 
     Ok(Type::VOID())
+}
+
+pub fn dbg(args : Vec<Type>, glb : &Globals) -> Result<Type, ERROR> {
+    let arg = get_variable(&args[0], &glb.stack)?;
+    Ok(Type::STR(format!("{:?}",arg)))
 }
 
 
