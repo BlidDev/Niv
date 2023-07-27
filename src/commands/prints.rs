@@ -2,7 +2,7 @@ use std::io::Write;
 
 use unescape::unescape;
 
-use crate::{structs::{Globals, Type, ERROR, GError, TypeIndex, parse_type}, util::get_variable, gerr};
+use crate::{structs::{Globals, Type, ERROR, GError, TypeIndex, parse_type, Roots, QueryW, Scope}, util::get_variable, gerr, canvas::Canvas};
 
 
 
@@ -20,6 +20,7 @@ pub fn print(args : Vec<Type>, glb : &Globals) ->Result<Type, ERROR> {
     let Type::STR(format) = get_variable(&args[0].clone(),&&glb.stack)? else {
         return gerr!("Error: Invalid format in [print] [{:?}]", args[0].clone());
     };
+
 
     let matches = format.matches("{}").count();
     
@@ -78,12 +79,14 @@ pub fn input(args : Vec<Type>, glb : &Globals) -> Result<Type, ERROR> {
     _ = std::io::stdin().read_line(&mut line)?;
 
     line.pop();
-    Ok(Type::STR(unescape(&line).unwrap()))
+    Ok(Type::STR(line))
 }
 
 
 
-pub fn inputcast(args : Vec<Type>, glb : &Globals) -> Result<Type, ERROR> {
+pub fn inputcast(args : Vec<Type>, roots : &Roots,glb : &mut Globals, qr : &QueryW, scp : &Scope,
+    cnv : &mut Option<Canvas>
+) -> Result<Type, ERROR> {
     if args.len() > 1 {
         print(args[1..].to_vec(), glb)?;
     }
@@ -103,7 +106,7 @@ pub fn inputcast(args : Vec<Type>, glb : &Globals) -> Result<Type, ERROR> {
     let line = unescape(&line).unwrap();
 
 
-    let var = parse_type(&line,glb)?;
+    let var = parse_type(&line, roots, qr, glb, scp, cnv)?;
 
     if var.dis() != index.clone() as usize {
         return gerr!("Error: Could not parse {line} as {:?}, got {var:?} instead", index);

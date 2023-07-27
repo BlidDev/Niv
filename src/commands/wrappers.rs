@@ -30,6 +30,7 @@ make_wrappers!(
     cal_w, cal => ["args", "glb"],
     op_w, op => ["args", "glb"],
     sqrt_w, sqrt => ["args", "glb"],
+    abs_w, abs => ["args", "glb"],
 
     sin_w, sin => ["args", "glb"],
     cos_w, cos => ["args", "glb"],
@@ -43,13 +44,14 @@ make_wrappers!(
     format_w, format_command => ["args", "glb"],
     post_w, post => ["glb"],
     input_w, input => ["args", "glb"],
-    inputcast_w, inputcast => ["args", "glb"],
+    inputcast_w, inputcast => ["args", "roots","glb", "qr", "scp", "cnv"],
 
     ifcommand_w, ifcommand => ["args", "roots", "glb", "qr", "scp", "cnv"],
     singleif_w, single_if => ["args", "roots", "glb", "qr", "scp", "cnv"],
     whilecommand_w, whilecommand => ["args", "roots","glb", "qr", "scp", "cnv"],
 
     init_w, init => ["args", "glb", "cnv"],
+    end_graphics_w, end_graphics => ["cnv"],
     set_clear_w, set_clear => ["args", "glb", "cnv"],
     clear_w, clear => ["cnv"],
     display_w, display => ["cnv"],
@@ -57,6 +59,7 @@ make_wrappers!(
     set_pixel_w, set_pixel => ["args", "glb", "cnv"],
     set_area_w, set_area => ["args", "glb", "cnv"],
     get_pixel_w, get_pixel => ["args", "glb", "cnv"],
+    get_millis_w, get_millis => ["cnv"],
 
     handle_input_w, handle_input => ["glb","cnv"],
     key_pressed_w, key_pressed => ["args", "glb"],

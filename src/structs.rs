@@ -1,7 +1,7 @@
 use std::{collections::HashMap, fmt::{Display, Debug}, str::FromStr};
 use device_query::{DeviceState, Keycode};
 
-use crate::{gerr, canvas::Canvas, user_type::UserType};
+use crate::{gerr, canvas::Canvas, user_type::UserType, util::{parse_list, remove_first_and_last, get_first_and_last}};
 
 
 //#[derive(Debug)]
@@ -98,7 +98,27 @@ impl Type {
     }
 }
 
-pub fn parse_type(value : &String, glb : &Globals) -> Result<Type, ERROR>{
+pub fn parse_type(value : &String, roots : &Roots,query : &QueryW, glb : &mut Globals, scope : &Scope,
+    cnv : &mut Option<Canvas>
+) -> Result<Type, ERROR>{
+    let val = value.to_string();
+    match get_first_and_last(&val) {
+        (Some('\"') , Some('\"')) => 
+        {
+            let val = snailquote::unescape(&val)?;
+            return Ok(Type::STR(val))
+        },
+        (Some('\'') , Some('\'')) => {
+            let val = snailquote::unescape(&val)?;
+            let val = unescape::unescape(&val).unwrap();
+            if let Ok(c) = val.parse::<char>() {
+                return Ok(Type::CHAR(c));
+            }
+            return gerr!("Error: cannot parse [{val}] as char");
+        },
+        _ => {}
+    }
+
     if let Ok(i) = value.parse::<i32>() {
         return Ok(Type::I32(i));
     } else if let Ok(f) = value.parse::<f32>() {
@@ -106,40 +126,21 @@ pub fn parse_type(value : &String, glb : &Globals) -> Result<Type, ERROR>{
     } else if let Ok(b) = value.parse::<bool>() {
         return Ok(Type::BOOL(b));
     }
-    if value.trim_start().starts_with("'") && value.trim_end().ends_with("'") {
-        let mut v = value.clone(); 
-        v.pop();
-        v.remove(0);
-        if let Ok(c) = v.parse::<char>() {
-            return Ok(Type::CHAR(c));
-        }
+
+
+    if value.trim_start().starts_with("{") && value.trim_end().ends_with("}") { 
+        return Ok(parse_list(&remove_first_and_last(&value)?, roots, query, glb, scope, cnv)?)
     }
 
-    let mut s = value.clone();//snailquote::unescape(value)?.clone();
+    let mut s = snailquote::unescape(value)?.clone();
     if s.len() < 3 { return Ok(Type::STR(s)); }
     if !s.starts_with("~*") { return Ok(Type::STR(s)); }
     s = s[2..].to_string();
-
-    if s.trim_start().starts_with("{") && s.trim_end().ends_with("}") { 
-        let mut lst  = vec![];
-        let (start, end) = (
-            s.find("{").unwrap() + 1, 
-            s.rfind("}").unwrap()
-            );
-        if end < start { return gerr!("Error: tyring to parse invalid list string: [{}]", s); }
-        let s = s.get(start..end).expect(&format!("Error: tyring to parse invalid list string: [{}]", s));
-
-        for element in s.split(",") {
-            lst.push(parse_type(&element.trim().to_string(), glb)?);
-        }
-
-        return Ok(Type::LIST(lst))
-    }
-
-    if glb.registered_types.get(&s).is_none() { return Ok(Type::STR(s)); }
+    if glb.registered_types.get(&s).is_none() { return Ok(Type::STR(val)); }
     
     Ok(Type::UTYPE(glb.registered_types.get(&s).unwrap().clone()))
 }
+
 
 #[allow(dead_code)]
 #[repr(usize)]

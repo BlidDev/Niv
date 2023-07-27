@@ -36,7 +36,8 @@ fn read_file_list(list : &Vec<String>) -> Result<Vec<String>, ERROR> {
     let mut lines = vec![];
 
     for filename in list {
-        if Path::new(filename).extension().and_then(OsStr::to_str) != Some("glg"){
+        let path = Path::new(filename);
+        if path.extension().and_then(OsStr::to_str) != Some("glg") || !path.exists(){
             return gerr!("Error: invalid *.glg file name [{}]", filename);
         }
         let reader = BufReader::new(File::open(filename)?);
@@ -53,16 +54,46 @@ fn read_file_list(list : &Vec<String>) -> Result<Vec<String>, ERROR> {
 
 
 fn read_project_file(name : &String) -> Result<Vec<String>, ERROR> {
+    let path = Path::new(name);
 
-    if Path::new(name).extension().and_then(OsStr::to_str) != Some("prj"){
+    if path.extension().and_then(OsStr::to_str) != Some("prj") || !path.exists() {
         return gerr!("Error: invalid *.prj file name [{}]", name);
     }
+
+    let addition = match get_addition(path) {
+
+        Some (s) => {
+            let mut add = s;
+            if !add.is_empty() {
+                add.push('/');
+            }
+            add
+        },
+        None => "".to_string()
+    };
+
+
 
     let mut files = vec![];
     let reader = BufReader::new(File::open(name)?);
     for line in reader.lines() {
-        files.push(line?);
+        let mut add = addition.clone();
+        add.push_str(&line?);
+        files.push(add);
     }
 
     read_file_list(&files)
+}
+
+fn get_addition(path : &Path) -> Option<String> {
+    let Some(addition) = path.parent() else {
+        return None;
+    };
+
+    Some(
+        addition
+        .to_str()
+        .expect(&format!("Error: could not convert filepath: [{:?}] to string", addition))
+        .to_string()
+    )
 }

@@ -34,12 +34,16 @@ pub fn ovid(cnv : &mut Option<Canvas>) ->Result<Type, ERROR> {
 pub fn dorbell(args : Vec<Type>, roots : &Roots,glb : &mut Globals, qr : &QueryW, scp : &Scope,
     cnv : &mut Option<Canvas>
 ) -> Result<Type, ERROR> {
+    let var = get_variable(&args[0], &glb.stack)?;
 
-    let Type::STR(ref node) = get_variable(&args[0], &glb.stack)? else {
+    let Type::STR(ref node) =  var else {
         return Ok(Type::VOID())
     };
 
-    let NodeType::Nested(n, c)  = make_tree(node, false) else {
+    let node = node.replace("(", "[").replace(")", "]");
+
+
+    let NodeType::Nested(n, c)  = make_tree(&node, true)? else {
         return Ok(Type::VOID())
     };
 

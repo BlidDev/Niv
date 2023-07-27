@@ -29,6 +29,7 @@ pub fn cal(args : Vec<Type>, glb : &Globals) ->Result<Type, ERROR> {
     map.insert("-", sub);
     map.insert("*", mul);
     map.insert("/", div);
+    map.insert("%", modu);
     map.insert("=", eql);
     map.insert("!", neql);
     map.insert(">", bigger);
@@ -72,6 +73,17 @@ pub fn sqrt(args : Vec<Type>, glb : &Globals) -> Result<Type,ERROR> {
             return Ok(Type::F32( num.sqrt() ))
         },
        _ => return gerr!("Error: wrong argument given to [sqrt]: [{:?}]",a), 
+
+    }
+}
+
+pub fn abs(args : Vec<Type>, glb : &Globals) -> Result<Type, ERROR> {
+    let a = get_variable(&args.first().unwrap(), &glb.stack)?;
+
+    match a {
+        Type::I32(num) => { Ok(Type::I32(num.abs()))},
+        Type::F32(num) => { Ok(Type::F32(num.abs()))},
+       _ => return gerr!("Error: wrong argument given to [abs]: [{:?}]",a), 
 
     }
 }
@@ -174,3 +186,5 @@ pub fn atan(args : Vec<Type>, glb : &Globals) -> Result<Type,ERROR> {
 
     }
 }
+
+

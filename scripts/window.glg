@@ -1,16 +1,16 @@
 #MAIN |
 
-    [init][848][480][96][54][Window Example]
+    init 848 480 96 54 "Window Example"
 
-    [set_clear] [100][100][100]
-    [clear]
-    [apply]
+    set_clear 100 100 100
+    clear
+    apply
 
 
-    [while][[cal][[handle_input]][!][true]]
+    while [cal [handle_input] ! true]
     {
 
-        [display]
+        display
     }
 
 #MAIN

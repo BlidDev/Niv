@@ -5,76 +5,85 @@ use crate::{
 
 #[allow(dead_code)]
 pub fn add(a : Type, b : Type) -> Result<Type, ERROR> {
-
-    if let (Type::I32(n1), Type::I32(n2)) = (a.clone(),b.clone()) {
-        return Ok(Type::I32(n1 + n2))
+    match (&a, &b) {
+        (Type::I32(n1), Type::I32(n2)) => return Ok(Type::I32(n1 + n2)),
+        (Type::F32(n1), Type::F32(n2)) => return Ok(Type::F32(n1 + n2)),
+        _ => gerr!("Error: Tyring to add [{:?}] and [{:?}]", a,b)
     }
-    else if let (Type::F32(n1), Type::F32(n2)) = (a.clone(),b.clone()) {
-        return Ok(Type::F32(n1 + n2))
-    }
-
-    gerr!("Error: Tyring to add [{:?}] and [{:?}]", a,b)
 }
 
 #[allow(dead_code)]
 pub fn sub(a : Type, b : Type) -> Result<Type, ERROR> {
-
-    if let (Type::I32(n1), Type::I32(n2)) = (a.clone(),b.clone()) {
-        return Ok(Type::I32(n1 - n2))
+    match (&a, &b) {
+        (Type::I32(n1), Type::I32(n2)) => return Ok(Type::I32(n1 - n2)),
+        (Type::F32(n1), Type::F32(n2)) => return Ok(Type::F32(n1 - n2)),
+        _ => gerr!("Error: Tyring to sub [{:?}] and [{:?}]", a,b)
     }
-    else if let (Type::F32(n1), Type::F32(n2)) = (a.clone(),b.clone()) {
-        return Ok(Type::F32(n1 - n2))
-    }
-
-    gerr!("Error: Tyring to sub [{:?}] and [{:?}]", a,b)
 }
 
 #[allow(dead_code)]
 pub fn mul(a : Type, b : Type) -> Result<Type, ERROR> {
-
-    if let (Type::I32(n1), Type::I32(n2)) = (a.clone(),b.clone()) {
-        return Ok(Type::I32(n1 * n2))
+    match (&a, &b) {
+        (Type::I32(n1), Type::I32(n2)) => return Ok(Type::I32(n1 * n2)),
+        (Type::F32(n1), Type::F32(n2)) => return Ok(Type::F32(n1 * n2)),
+        _ => gerr!("Error: Tyring to mul [{:?}] and [{:?}]", a,b)
     }
-    else if let (Type::F32(n1), Type::F32(n2)) = (a.clone(),b.clone()) {
-        return Ok(Type::F32(n1 * n2))
-    }
-
-    gerr!("Error: Tyring to mul [{:?}] and [{:?}]", a,b)
 }
 
 #[allow(dead_code)]
 pub fn div(a : Type, b : Type) -> Result<Type, ERROR> {
 
-    if let (Type::I32(n1), Type::I32(n2)) = (a.clone(),b.clone()) {
-        if n2 == 0 {
-            return gerr!("Error: Cannot divide by 0")
+    match (&a, &b) {
+        (Type::I32(n1), Type::I32(n2)) => {
+            if *n2 == 0 {
+                return gerr!("Error: Cannot divide by 0")
+            }
+            return Ok(Type::I32(n1 / n2))
+        },
+        (Type::F32(n1), Type::F32(n2)) => {
+            if *n2 == 0.0 {
+                return gerr!("Error: Cannot divide by 0")
+            }
+            return Ok(Type::F32(n1 / n2))
         }
-        return Ok(Type::I32(n1 / n2))
+        _ => gerr!("Error: Tyring to div [{:?}] and [{:?}]", a,b),
     }
-    else if let (Type::F32(n1), Type::F32(n2)) = (a.clone(),b.clone()) {
-        if n2 == 0.0 {
-            return gerr!("Error: Cannot divide by 0")
-        }
-        return Ok(Type::F32(n1 / n2))
-    }
+}
 
-    gerr!("Error: Tyring to div [{:?}] and [{:?}]", a,b)
+#[allow(dead_code)]
+pub fn modu(a : Type, b : Type) -> Result<Type, ERROR> {
+
+    match (&a, &b) {
+        (Type::I32(n1), Type::I32(n2)) => return Ok(Type::I32(n1 % n2)),
+        (Type::F32(n1), Type::F32(n2)) => return Ok(Type::F32(n1 % n2)),
+        _ => gerr!("Error: Tyring to run [mod] on [{:?}] and [{:?}]", a,b)
+    }
 }
 
 #[allow(dead_code)]
 pub fn pow(a : Type, b : Type) -> Result<Type, ERROR> {
 
-    if let (Type::I32(n1), Type::I32(n2)) = (a.clone(),b.clone()) {
-        if n2 < 0 { 
-            return gerr!("Error: Invaild exponent: [{:?}]", n2);
-        }
-        return Ok(Type::I32(n1.pow(n2 as u32)))
+    match (&a, &b) {
+        (Type::I32(n1), Type::I32(n2)) => {
+            if *n2 < 0 { 
+                return gerr!("Error: Invaild exponent: [{:?}]", n2);
+            }
+            return Ok(Type::I32(n1.pow(*n2 as u32)))
+        },
+        (Type::F32(n1), Type::I32(n2)) => {
+            if *n2 < 0 { 
+                return gerr!("Error: Invaild exponent: [{:?}]", n2);
+            }
+            return Ok(Type::F32(n1.powi(*n2)))
+        },
+        (Type::F32(n1), Type::F32(n2)) => {
+            if *n2 < 0.0 { 
+                return gerr!("Error: Invaild exponent: [{:?}]", n2);
+            }
+            return Ok(Type::F32(n1.powf(*n2)))
+        },
+        _ => gerr!("Error: Tyring to pow [{:?}] and [{:?}]", a,b),
     }
-    else if let (Type::F32(n1), Type::I32(n2)) = (a.clone(),b.clone()) {
-        return Ok(Type::F32(n1.powi(n2)))
-    }
-
-    gerr!("Error: Tyring to pow [{:?}] and [{:?}]", a,b)
 }
 
 #[allow(dead_code)]

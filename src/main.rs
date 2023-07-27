@@ -21,12 +21,9 @@ use crate::structs::CommandQuery;
 
 
 fn main() -> Result<(), Box<dyn std::error::Error>>{
-
     let args =  Arguments::parse();
     let lines = args.args_to_lines()?;
     let lines = remove_comments_from_lines(&lines)?;
-
-    
     
     let roots = find_root_scopes(&lines)?;
 
@@ -45,14 +42,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
         (v, an)
     };
     
-
-    let _code : Vec<String> = lines.iter().filter(|l| 
-        { 
-            let l2 = (*l).clone();
-            !(balanced_braces(&[l2], '[', ']').is_empty())
-        }).map(|l| l.to_string()).collect();
-
-
     let mut query = CommandQuery::new();
 
     register_commands(&mut query);
@@ -75,8 +64,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
     validate_root_scopes_names(&roots, &query)?;
 
     let mut cnv = None;
-    register_types(&lines, &mut glb)?;
+
+    let s = roots.get("MAIN").expect(&format!("Error: Root scope [{}] not found", "MAIN"));
+    register_types(&lines, &roots, &s, &query, &mut glb, &mut cnv)?;
+
+
+
     traverse_root_scope("MAIN", &roots, &query, &mut glb,  &mut cnv)?;
+ 
  
     Ok(())
 }
@@ -98,6 +93,7 @@ fn register_commands(query : &mut CommandQuery)
             cal =>      (cal_w,Some(3)),
             op =>       (op_w,Some(3)),
             sqrt =>     (sqrt_w, Some(1)),
+            abs  =>     (abs_w, Some(1)),
 
             sin =>      (sin_w, Some(1)),
             cos =>      (cos_w, Some(1)),
@@ -118,6 +114,7 @@ fn register_commands(query : &mut CommandQuery)
             while =>    (whilecommand_w,Some(1)),
 
             init => (init_w, Some(5)),
+            end_graphics => (end_graphics_w, Some(0)),
             set_clear => (set_clear_w, Some(3)),
             clear => (clear_w, Some(0)),
             display => (display_w, Some(0)),
@@ -125,6 +122,7 @@ fn register_commands(query : &mut CommandQuery)
             set_pixel => (set_pixel_w, Some(5)),
             set_area => (set_area_w, Some(7)),
             get_pixel => (get_pixel_w, Some(5)),
+            get_millis => (get_millis_w, Some(0)),
 
             handle_input => (handle_input_w, Some(0)),
             key_pressed => (key_pressed_w, Some(1)),
