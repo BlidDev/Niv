@@ -1,12 +1,13 @@
 #MAIN |
-    [badduck]
-    [astro]
-    [while][true]
+    badduck
+    astro
+    set b true
+    while $b
     {
-        [print]["{}\n"][[rng][0][10]]
-        [set][var3][[input]["Enter a cmd: "]]
-        [dorbell][$var3]
+        print "{}\n" [rng 0 10]
+        set var3 [input "Enter a cmd: "]
+        dorbell $var3
     }
-    [zayther]
+    zayther
 
 #MAIN

@@ -79,7 +79,7 @@ pub fn input(args : Vec<Type>, glb : &Globals) -> Result<Type, ERROR> {
     _ = std::io::stdin().read_line(&mut line)?;
 
     line.pop();
-    Ok(Type::STR(unescape(&line).unwrap()))
+    Ok(Type::STR(line))
 }
 
 

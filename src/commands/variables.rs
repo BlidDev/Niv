@@ -8,11 +8,11 @@ pub fn set(args : Vec<Type>, glb : &mut Globals) ->Result<Type, ERROR> {
     let v = args[1].clone();
     let mut v = get_variable(&v, &glb.stack)?;
 
-    if let Type::STR(ref mut s) = v {
-        *s = snailquote::unescape(s)?;
-        *s = unescape(s).unwrap();
+    //if let Type::STR(ref mut s) = v {
+    //    *s = snailquote::unescape(s)?;
+    //    *s = unescape(s).unwrap();
 
-    }
+    //}
     //
     //println!("Setting [{}] = [{:?}]", name, v.clone());
     *glb.stack.entry(name).or_insert(v.clone()) = v.clone();
