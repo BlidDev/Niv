@@ -1,0 +1,3 @@
+#MAIN | 
+   print "{} \n" [cal 1 + 1]
+#MAIN

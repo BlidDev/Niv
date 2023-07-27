@@ -1,5 +1,5 @@
 
-use sfml::{window::{ContextSettings, Style, Event}, graphics::{RenderWindow, RenderTarget, Texture, Sprite, Transformable}, SfBox, system::Vector2};
+use sfml::{window::{ContextSettings, Style, Event}, graphics::{RenderWindow, RenderTarget, Texture, Sprite, Transformable}, SfBox, system::{Vector2, Clock}};
 
 use crate::{structs::{ERROR, GError}, gerr};
 
@@ -17,6 +17,7 @@ pub struct Canvas {
     pub texture : SfBox<Texture>,
     pub pixels : Vec<u8>,
     pub cleanup_buffer : Vec<u8>,
+    pub clock : SfBox<Clock>
 }
 
 impl Canvas {
@@ -66,6 +67,7 @@ impl Canvas {
     }
 
     pub fn display(&mut self) {
+
 
         let mut s = Sprite::with_texture(&self.texture);
 
@@ -163,7 +165,8 @@ impl CanvasBuilder {
 
                 tex
             }
-
+            ,
+            clock : Clock::start()
         }; 
 
         let mut size = sfml::window::VideoMode::desktop_mode();

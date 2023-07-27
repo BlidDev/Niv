@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::{structs::{Type, Globals, ERROR, GError, parse_type}, gerr};
+use crate::{structs::{Type, Globals, ERROR, GError, parse_type, Roots, Scope, QueryW}, gerr, canvas::Canvas};
 
 
 
@@ -95,7 +95,10 @@ pub fn register_type(name : String, user_type : UserType, glb : &mut Globals) ->
     Ok(())
 }
 
-pub fn register_types(lines : &Vec<String>, glb : &mut Globals) -> Result<(), ERROR> {
+pub fn register_types(lines : &Vec<String>, roots : &Roots, scope : &Scope, query : &QueryW, glb : &mut Globals,
+    cnv : &mut Option<Canvas>
+) -> Result<(), ERROR> {
+
 
     let ranges = find_user_types(lines)?;
     for (name, range) in ranges {
@@ -109,12 +112,12 @@ pub fn register_types(lines : &Vec<String>, glb : &mut Globals) -> Result<(), ER
         for (_, t) in registered_types.iter_mut() {
             for (_, f) in t.fields.iter_mut() {
                 if let Type::STR(s) = f {
-                    *f = parse_type(&s, glb)?;
+                    *f = parse_type(&s, roots, query, glb, scope, cnv)?;
                 }
                 else if let Type::UTYPE(ut) = f {
                     let mut s = "~*".to_string();
                     s.extend(ut.type_name.chars());
-                    *f = parse_type(&s, glb)?;
+                    *f = parse_type(&s, roots, query, glb, scope, cnv)?;
                 }
 
             }

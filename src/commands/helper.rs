@@ -39,7 +39,7 @@ pub fn dorbell(args : Vec<Type>, roots : &Roots,glb : &mut Globals, qr : &QueryW
         return Ok(Type::VOID())
     };
 
-    let NodeType::Nested(n, c)  = make_tree(node, false) else {
+    let NodeType::Nested(n, c)  = make_tree(node, false)? else {
         return Ok(Type::VOID())
     };
 

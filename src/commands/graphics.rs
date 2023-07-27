@@ -42,6 +42,19 @@ pub fn init(
     Ok(Type::VOID())
 }
 
+pub fn end_graphics(cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
+
+    let Some(cnv_o) = cnv else {
+        return gerr!("Error: trying to end non initilized canvas")
+    };
+
+    cnv_o.window.close();
+
+    *cnv = None;
+
+    Ok(Type::VOID())
+}
+
 pub fn set_clear(
     args : Vec<Type>,
     glb  : &mut Globals,
@@ -206,3 +219,10 @@ pub fn handle_input(glb  : &mut Globals, cnv : &mut Option<Canvas>) -> Result<Ty
     Ok(Type::BOOL(false))
 }
 
+pub fn get_millis( cnv : &mut Option<Canvas> ) -> Result<Type, ERROR> {
+    let Some(cnv) = cnv else {
+        return gerr!("Error: canvas used before being initilized")
+    };
+
+    Ok(Type::I32(cnv.clock.elapsed_time().as_milliseconds()))
+}

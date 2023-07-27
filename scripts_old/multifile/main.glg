@@ -1,0 +1,11 @@
+
+
+#MAIN |
+    [print]["This is using a different file:\n"]
+    [func][4]
+    [make_vec2][v2][3][4] // so this should work
+    [print]["The constructed vec2: {}\n"][$v2]
+    //[print]["Cool isnt it\n"]
+#MAIN
+
+
