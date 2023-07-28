@@ -49,6 +49,25 @@ impl Canvas {
         Ok(())
     }
 
+    pub fn get_area(&mut self, pos : Vec2, size : Vec2) -> Result<Vec<u8>, ERROR>{
+        if  pos.0 + size.0 > self.c_size.0 ||
+            pos.1 + size.1 > self.c_size.1 {
+                return gerr!("Error: area in [get_area] does not fit the canvas size [x: {}, y: {}, w: {}, h: {}]", pos.0, pos.1, size.0, size.1);
+        }
+
+        let mut v = vec![];
+        for y in 0..size.1 {
+            for x in 0..size.0 {
+                let index = (((pos.1 + y) * self.c_size.0 * 4) + (pos.0 + x) * 4) as usize;
+                v.extend(self.pixels[index..index+4].to_vec());
+
+            }
+        }
+
+
+        Ok(v)
+    }
+
     pub fn apply(&mut self) {
         unsafe {
             self.texture.update_from_pixels(&self.pixels,

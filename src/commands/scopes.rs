@@ -17,9 +17,12 @@ pub fn ifcommand(args : Vec<Type>, roots : &Roots,glb : &mut Globals, qr : &Quer
     if !*b {
        return handle_else(glb.curr + scope.nodes.len() + 3,roots, glb, qr, scp, cnv) 
     }
-    traverse_scope(roots, scope, qr, glb, cnv)?;
+    let curr = glb.curr;
+    glb.curr = 0;
+    let t = traverse_scope(roots, scope, qr, glb, cnv)?;
+    glb.curr = curr;
 
-    Ok(Type::VOID())
+    Ok(t)
 }
 
 pub fn single_if(args : Vec<Type>, roots : &Roots, glb : &mut Globals, qr : &QueryW, scp : &Scope, cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
@@ -78,7 +81,15 @@ pub fn whilecommand(args : Vec<Type>, roots : &Roots, glb : &mut Globals, qr : &
 
 
         if let Some(scope) = scp.children.get(&(&glb.curr + 1)) {
-            traverse_scope(roots, scope, qr, glb, cnv)?;
+            glb.curr = 0;
+            let tmp = traverse_scope(roots, scope, qr, glb, cnv)?;
+            match tmp {
+                Type::VOID() => {},
+                _ => {
+                    glb.curr = curr;
+                    return Ok(tmp)
+                }
+            }
         }
         else {
             return gerr!("Error: could not find scope for [while] command");
@@ -113,13 +124,13 @@ pub fn run(args : Vec<Type>, roots : &Roots, glb : &mut Globals, qr : &QueryW, c
         set(vec![Type::STR(n.clone()), args[i + 1].clone()], glb)?;
     }
 
-    traverse_root_scope(name, roots, qr, glb, cnv)?;
+    let t = traverse_root_scope(name, roots, qr, glb, cnv)?;
 
     for n in entry.iter() {
         release(vec![Type::STR(n.clone())], glb)?;
     }
 
-    Ok(Type::VOID())
+    Ok(t)
 }
 
 
@@ -145,10 +156,7 @@ pub fn handle_else(index : usize, roots : &Roots,glb : &mut Globals, qr : &Query
                 return gerr!("Error: could not find scope for [else]");
             };
 
-            traverse_scope(roots, scope, qr, glb, cnv)?;
-
-            Ok(Type::VOID())
-
+            traverse_scope(roots, scope, qr, glb, cnv)
         },
         _ => {
             let first   = traverse(first, roots, qr, glb, scp, cnv)?;

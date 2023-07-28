@@ -45,6 +45,11 @@ pub fn dbg(args : Vec<Type>, glb : &Globals) -> Result<Type, ERROR> {
     Ok(Type::STR(format!("{:?}",arg)))
 }
 
+pub fn prt(args : Vec<Type>, glb : &Globals) -> Result<Type, ERROR> {
+    let arg = get_variable(&args[0], &glb.stack)?;
+    Ok(Type::STR(format!("{:#?}",arg)))
+}
+
 
 pub fn format_command(args : Vec<Type>, glb : &Globals) ->Result<Type, ERROR> { 
     if args.len() < 1 { 

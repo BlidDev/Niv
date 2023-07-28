@@ -181,6 +181,28 @@ pub fn get_pixel(args : Vec<Type>, glb  : &mut Globals, cnv : &mut Option<Canvas
     Ok(Type::VOID())
 }
 
+
+pub fn get_area(args : Vec<Type>, glb  : &mut Globals, cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
+
+    let Some(cnv) = cnv else {
+        return gerr!("Error: canvas used before being initilized")
+    };
+    let args = args_to_vars(&args, &glb.stack)?;
+
+    sgerr!(
+        (Type::I32(x), Type::I32(y),
+         Type::I32(w), Type::I32(h)),
+        (&args[0], &args[1], &args[2], &args[3]),
+        "Error: invalid args for [get_area]: {args:?}"
+    );
+
+    let v = cnv.get_area((*x as u32, *y as u32), (*w as u32, *h as u32))?;
+
+    let v : Vec<Type> = v.iter().map(|e| Type::I32(*e as i32)).collect();
+
+    Ok(Type::LIST(v))
+}
+
 pub fn display(cnv : &mut Option<Canvas>) -> Result<Type,ERROR> {
     let Some(cnv) = cnv else {
         return gerr!("Error: canvas used before being initilized")
@@ -226,3 +248,5 @@ pub fn get_millis( cnv : &mut Option<Canvas> ) -> Result<Type, ERROR> {
 
     Ok(Type::I32(cnv.clock.elapsed_time().as_milliseconds()))
 }
+
+

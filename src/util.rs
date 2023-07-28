@@ -386,29 +386,37 @@ pub fn _print_scope_tree(scope : &Scope, indent : &mut usize, _begin : &usize) {
 
 pub fn traverse_root_scope(name : &str, roots : &Roots,query : &QueryW, glb : &mut Globals,
     cnv : &mut Option<Canvas>
-) -> Result<(), ERROR> {
+) -> Result<Type, ERROR> {
     let s = roots.get(name).expect(&format!("Error: Root scope [{}] not found", name));
 
-    traverse_scope(roots, s, query, glb, cnv)?;
+    let t = traverse_scope(roots, s, query, glb, cnv)?;
 
-    Ok(())
+    match t {
+        Type::RETURN(v) => Ok(*v),
+        _ => Ok(Type::VOID())
+    }
 }
 
 
 pub fn traverse_scope(roots : &Roots, scope : &Scope, query : &QueryW, glb : &mut Globals,
     cnv : &mut Option<Canvas>
-    ) -> Result<(), ERROR> {
+    ) -> Result<Type, ERROR> {
     let mut i = 0;
 
     while i < scope.nodes.len() {
         if let Some(ref node) = scope.nodes[i] {
-            traverse(node, roots, query, glb, scope, cnv)?;
+            let t= traverse(node, roots, query, glb, scope, cnv)?;
+            if let Type::RETURN(_) = t{
+                //i+=1;
+                //glb.curr = i;
+                return Ok(t);
+            }
         }
         i+=1;
         glb.curr = i;
     }
 
-    Ok(())
+    Ok(Type::VOID())
 }
 
 

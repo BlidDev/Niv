@@ -60,11 +60,13 @@
         {
            set posy 0
         }
+
         set_area $posx $posy $sw $sh 150 48 99
 
         apply
         display
 
+        singleif (key_pressed E) = true (print "\r{}\n" (get_area $posx $posy $sw $sh))
         sleep 10
     }
 

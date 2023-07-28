@@ -5,7 +5,7 @@ use super::{
     calculations::{*, op},
     variables::*,
     scopes::*,
-    prints::{dbg, post, print, input, inputcast, format_command},
+    prints::{dbg, prt, post, print, input, inputcast, format_command},
     graphics::*,
     misc::*,
     input::*,
@@ -42,6 +42,7 @@ make_wrappers!(
 
     print_w, print => ["args", "glb"],
     dbg_w, dbg => ["args", "glb"],
+    prt_w, prt => ["args", "glb"],
     format_w, format_command => ["args", "glb"],
     post_w, post => ["glb"],
     input_w, input => ["args", "glb"],
@@ -59,6 +60,7 @@ make_wrappers!(
     apply_pixels_w, apply_pixels => ["cnv"],
     set_pixel_w, set_pixel => ["args", "glb", "cnv"],
     set_area_w, set_area => ["args", "glb", "cnv"],
+    get_area_w, get_area => ["args", "glb", "cnv"],
     get_pixel_w, get_pixel => ["args", "glb", "cnv"],
     get_millis_w, get_millis => ["cnv"],
 
@@ -74,6 +76,7 @@ make_wrappers!(
 
 
     run_w, run => ["args", "roots", "glb", "qr", "cnv"],
+    return_cmd_w, return_cmd => ["args", "glb"],
 
 
     gete_w , gete => ["args", "glb"],

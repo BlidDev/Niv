@@ -22,8 +22,9 @@ pub enum Type {
     CHAR(char),
     STR(String),
     UTYPE(UserType),
+    LIST(Vec<Type>),
     NODE(Box<NodeType>),
-    LIST(Vec<Type>)
+    RETURN(Box<Type>)
 }
 
 
@@ -53,7 +54,22 @@ impl Display for Type {
                 write!(f, "]")
             },
             Self::NODE(a) => write!(f, "{a:?}"),
-            Self::LIST(l) => write!(f, "{l:?}"),
+            Self::LIST(l) => {
+                write!(f, "[")?;
+                for (i, e) in l.iter().enumerate() {
+
+                    match e {
+                        Type::STR(s)  => write!(f, "\"{}\"", s)?, 
+                        Type::CHAR(c) => write!(f, "\'{}\'", c)?, 
+                        _=> write!(f, "{}", e)?
+                    }
+
+                    if i < l.len() -1 { write!(f, ", ")?; }
+
+                } 
+                write!(f, "]")
+            },
+            Self::RETURN(b) => write!(f, "{b:?}"),
        }
    } 
 }
@@ -72,6 +88,7 @@ impl Type {
            Self::UTYPE(_) => 6, 
            Self::LIST(_)  => 7, 
            Self::NODE(_)  => 8, 
+           Self::RETURN(_)  => 9, 
         }
     } 
 
@@ -85,6 +102,7 @@ impl Type {
            Self::STR(s) => Ok(s.clone()), 
            Self::LIST(l) => Ok(format!("{l:?}")),
            Self::UTYPE(u) => Ok(format!("{u:?}")),
+           Self::RETURN(r) => Ok(format!("Return<{:?}>", *r)),
            _ => gerr!("Error: Cannot turn [{:?}] into String", self),
         }
     }
@@ -147,6 +165,7 @@ pub enum TypeIndex {
     UTYPE,
     LIST,
     NODE, 
+    RETURN
 }
 
 impl FromStr for TypeIndex {
@@ -163,6 +182,7 @@ impl FromStr for TypeIndex {
         "UTYPE" => return Ok(Self::UTYPE),
         "LIST" => return Ok(Self::LIST),
         "NODE" => return Ok(Self::NODE),
+        "RETURN" => return Ok(Self::RETURN),
         _ => gerr!("Error: Could not parse [{}] as TypeIndex", s)
        }
    } 

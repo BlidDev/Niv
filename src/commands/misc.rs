@@ -1,6 +1,6 @@
 use rand::{thread_rng, Rng};
 
-use crate::{structs::{Type, Globals, GError, ERROR}, util::{args_to_vars, get_variable}, gerr, sgerr};
+use crate::{structs::{Type, Globals, GError, ERROR, TypeIndex}, util::{args_to_vars, get_variable}, gerr, sgerr};
 
 use std::{thread::sleep, time::Duration};
 
@@ -51,4 +51,14 @@ pub fn typeid(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
     let var = get_variable(&args[0], &glb.stack)?;
 
     Ok(Type::I32(var.dis() as i32))
+}
+
+pub fn return_cmd(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
+    let arg = get_variable(&args[0], &glb.stack)?;
+
+    if arg.dis() == TypeIndex::RETURN as usize{
+        return gerr!("Error: cannot run [return] with RETURN type: [{:?}]", arg);
+    }
+    
+    return Ok(Type::RETURN(Box::new(arg)));
 }

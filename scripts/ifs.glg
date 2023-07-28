@@ -1,13 +1,21 @@
-
-
 #MAIN | 
     set a 5
     if $a > 7 
     {
         print "This is normal\n"
     }
-    else if (cal $a + 5) < 10
+    else if (cal $a + 5) = 10
     {
+        set i 0
+        while (cal $i < 5)
+        {
+            if $i = 4 
+            {
+                print "yo\n"
+            }
+            print "hey\n"
+            op i + 1
+        }
         print "This is not gonna work is it\n"
     }
     else 

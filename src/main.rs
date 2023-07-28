@@ -108,6 +108,7 @@ fn register_commands(query : &mut CommandQuery)
             post =>     (post_w,Some(0)),
             print =>    (print_w,None),
             dbg =>      (dbg_w, Some(1)),
+            prt =>      (prt_w, Some(1)),
             format =>   (format_w,None),
             input =>    (input_w,None),
             inputcast =>(inputcast_w,None),
@@ -124,6 +125,7 @@ fn register_commands(query : &mut CommandQuery)
             apply => (apply_pixels_w, Some(0)),
             set_pixel => (set_pixel_w, Some(5)),
             set_area => (set_area_w, Some(7)),
+            get_area => (get_area_w, Some(4)),
             get_pixel => (get_pixel_w, Some(5)),
             get_millis => (get_millis_w, Some(0)),
 
@@ -138,6 +140,7 @@ fn register_commands(query : &mut CommandQuery)
             typeid => (typeid_w, Some(1)),
 
             run => (run_w, None),
+            return => (return_cmd_w, Some(1)),
 
             gete => (gete_w, Some(2)),
             sete => (sete_w, Some(3)),

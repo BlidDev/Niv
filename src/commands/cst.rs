@@ -33,6 +33,7 @@ pub fn cst(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR>{
         TypeIndex::LIST => { Ok(Type::LIST(type_to_list(var)?)) },
         TypeIndex::UTYPE=> {return gerr!("Error: cannot cast types into type [{:?}]", typename)},
         TypeIndex::NODE => {return gerr!("Error: cannot cast types into type [{:?}]", typename)}, 
+        TypeIndex::RETURN => {Ok(Type::RETURN(Box::new(var)))}
     }
 
 }
