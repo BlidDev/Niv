@@ -46,6 +46,7 @@ pub fn get_value(val : &String) -> String{
 pub fn smart_split(line : &String) -> Result<Vec<String>, ERROR> {
 
     let mut v = vec![];
+    if line.is_empty() { return Ok(v); }
 
     let mut brackeys = 0;
     let mut lists = 0;
@@ -127,7 +128,9 @@ pub fn make_tree(line : &String, first : bool) -> Result<NodeType, ERROR> {
     };
 
     let splits = smart_split(&trimmed)?;
-    if splits.is_empty() { panic!("empty split") }
+    if splits.is_empty() { 
+        return gerr!("Error: cannot parse empty node ()")
+    }
 
     let mut n = NodeType::Nested(Box::new(make_tree(&splits[0], false)?), vec![]);
 
@@ -162,10 +165,18 @@ pub fn traverse(node : &NodeType, roots : &Roots,query : &QueryW, glb : &mut Glo
 
             if name == "singleif" {
                 let mut args : Vec<Type> = vec![];
-                for i in 0..childern.len() - 1  {
+                let offset = match childern.len() {
+                    4 => 1,
+                    5 => 2,
+                    _ => return gerr!("Error: [singleif] takes [4] or [5] arguments but [{}] were provided"
+                , childern.len())
+                };
+                for i in 0..childern.len() - offset  {
                     args.push(traverse(&childern[i], roots, query, glb, scope, cnv)?);
                 }
-                args.push(Type::NODE(childern.last().unwrap().clone()));
+                for i in 1..offset+1 {
+                    args.push(Type::NODE(childern.get(2 + i).unwrap().clone()));
+                }
                 return run_command(roots, query, &name, args, glb, scope, cnv)
             }
 
@@ -204,6 +215,7 @@ pub fn run_command(roots : &Roots,query : &QueryW,name : &String, args: Vec<Type
 
     let Some(command) = query.0.get(&name) else {
         if !roots.contains_key(&name) {
+            if name == "else" { return Ok(Type::VOID()) }
             return gerr!("ERROR: The command [{}] could not be found",name);
         };
 

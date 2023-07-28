@@ -1,0 +1,20 @@
+
+
+#MAIN | 
+    set a 5
+    if $a > 7 
+    {
+        print "This is normal\n"
+    }
+    else if (cal $a + 5) < 10
+    {
+        print "This is not gonna work is it\n"
+    }
+    else 
+    {
+        print "Bruh\n"
+    }
+
+    singleif $a = 5 (print "true\n") 
+    singleif $a > 5 (print "true\n") (print "(optional) false\n")
+#MAIN

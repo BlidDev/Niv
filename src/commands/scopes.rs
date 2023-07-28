@@ -1,4 +1,4 @@
-use crate::{structs::{Globals, Type, ERROR, GError, QueryW, Scope, Roots}, util::{get_variable, traverse_scope, traverse, args_to_vars, traverse_root_scope}, gerr, canvas::Canvas, sgerr, commands::variables::{set, release}};
+use crate::{structs::{Globals, Type, ERROR, GError, QueryW, Scope, Roots, NodeType}, util::{get_variable, traverse_scope, traverse, args_to_vars, traverse_root_scope}, gerr, canvas::Canvas, sgerr, commands::variables::{set, release}};
 
 use super::calculations::cal;
 
@@ -10,11 +10,13 @@ pub fn ifcommand(args : Vec<Type>, roots : &Roots,glb : &mut Globals, qr : &Quer
     let Type::BOOL(b) = &val else {
         return gerr!("Error: [if] check returned [{val:?} instead of BOOL]");
     };
-    if !*b {return Ok(Type::VOID());}
 
     let Some(scope) = scp.children.get(&(&glb.curr + 1)) else {
         return gerr!("Error: could not find scope for [if]");
     };
+    if !*b {
+       return handle_else(glb.curr + scope.nodes.len() + 3,roots, glb, qr, scp, cnv) 
+    }
     traverse_scope(roots, scope, qr, glb, cnv)?;
 
     Ok(Type::VOID())
@@ -22,8 +24,18 @@ pub fn ifcommand(args : Vec<Type>, roots : &Roots,glb : &mut Globals, qr : &Quer
 
 pub fn single_if(args : Vec<Type>, roots : &Roots, glb : &mut Globals, qr : &QueryW, scp : &Scope, cnv : &mut Option<Canvas>) -> Result<Type, ERROR> {
 
-    let Some(Type::NODE(ref node)) = args.last() else {
-        return gerr!("Error: [singleif] need NODE as argument but got {:?} instead", args[0])
+    let (t_node, f_node) : (&Type, Option<&Type>) = {
+        match args.len() {
+            4 => (args.last().unwrap(), None),
+            5 => (args.get(3).unwrap(), args.last()),
+            _ => return gerr!("Error: [singleif] takes [4] or [5] arguments but [{}] were provided"
+                , args.len())
+        }
+
+    };
+
+    let Type::NODE(node) = t_node else {
+        return gerr!("Error: [singleif] need NODE as argument but got {:?} instead", t_node)
     };
     let v = cal(args[0..3].to_vec(), glb)?;
     let Type::BOOL(ref b) = v else {
@@ -31,7 +43,15 @@ pub fn single_if(args : Vec<Type>, roots : &Roots, glb : &mut Globals, qr : &Que
             v);
     };
 
-    if !b { return Ok(Type::VOID()); }
+    if !b {
+        if let Some(f_node) = f_node {
+            let Type::NODE(node) = f_node else {
+                return gerr!("Error: [singleif] need NODE as argument but got {:?} instead", f_node)
+            };
+            return traverse(node, roots, qr, glb, scp, cnv)
+        }
+        return Ok(Type::VOID());
+    }
 
 
     traverse(node, roots, qr, glb, scp, cnv)
@@ -101,3 +121,63 @@ pub fn run(args : Vec<Type>, roots : &Roots, glb : &mut Globals, qr : &QueryW, c
 
     Ok(Type::VOID())
 }
+
+
+pub fn handle_else(index : usize, roots : &Roots,glb : &mut Globals, qr : &QueryW, scp : &Scope,
+    cnv : &mut Option<Canvas>
+) -> Result<Type, ERROR> {
+
+
+    if index >= scp.nodes.len() {return Ok(Type::VOID())}
+
+    let Some(Some(NodeType::Nested(first,children))) = scp.nodes.get(index) else {
+        return Ok(Type::VOID())
+    };
+
+    match children.len() {
+        0 => {
+            let Type::STR(s) =  traverse(first, roots, qr, glb, scp, cnv)? else {
+                return Ok(Type::VOID())
+            };
+            if &s != "else" {return Ok(Type::VOID());}
+
+            let Some(scope) = scp.children.get(&(index + 1)) else {
+                return gerr!("Error: could not find scope for [else]");
+            };
+
+            traverse_scope(roots, scope, qr, glb, cnv)?;
+
+            Ok(Type::VOID())
+
+        },
+        _ => {
+            let first   = traverse(first, roots, qr, glb, scp, cnv)?;
+            let second  = traverse(children.first().unwrap(), roots, qr, glb, scp, cnv)?;
+            let (Type::STR(first), Type::STR(second)) = (first, second) else {
+                return Ok(Type::VOID())
+            };
+            if (first, second) != ("else".to_string(), "if".to_string()) {return Ok(Type::VOID())}
+            glb.curr = index;
+
+            let args : Vec<Type> = {
+                let mut v = vec![];
+                let children = &children[1..].to_vec();
+                for b in  children{
+                    let t = traverse(b, roots, qr, glb, scp, cnv)?;
+                    v.push(t);
+                }
+                v
+            };
+
+            if args.len() != 3 {
+                return gerr!("Error: the command [if] requires [3] arguments but [{}] were provided"
+                    ,args.len());
+            }
+
+            ifcommand(args,roots, glb, qr, scp, cnv)
+        },
+    }
+
+    
+}
+

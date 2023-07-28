@@ -113,7 +113,7 @@ fn register_commands(query : &mut CommandQuery)
             inputcast =>(inputcast_w,None),
 
             if =>       (ifcommand_w,Some(3)),
-            singleif=>       (singleif_w,Some(4)),
+            singleif=>       (singleif_w, None),
             while =>    (whilecommand_w,Some(1)),
 
             init => (init_w, Some(5)),

@@ -1,6 +1,7 @@
 
 #MAIN |
-    openfile "project.prj" 'r'
+    set thing "openfile"
+    $thing "project.prj" 'r'
     set b (lines (readbuf "project.prj"))
     print "{}\n{}\n" $b (typeid $b)
 
