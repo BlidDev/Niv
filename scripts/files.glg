@@ -1,0 +1,12 @@
+
+#MAIN |
+    openfile "project.prj" 'r'
+    set b (lines (readbuf "project.prj"))
+    print "{}\n{}\n" $b (typeid $b)
+
+    closef "project.prj"
+    openfile "project.prj" 'w'
+    //openfile "dummy.txt" 'w'
+    //writef "dummy.txt" "\nhey\n" false
+    
+#MAIN

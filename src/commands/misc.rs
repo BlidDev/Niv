@@ -4,6 +4,8 @@ use crate::{structs::{Type, Globals, GError, ERROR}, util::{args_to_vars, get_va
 
 use std::{thread::sleep, time::Duration};
 
+use super::prints::format_command;
+
 pub fn sleep_command(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR>{
 
     let args = args_to_vars(&args, &glb.stack)?;
@@ -35,4 +37,18 @@ pub fn rng(args : Vec<Type>,glb : &mut Globals) -> Result<Type, ERROR>{
     Ok(Type::I32(thread_rng().gen_range(start..end)))
 }
 
+pub fn err_msg(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
+    let fmt = format_command(args, glb)?;
+    
+    let Type::STR(format) =  fmt else {
+        return gerr!("Error: [format] returned an invalid value: [{:?}]", fmt)
+    };
 
+    gerr!("{}", format)
+}
+
+pub fn typeid(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
+    let var = get_variable(&args[0], &glb.stack)?;
+
+    Ok(Type::I32(var.dis() as i32))
+}

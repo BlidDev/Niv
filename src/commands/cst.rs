@@ -30,6 +30,7 @@ pub fn cst(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR>{
         TypeIndex::BOOL => { Ok(Type::BOOL(type_to_bool(var)?)) },
         TypeIndex::CHAR => { Ok(Type::CHAR(type_to_char(var)?)) },
         TypeIndex::STR  => { Ok(Type::STR(var.to_string()?)) },
+        TypeIndex::LIST => { Ok(Type::LIST(type_to_list(var)?)) },
         TypeIndex::UTYPE=> {return gerr!("Error: cannot cast types into type [{:?}]", typename)},
         TypeIndex::NODE => {return gerr!("Error: cannot cast types into type [{:?}]", typename)}, 
     }
@@ -79,6 +80,14 @@ fn type_to_char(var : Type) -> Result<char, ERROR> {
     match var {
         Type::I32(v) => Ok(v as u8 as char),
         Type::STR(v) => Ok(char::from_str(&v)?),
+        _ => gerr!("Error: cannot cast variable of type [{:?}] into CHAR", var)
+    }
+}
+
+fn type_to_list(var : Type) -> Result<Vec<Type>, ERROR> {
+
+    match var {
+        Type::STR(v) => Ok(v.chars().map(|c| Type::CHAR(c)).collect()),
         _ => gerr!("Error: cannot cast variable of type [{:?}] into CHAR", var)
     }
 }

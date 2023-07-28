@@ -12,7 +12,8 @@ use super::{
     helper::*, utype::{make_type, setf, getf},
     cst::cst,
     list::*,
-    str::*
+    str::*,
+    files::*,
 };
 
 
@@ -68,6 +69,8 @@ make_wrappers!(
     exit_w, exit => [],
     rng_w, rng => ["args", "glb"],
     cst_w, cst => ["args", "glb"],
+    err_msg_w, err_msg => ["args", "glb"],
+    typeid_w,  typeid  => ["args", "glb"],
 
 
     run_w, run => ["args", "roots", "glb", "qr", "cnv"],
@@ -92,6 +95,10 @@ make_wrappers!(
     words_w, words => ["args", "glb"],
     trim_w , trim  => ["args", "glb"],
 
+    openfile_w, openfile => ["args", "glb"],
+    readbuf_w,  readbuf  => ["args", "glb"],
+    writef_w,   writef   => ["args", "glb"],
+    closef_w,   closef   => ["args", "glb"],
 
     ovid_w, ovid => ["cnv"],
     dorbell_w, dorbell => ["args", "roots", "glb", "qr", "scp", "cnv"],

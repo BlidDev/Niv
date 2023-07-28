@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 mod util;
 mod structs;
@@ -58,6 +58,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
         args_list,
 
         registered_types : HashMap::new(),
+
+        input_files : HashSet::new(),
+        output_files : HashMap::new()
     };
 
     let query = QueryW(query.clone());
@@ -131,6 +134,8 @@ fn register_commands(query : &mut CommandQuery)
             rng => (rng_w, Some(2)),
             exit => (exit_w, Some(0)),
             cst  => (cst_w, Some(2)),
+            err  => (err_msg_w, None),
+            typeid => (typeid_w, Some(1)),
 
             run => (run_w, None),
 
@@ -151,6 +156,11 @@ fn register_commands(query : &mut CommandQuery)
             lines   => (lines_w, Some(1)),
             words   => (words_w, Some(1)),
             trim    => (trim_w , Some(1)),
+
+            openfile => (openfile_w, Some(2)),
+            readbuf  => (readbuf_w, Some(1)),
+            writef   => (writef_w, Some(3)),
+            closef   => (closef_w, Some(1)),
 
             ovid => (ovid_w, Some(0)),
             dorbell => (dorbell_w, Some(1)),

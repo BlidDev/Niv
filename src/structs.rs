@@ -1,16 +1,7 @@
-use std::{collections::HashMap, fmt::{Display, Debug}, str::FromStr};
+use std::{collections::{HashMap, HashSet}, fmt::{Display, Debug}, str::FromStr, fs::File};
 use device_query::{DeviceState, Keycode};
 
 use crate::{gerr, canvas::Canvas, user_type::UserType, util::{parse_list, remove_first_and_last, get_first_and_last}};
-
-
-//#[derive(Debug)]
-//pub struct Node {
-//    pub command : String,
-//    pub id : usize,
-//    pub parent : usize,
-//    pub childern : Vec<usize>
-//}
 
 
 #[derive(Debug, Clone)]
@@ -79,8 +70,8 @@ impl Type {
            Self::CHAR(_)  => 4, 
            Self::STR(_)   => 5, 
            Self::UTYPE(_) => 6, 
-           Self::NODE(_)  => 7, 
-           Self::LIST(_)  => 8, 
+           Self::LIST(_)  => 7, 
+           Self::NODE(_)  => 8, 
         }
     } 
 
@@ -93,6 +84,7 @@ impl Type {
            Self::CHAR(v)=> Ok(v.to_string()),
            Self::STR(s) => Ok(s.clone()), 
            Self::LIST(l) => Ok(format!("{l:?}")),
+           Self::UTYPE(u) => Ok(format!("{u:?}")),
            _ => gerr!("Error: Cannot turn [{:?}] into String", self),
         }
     }
@@ -153,6 +145,7 @@ pub enum TypeIndex {
     CHAR,
     STR ,
     UTYPE,
+    LIST,
     NODE, 
 }
 
@@ -168,6 +161,7 @@ impl FromStr for TypeIndex {
         "CHAR" => return Ok(Self::CHAR),
         "STR"  => return Ok(Self::STR),
         "UTYPE" => return Ok(Self::UTYPE),
+        "LIST" => return Ok(Self::LIST),
         "NODE" => return Ok(Self::NODE),
         _ => gerr!("Error: Could not parse [{}] as TypeIndex", s)
        }
@@ -216,5 +210,10 @@ pub struct Globals<'a> {
     pub args_list : HashMap<String, Vec<String>>,
 
     pub registered_types : HashMap<String, UserType>,
+
+    pub input_files  : HashSet<String>,
+    pub output_files : HashMap<String, File>
 }
 pub type Roots = HashMap<String, Scope>;
+
+
