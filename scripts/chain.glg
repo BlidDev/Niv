@@ -1,0 +1,7 @@
+
+
+#MAIN |
+    
+    chain (set t 1) (print "{}\n" $t)
+
+#MAIN

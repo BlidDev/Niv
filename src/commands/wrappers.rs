@@ -14,6 +14,7 @@ use super::{
     list::*,
     str::*,
     files::*,
+    chain::chain
 };
 
 
@@ -92,6 +93,8 @@ make_wrappers!(
     timer_reset_w, timer_reset => ["args", "glb"],
     timer_set_delay_w, timer_set_delay => ["args", "glb"],
     end_timer_w, end_timer => ["args", "glb"],
+
+    chain_w, chain => ["args", "roots","glb", "qr", "scp", "cnv"],
 
     run_w, run => ["args", "roots", "glb", "qr", "cnv"],
     return_cmd_w, return_cmd => ["args", "glb"],

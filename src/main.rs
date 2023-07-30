@@ -160,6 +160,8 @@ fn register_commands(query : &mut CommandQuery)
             timer_set_delay => (timer_set_delay_w, Some(2)),
             end_timer => (end_timer_w, Some(1)),
 
+            chain => (chain_w, None),
+
             run => (run_w, None),
             return => (return_cmd_w, Some(1)),
 

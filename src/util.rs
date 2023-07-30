@@ -163,6 +163,11 @@ pub fn traverse(node : &NodeType, roots : &Roots,query : &QueryW, glb : &mut Glo
                 return run_command(roots,query, &name, vec![Type::NODE(childern[0].clone())], glb, scope, cnv)
             }
 
+            if "chain" == name {
+                let v : Vec<Type> = childern.iter().map(|e| Type::NODE(e.clone())).collect();
+                return run_command(roots, query, &name, v, glb, scope, cnv)
+            }
+
             if name == "singleif" {
                 let mut args : Vec<Type> = vec![];
                 let offset = match childern.len() {

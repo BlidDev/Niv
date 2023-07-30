@@ -78,11 +78,9 @@
            set posy 0
         }
 
-        if (timer_elapsed $t2) = true 
-        {
-            timer_reset $t2
-            singleif $pixx <= $lx (op pixx + 1) (set pixx 0)
-        }
+
+        singleif (timer_elapsed $t2) = true (chain (timer_reset $t2) (singleif $pixx <= $lx (op pixx + 1) (set pixx 0)))
+
 
         set_area $posx $posy $sw $sh 150 48 99
         set_pixel $pixx (cal $ch / 2) 150 48 150
