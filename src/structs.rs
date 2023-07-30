@@ -1,4 +1,4 @@
-use std::{collections::{HashMap, HashSet}, fmt::{Display, Debug}, str::FromStr, fs::File, any::type_name};
+use std::{collections::{HashMap, HashSet}, fmt::{Display, Debug}, str::FromStr, fs::File, any::type_name, time::Instant};
 use device_query::{DeviceState, Keycode};
 
 use crate::{gerr, canvas::Canvas, user_type::UserType, util::{parse_list, remove_first_and_last, get_first_and_last}};
@@ -220,24 +220,6 @@ pub struct Scope {
     pub children : HashMap<usize, Scope>
 }
 
-pub struct Globals<'a> {
-    pub stack : Stack,
-    pub curr : usize,
-    pub s : &'a str,
-    pub device_state : DeviceState,
-    pub keys : Vec<Keycode>,
-    pub canvas_should_close : bool,
-    pub args_list : HashMap<String, Vec<String>>,
-
-    pub registered_types : HashMap<String, UserType>,
-
-    pub input_files  : HashSet<String>,
-    pub output_files : HashMap<String, File>,
-
-}
-pub type Roots = HashMap<String, Scope>;
-
-
 pub struct Registry<T> {
     pub map : HashMap<usize, T>,
     inner : usize,
@@ -297,4 +279,34 @@ impl<T> Registry<T> {
     }
 }
 
+pub struct Globals<'a> {
+    pub stack : Stack,
+    pub curr : usize,
+    pub s : &'a str,
+    pub device_state : DeviceState,
+    pub keys : Vec<Keycode>,
+    pub canvas_should_close : bool,
+    pub args_list : HashMap<String, Vec<String>>,
 
+    pub registered_types : HashMap<String, UserType>,
+
+    pub input_files  : HashSet<String>,
+    pub output_files : HashMap<String, File>,
+
+    pub timers : Registry<Timer>
+
+}
+pub type Roots = HashMap<String, Scope>;
+
+
+#[derive(Debug, Clone)]
+pub struct Timer {
+    pub clock : Instant,
+    pub delay : u32,
+}
+
+impl Timer {
+    pub fn new(delay : u32) -> Timer {
+        Timer { clock: Instant::now(), delay }
+    }
+}

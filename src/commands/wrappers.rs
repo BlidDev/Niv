@@ -86,6 +86,12 @@ make_wrappers!(
     err_msg_w, err_msg => ["args", "glb"],
     typeid_w,  typeid  => ["args", "glb"],
 
+    new_timer_w, new_timer => ["args", "glb"],
+    timer_elapsed_w, timer_elapsed => ["args", "glb"],
+    timer_millis_w, timer_millis => ["args", "glb"],
+    timer_reset_w, timer_reset => ["args", "glb"],
+    timer_set_delay_w, timer_set_delay => ["args", "glb"],
+    end_timer_w, end_timer => ["args", "glb"],
 
     run_w, run => ["args", "roots", "glb", "qr", "cnv"],
     return_cmd_w, return_cmd => ["args", "glb"],

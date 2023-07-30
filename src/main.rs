@@ -13,7 +13,7 @@ pub mod commands;
 use args::Arguments;
 use clap::Parser;
 use device_query::DeviceState;
-use structs::{Stack, Globals, QueryW};
+use structs::{Stack, Globals, QueryW, Registry};
 use user_type::register_types;
 use util::*;
 use commands::wrappers::*;
@@ -61,6 +61,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
 
         input_files : HashSet::new(),
         output_files : HashMap::new(),
+
+        timers : Registry::new()
         
     };
 
@@ -150,6 +152,13 @@ fn register_commands(query : &mut CommandQuery)
             cst  => (cst_w, Some(2)),
             err  => (err_msg_w, None),
             typeid => (typeid_w, Some(1)),
+
+            new_timer => (new_timer_w, Some(1)),
+            timer_elapsed => (timer_elapsed_w, Some(1)),
+            timer_millis => (timer_millis_w, Some(1)),
+            timer_reset => (timer_reset_w, Some(1)),
+            timer_set_delay => (timer_set_delay_w, Some(2)),
+            end_timer => (end_timer_w, Some(1)),
 
             run => (run_w, None),
             return => (return_cmd_w, Some(1)),
