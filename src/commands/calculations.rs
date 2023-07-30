@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::{structs::{Globals, Type, ERROR, GError}, util::{is_destination, get_variable}, gerr, ops::*};
+use crate::{structs::{Globals, Type, ERROR, GError}, util::{is_destination, get_variable}, gerr, ops::*, sgerr};
 
 use super::variables::set;
 
@@ -47,6 +47,18 @@ pub fn cal(args : Vec<Type>, glb : &Globals) ->Result<Type, ERROR> {
     map[op.as_str()](num1, num2)
 }
 
+pub fn inv(args: Vec<Type>, glb: &Globals) -> Result<Type, ERROR> {
+    let a = get_variable(args.first().unwrap(), &glb.stack)?;
+
+    sgerr!(
+        Type::BOOL(b),
+        a,
+        "Error: invalid argument given to [inv]: [{:?}]", a
+    );
+
+    Ok(Type::BOOL(!b))
+
+}
 
 pub fn op(args : Vec<Type>, glb : &mut Globals) ->Result<Type, ERROR> {
 

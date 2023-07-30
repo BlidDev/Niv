@@ -7,6 +7,7 @@ mod ops;
 mod canvas;
 mod user_type;
 mod args;
+mod text;
 pub mod commands;
 
 use args::Arguments;
@@ -47,7 +48,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
     register_commands(&mut query);
 
 
-    
     let mut glb = Globals {
         stack : Stack::default(),
         curr : 0,
@@ -60,7 +60,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
         registered_types : HashMap::new(),
 
         input_files : HashSet::new(),
-        output_files : HashMap::new()
+        output_files : HashMap::new(),
+        
     };
 
     let query = QueryW(query.clone());
@@ -95,6 +96,7 @@ fn register_commands(query : &mut CommandQuery)
 
             cal =>      (cal_w,Some(3)),
             op =>       (op_w,Some(3)),
+            inv =>      (inv_w, Some(1)),
             sqrt =>     (sqrt_w, Some(1)),
             abs  =>     (abs_w, Some(1)),
 
@@ -128,6 +130,16 @@ fn register_commands(query : &mut CommandQuery)
             get_area => (get_area_w, Some(4)),
             get_pixel => (get_pixel_w, Some(5)),
             get_millis => (get_millis_w, Some(0)),
+
+            load_font => (load_font_w, Some(1)),
+            new_text => (new_text_w, Some(2)),
+
+            set_ttext => (set_ttext_w, Some(2)),
+            set_tsize =>(set_tsize_w, Some(2)),
+            set_tpos => (set_tpos_w, Some(3)),
+            set_tclr => (set_tclr_w, Some(4)),
+            set_tvisible => (set_tvisible_w, Some(2)),
+            end_text => (end_text_w, Some(1)),
 
             handle_input => (handle_input_w, Some(0)),
             key_pressed => (key_pressed_w, Some(1)),
@@ -174,3 +186,4 @@ fn register_commands(query : &mut CommandQuery)
         }
     ];
 }
+

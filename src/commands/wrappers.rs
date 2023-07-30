@@ -32,6 +32,7 @@ make_wrappers!(
     op_w, op => ["args", "glb"],
     sqrt_w, sqrt => ["args", "glb"],
     abs_w, abs => ["args", "glb"],
+    inv_w, inv => ["args", "glb"],
 
     sin_w, sin => ["args", "glb"],
     cos_w, cos => ["args", "glb"],
@@ -63,6 +64,17 @@ make_wrappers!(
     get_area_w, get_area => ["args", "glb", "cnv"],
     get_pixel_w, get_pixel => ["args", "glb", "cnv"],
     get_millis_w, get_millis => ["cnv"],
+
+    load_font_w, load_font => ["args", "glb", "cnv"],
+    new_text_w,  new_text  => ["args", "glb", "cnv"],
+
+    set_ttext_w,    set_ttext => ["args", "glb", "cnv"],
+    set_tsize_w,    set_tsize => ["args", "glb", "cnv"],
+    set_tpos_w,     set_tpos => ["args", "glb", "cnv"],
+    set_tclr_w,     set_tclr => ["args", "glb", "cnv"],
+    set_tvisible_w, set_tvisible => ["args", "glb", "cnv"],
+    end_text_w,     end_text => ["args", "glb", "cnv"],
+
 
     handle_input_w, handle_input => ["glb","cnv"],
     key_pressed_w, key_pressed => ["args", "glb"],

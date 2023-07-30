@@ -1,7 +1,7 @@
 
-use sfml::{window::{ContextSettings, Style, Event}, graphics::{RenderWindow, RenderTarget, Texture, Sprite, Transformable}, SfBox, system::{Vector2, Clock}};
+use sfml::{window::{ContextSettings, Style, Event}, graphics::{RenderWindow, RenderTarget, Texture, Sprite, Transformable, Font}, SfBox, system::{Vector2, Clock}};
 
-use crate::{structs::{ERROR, GError}, gerr};
+use crate::{structs::{ERROR, GError, Registry}, gerr, text::TextObj};
 
 type Vec2 = (u32, u32);
 
@@ -17,7 +17,10 @@ pub struct Canvas {
     pub texture : SfBox<Texture>,
     pub pixels : Vec<u8>,
     pub cleanup_buffer : Vec<u8>,
-    pub clock : SfBox<Clock>
+    pub clock : SfBox<Clock>,
+
+    pub font : Option<SfBox<Font>>,
+    pub texts : Registry<TextObj>
 }
 
 impl Canvas {
@@ -96,6 +99,13 @@ impl Canvas {
         ));
 
         self.window.draw(&s);
+        let font = self.font.as_ref().unwrap();
+        for text in self.texts.map.iter()
+        {
+            if !text.1.is_visible { continue; }
+            let t = text.1.to_ojb(font);
+            self.window.draw(&t);
+        }
         self.window.display();
         
     }
@@ -185,7 +195,10 @@ impl CanvasBuilder {
                 tex
             }
             ,
-            clock : Clock::start()
+            clock : Clock::start(),
+            
+            font : None,
+            texts : Registry::new(),
         }; 
 
         let mut size = sfml::window::VideoMode::desktop_mode();

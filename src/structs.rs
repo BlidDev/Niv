@@ -1,4 +1,4 @@
-use std::{collections::{HashMap, HashSet}, fmt::{Display, Debug}, str::FromStr, fs::File};
+use std::{collections::{HashMap, HashSet}, fmt::{Display, Debug}, str::FromStr, fs::File, any::type_name};
 use device_query::{DeviceState, Keycode};
 
 use crate::{gerr, canvas::Canvas, user_type::UserType, util::{parse_list, remove_first_and_last, get_first_and_last}};
@@ -232,8 +232,69 @@ pub struct Globals<'a> {
     pub registered_types : HashMap<String, UserType>,
 
     pub input_files  : HashSet<String>,
-    pub output_files : HashMap<String, File>
+    pub output_files : HashMap<String, File>,
+
 }
 pub type Roots = HashMap<String, Scope>;
+
+
+pub struct Registry<T> {
+    pub map : HashMap<usize, T>,
+    inner : usize,
+    available_ids : Vec<usize>
+}
+
+impl<T> Registry<T> {
+    pub fn new() -> Registry<T>  {
+        Registry { map: HashMap::default(), available_ids: vec![], inner : 0 }
+    }
+
+    pub fn insert(&mut self, item : T) -> usize 
+        where T : Clone
+    {
+
+        let id = match self.available_ids.get(0) {
+            Some(id) => *id,
+            None => {
+                self.inner+=1;
+                self.inner.clone()
+            }
+        };
+
+        *self.map.entry(id).or_insert(item.clone()) = item.clone();
+        id
+    }
+
+    pub fn get(&self, id : usize) -> Result<&T, ERROR> {
+
+        match self.map.get(&id)  {
+            Some(v) => Ok(v),
+            None => gerr!("Error: could not find registry item of type [{}] at [{}]", type_name::<T>(), id),
+        }
+    }
+
+    pub fn get_mut(&mut self, id : usize) -> Result<&mut T, ERROR> {
+
+        match self.map.get_mut(&id)  {
+            Some(v) => Ok(v),
+            None => gerr!("Error: could not find registry item of type [{}] at [{}]", type_name::<T>(), id),
+        }
+    }
+
+    pub fn remove(&mut self, id : usize) -> Result<(), ERROR> {
+        
+        match self.map.remove(&id) {
+            Some(_) => {
+                self.available_ids.push(id);
+                Ok(())
+            },
+            None => {
+                gerr!("Error: trying to remove non existant registry item of type [{}] at [{}]",
+                    type_name::<T>(), id)
+            }
+        }
+
+    }
+}
 
 
