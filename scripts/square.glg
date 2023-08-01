@@ -1,7 +1,8 @@
 #MAIN |
     
-    set cw 16
-    set ch 9 
+    set mul 1
+    set cw (cal 16 * $mul) 
+    set ch (cal 9  * $mul) 
 
     set sw 3 
     set sh 3 
@@ -9,7 +10,7 @@
     set posx 0 
     set posy 0 
 
-    init 848 480 $cw $ch "Canvas Test"
+    init 854 480 $cw $ch "Canvas Test"
     load_font "res/DePixelHalbfett.ttf"
     set t (new_text (format "hey \n{}", "there") 20)
     set_tsize $t 25
@@ -25,17 +26,18 @@
     set ly [cal $ch - [cal $sh - 1]]
 
     set pixx 0
-    set t2 [new_timer 30]
+    set t2 [new_timer 00]
 
     while [cal [cal [key_pressed Q] = false] & [cal [handle_input] ! true]] = false
     {
         clear
+        //ovid
         
         if [timer_elapsed $t1] = true
         {
             timer_reset $t1
 
-            singleif (key_pressed T) = true (timer_set_delay $t1 10)
+            singleif (key_pressed T) = true (chain (timer_set_delay $t1 0) (timer_reset $t1))
 
             if [key_pressed D] = true
             {

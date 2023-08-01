@@ -1,5 +1,4 @@
-
-use sfml::{window::{ContextSettings, Style, Event}, graphics::{RenderWindow, RenderTarget, Texture, Sprite, Transformable, Font}, SfBox, system::{Vector2, Clock}};
+use sfml::{window::{ContextSettings, Style, Event}, graphics::{RenderWindow, RenderTarget, Texture, Sprite, Font, View, FloatRect}, SfBox, system::{Vector2, Clock}};
 
 use crate::{structs::{ERROR, GError, Registry}, gerr, text::TextObj};
 
@@ -20,7 +19,10 @@ pub struct Canvas {
     pub clock : SfBox<Clock>,
 
     pub font : Option<SfBox<Font>>,
-    pub texts : Registry<TextObj>
+    pub texts : Registry<TextObj>,
+
+    pub pixel_view : SfBox<View>,
+    pub text_view  : SfBox<View>,
 }
 
 impl Canvas {
@@ -30,7 +32,6 @@ impl Canvas {
         self.pixels[offest + 0] = r;
         self.pixels[offest + 1] = g;
         self.pixels[offest + 2] = b;
-        //self.pixels[offest + 2] = b;
 
     }
 
@@ -91,23 +92,26 @@ impl Canvas {
     pub fn display(&mut self) {
 
 
-        let mut s = Sprite::with_texture(&self.texture);
+        let s = Sprite::with_texture(&self.texture);
 
-        s.set_scale((
-                self.w_size.0 as f32 / s.local_bounds().width, 
-                self.w_size.1 as f32 / s.local_bounds().height, 
-        ));
-
+        self.window.set_view(&self.pixel_view);
         self.window.draw(&s);
-        let font = self.font.as_ref().unwrap();
-        for text in self.texts.map.iter()
-        {
-            if !text.1.is_visible { continue; }
-            let t = text.1.to_ojb(font);
-            self.window.draw(&t);
+        if let Some(font) = self.font.as_ref() {
+            self.window.set_view(&self.text_view);
+            for text in self.texts.map.iter()
+            {
+                if !text.1.is_visible { continue; }
+                let t = text.1.to_ojb(font);
+                self.window.draw(&t);
+            }
         }
+        
         self.window.display();
         
+    }
+
+    pub fn set_view(&mut self) {
+        get_letterbox_view(&mut self.pixel_view, self.w_size.0, self.w_size.1);
     }
 
     pub fn input<T>(&mut self, mut fun : T) 
@@ -169,9 +173,27 @@ impl CanvasBuilder {
             }
         );
 
+        let size = (
+            c_size.0 as f32,
+            c_size.1 as f32
+        );
 
+        let center = (
+            c_size.0 as f32 / 2.0,
+            c_size.1 as f32 / 2.0,
+        );
+        let pixel_view = View::new(center.into(), size.into());
 
+        let size = (
+            w_size.0 as f32,
+            w_size.1 as f32
+        );
 
+        let center = (
+            w_size.0 as f32 / 2.0,
+            w_size.1 as f32 / 2.0,
+        );
+        let text_view = View::new(center.into(), size.into());
 
         let mut can = Canvas {
             w_size : w_size.clone(),
@@ -179,7 +201,7 @@ impl CanvasBuilder {
             window : RenderWindow::new(
                 (w_size.0, w_size.1),
                 &self.title.unwrap_or("Canvas Window".to_string()),
-                self.style.unwrap_or(Style::DEFAULT),
+                self.style.unwrap_or(Style::DEFAULT | Style::RESIZE),
                 &settings
             ),
             pixels : [0,0,0,255].repeat(product(&c_size) as usize).to_vec(),
@@ -199,12 +221,16 @@ impl CanvasBuilder {
             
             font : None,
             texts : Registry::new(),
+            pixel_view,
+            text_view
         }; 
 
+        can.window.set_vertical_sync_enabled(true);
         let mut size = sfml::window::VideoMode::desktop_mode();
         size.width  -= w_size.0 /2;
         size.height -= w_size.1 /2;
         can.window.set_position(Vector2::new(size.width as i32/ 2, size.height as i32/ 2));
+        can.set_view();
         
         unsafe { 
             can.texture.update_from_pixels(&can.pixels, c_size.0, c_size.1, 0, 0);
@@ -212,4 +238,40 @@ impl CanvasBuilder {
 
         Ok(can)
     }
+}
+
+
+// converted from https://github.com/SFML/SFML/wiki/Source%3A-Letterbox-effect-using-a-view 
+fn get_letterbox_view(view : &mut SfBox<View>, w_w : u32, w_h : u32) {
+
+    // Compares the aspect ratio of the window to the aspect ratio of the view,
+    // and sets the view's viewport accordingly in order to archieve a letterbox effect.
+    // A new view (with a new viewport set) is returned.
+
+    let window_ratio = w_w as f32 / w_h as f32;
+    let view_ratio = view.size().x / view.size().y;
+    let mut size_x = 1.0;
+    let mut size_y = 1.0;
+    let mut pos_x = 0.0;
+    let mut pos_y = 0.0;
+
+    let mut horizontal_spacing = true;
+    if window_ratio < view_ratio {
+        horizontal_spacing = false;
+    }
+
+    // If horizontalSpacing is true, the black bars will appear on the left and right side.
+    // Otherwise, the black bars will appear on the top and bottom.
+
+    if horizontal_spacing {
+        size_x = view_ratio / window_ratio;
+        pos_x = (1.0 - size_x) / 2.0;
+    }
+    else {
+        size_y = window_ratio / view_ratio;
+        pos_y = (1.0 - size_y) / 2.0;
+    }
+
+    view.set_viewport( FloatRect::new(pos_x, pos_y, size_x, size_y) );
+
 }

@@ -226,6 +226,10 @@ pub fn handle_input(glb  : &mut Globals, cnv : &mut Option<Canvas>) -> Result<Ty
             match event {
                 Event::Closed =>
                 {cnv_o.window.close(); glb.canvas_should_close = true; break 'events;},
+                Event::Resized { width, height } => {
+                    cnv_o.w_size = (width, height);
+                    cnv_o.set_view();
+                }
                 _ => {}
 
             }
