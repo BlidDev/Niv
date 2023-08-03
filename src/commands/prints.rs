@@ -83,8 +83,10 @@ pub fn input(args : Vec<Type>, glb : &Globals) -> Result<Type, ERROR> {
 
     _ = std::io::stdin().read_line(&mut line)?;
 
-    let mut line = unescape::unescape(&line).unwrap();
-    line.pop();
+
+    let line = line.trim().to_string();
+    let line = unescape::unescape(&line).unwrap();
+    
 
     Ok(Type::STR(line))
 }
