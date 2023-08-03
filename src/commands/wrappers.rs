@@ -83,7 +83,7 @@ make_wrappers!(
     sleep_w, sleep_command => ["args", "glb"],
     exit_w, exit => [],
     rng_w, rng => ["args", "glb"],
-    cst_w, cst => ["args", "glb"],
+    cst_w, cst => ["args", "roots","glb", "qr", "scp", "cnv"],
     err_msg_w, err_msg => ["args", "glb"],
     typeid_w,  typeid  => ["args", "glb"],
 

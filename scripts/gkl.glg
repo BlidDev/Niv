@@ -1,0 +1,38 @@
+@PERSON
+    name : "Bob"
+    age : {1 2 3}
+@PERSON
+
+#MAIN |
+    
+    print "res {}\n\n\n\n" (prt (cst i32 "(gete lst 0)"))
+    //print "sum: {}\n" (v2_add $v1 $v2)
+    set per1 ~*PERSON
+    print "1: {}\n" $per1
+
+    set per2 (make  PERSON "Moshe" "unknown")
+    print "2: {}\n" $per2
+
+    set lst {1 2 3 "5" {4 5 7}}
+
+    print "[1]: {}\n" (dbg (gete lst 1))
+
+    set v1 ~*Vec2
+    set v2 (make Vec2 8 15)
+
+
+    print "sum: {}\n" (v2_add $v1 $v2)
+
+
+#MAIN
+
+
+#v2_add | v1 v2 
+   return (make Vec2 (cal (getf v1 x) + (getf v2 x)) (cal (getf v1 y) + (getf v2 y)))
+#v2_add
+
+
+@Vec2
+    x : 0
+    y : 0
+@Vec2
