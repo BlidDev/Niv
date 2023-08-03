@@ -30,5 +30,14 @@ Strings:
     - lines - V
     - words - V
 Files:
-    - readbuf
-    - writef
+    - readbuf - V
+    - writef - V
+
+
+
+Examples:
+ - Flappy bird
+ - Pong?
+ - Brainf
+ - Cli
+ - Glang 1.0 (later)

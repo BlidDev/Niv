@@ -92,6 +92,42 @@ pub fn smart_split(line : &String) -> Result<Vec<String>, ERROR> {
 }
 
 
+pub fn split_qts(s : &String) -> Vec<String> {
+    let mut v = vec![];
+
+    let mut instr = false;
+    let mut i = 0;
+    let mut chars = s.chars();
+    let mut tmp = "".to_string();
+    
+
+    while i < s.len() {
+        let c = chars.next().unwrap();
+        let is_empty = tmp.trim().is_empty();
+
+        match (c, c.is_whitespace(), instr, is_empty) {
+            (_, true, false, false) => {
+                v.push(tmp.trim().to_string());
+                tmp.clear();
+            },
+            ('\'' | '\"', ..) => {
+                if !is_escape(i, s) {
+                    instr = !instr;
+                }
+                tmp.push(c)
+            },
+            _ => tmp.push(c)
+        }
+
+
+        i+=1;
+    }
+
+    if !tmp.trim().is_empty() {v.push(tmp.clone())}
+
+
+    v
+}
 
 fn is_escape(index : usize, line : &String) -> bool {
     if index < 2 { return false }

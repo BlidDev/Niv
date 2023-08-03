@@ -117,6 +117,7 @@ make_wrappers!(
 
     lines_w, lines => ["args", "glb"],
     words_w, words => ["args", "glb"],
+    s_words_w, s_words => ["args", "glb"],
     trim_w , trim  => ["args", "glb"],
 
     openfile_w, openfile => ["args", "glb"],

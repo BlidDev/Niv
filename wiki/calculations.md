@@ -6,12 +6,12 @@ ___
 ## **cal**
 
 **usage example:**
-```Python
+```Cpp
 // template
-[cal][a][op][b]
+cal a op b
 
 // specific use
-[set][sum][ [cal][2][+][2] ]
+set sum  [cal 2 + 2] 
 ```
     
 
@@ -27,11 +27,12 @@ ___
 Applies the operation in `op` on `a` and `b` and returns the result.
 
 Available operations are:
-```
+```Pyhton
 +  -  add
 -  -  sub
 *  -  mul
 /  -  div
+%  -  mod
 =  -  eql
 !  -  not eql
 >  -  bigger than
@@ -54,10 +55,10 @@ ___
 **usage example:**
 ```Python
 // template
-[op][a][op][b]
+op a op b
 
 // specific use
-[op][my_var][+][1] // adds one to my_var
+op my_var + 1 // adds one to my_var
 ```
     
 
@@ -78,6 +79,7 @@ Available operations are:
 -  -  sub
 *  -  mul
 /  -  div
+%  -  mod
 =  -  eql
 !  -  not eql
 >  -  bigger than
@@ -99,10 +101,10 @@ ___
 **usage example:**
 ```Python
 // template
-[sqrt][num]
+sqrt num
 
 // specific use
-[sqrt][9]
+sqrt 9
 ```
     
 
@@ -117,5 +119,63 @@ Calculates the square root of `num` and returns it.
 
 
 **Return value:** The square root of `num`, always a `F32`.
+
+For more complex examples check [calculations.glg](../examples/calculations.glg)
+
+
+
+___
+## **inv**
+
+**usage example:**
+```C
+// template
+inv flag
+
+// specific use
+set this_is_true [inv false]
+```
+    
+
+**Args:**
+
+* `flag`: `BOOL`
+
+
+**Desc:**
+A command that take a bool `flag` and returns its opsite value.
+
+
+
+**Return value:** The opsite of `flan`: `BOOL`
+
+For more complex examples check [calculations.glg](../examples/calculations.glg)
+
+
+
+___
+## **abs**
+
+**usage example:**
+```C
+// template
+abs num
+
+// specific use
+set this_is_positive [abs -4.5]
+```
+    
+
+**Args:**
+
+* `num`: `I32` or `F32`
+
+
+**Desc:**
+A command that take a numeric value `num` and returns its absolute value.
+
+
+
+**Return value:** The abs of `num`: `I32` or `F32`.
 
 For more complex examples check [calculations.glg](../examples/calculations.glg)

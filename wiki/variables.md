@@ -9,22 +9,24 @@ BOOL
 CHAR
 STR
 UTYPE  // will be explained in a later chapter
+LIST
 NODE   // only used for behind-the-scenes operations
+RETURN   // only used for behind-the-scenes operations
 ```
-all variables are type dynamic meaning can change their type based on the value you set them to. 
+All variables are type dynamic meaning they can change their type based on the value you set them to. 
 
 ___
 ## **set**
 
 **usage example:**
 ```Python
-[set][name][val]
+set name val
 ```
     
 
 **Args:**
 
-* `name`: `STR`
+* `name`: `STR` / `CHAR`
 * `value`: Any value
 
 
@@ -42,7 +44,7 @@ ___
 
 **usage example:**
 ```Python
-[release][name]
+release name
 ```
     
 
@@ -52,7 +54,7 @@ ___
 
 
 **Desc:**
-Release the given variable called `name` from memory and returns its value, crashes if the variable doesn't exist.
+Releases the given variable called `name` from memory and returns its value, crashes if the variable doesn't exist.
 
 **Return value:** The value of the released variable.
 
@@ -63,12 +65,12 @@ ___
 
 **usage example:**
 ```Python
-[reset]
+reset
 ```
     
 
 **Desc:**
-Clears the entire variable stack of the program.
+Releases all variables in the program.
 
 **Return value:** `VOID`.
 

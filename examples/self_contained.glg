@@ -1,0 +1,52 @@
+
+
+#MAIN |
+
+    while true 
+    {
+        set command (input "Enter a command:> ")
+        set args (s_words (input "Enter your args:> "))
+        set types (words (input "Enter your args\'s types:> "))
+
+        set al (llen args)
+        set tl (llen types)
+        singleif $al ! $tl (err "Error: mismatched lenths, args[{}] - types[{}]" $args $tl)
+
+        make_args
+
+    }
+#MAIN
+
+#make_args | 
+    set i 0 
+    while (cal $i < $al)
+    {
+        sete args $i (cst (gete types $i) (gete args $i))
+        op i + 1
+    }
+#make_args
+
+#handle_command |
+    set al (llen args)
+    singleif $al = 0 ($commad)
+    singleif $al = 1 ($commad (args 0))
+    singleif $al = 2 ($commad (args 0) (args 1))
+    singleif $al = 3 ($commad (args 0) (args 1) (args 2))
+    singleif $al = 4 ($commad (args 0) (args 1) (args 2) (args 3))
+    singleif $al = 5 ($commad (args 0) (args 1) (args 2) (args 3) (args 4))
+    singleif $al = 6 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5))
+    singleif $al = 7 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5) (args 6))
+    singleif $al = 8 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5) (args 6) (args 7))
+    singleif $al = 9 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5) (args 6) (args 7) (args 8))
+    singleif $al = 10 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5) (args 6) (args 7) (args 8) (args 9))
+    singleif $al = 11 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5) (args 6) (args 7) (args 8) (args 9) (args 10))
+    singleif $al = 12 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5) (args 6) (args 7) (args 8) (args 9) (args 10) (args 11))
+    singleif $al = 13 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5) (args 6) (args 7) (args 8) (args 9) (args 10) (args 11) (args 12)) ( err "Error: cannot handle [{}] num of args" $al)
+
+    
+#handle_command
+
+#arg | index
+    return (gete args $index)
+    return (gete args $index)
+#arg

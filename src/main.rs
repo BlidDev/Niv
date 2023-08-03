@@ -181,6 +181,7 @@ fn register_commands(query : &mut CommandQuery)
 
             lines   => (lines_w, Some(1)),
             words   => (words_w, Some(1)),
+            s_words   => (s_words_w, Some(1)),
             trim    => (trim_w , Some(1)),
 
             openfile => (openfile_w, Some(2)),

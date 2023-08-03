@@ -16,15 +16,19 @@ getf
 
 CALCULATIONS========
 cal 
-op                 V
-sqrt
+op                 
+sqrt               V
+inv
+abs
 ====================
 
 
 INPUT AND OUTPUT====
 post
 print
-format             V
+dbg                V
+prt
+format             
 input 
 inputcast
 ====================
@@ -42,16 +46,28 @@ init
 set_clear 
 clear
 display 
-apply              V
+apply              
 set_pixel 
 set_area 
 get_pixel
+
+get_millis         V
+
+load_font
+new_text
+            
+set_ttext
+set_tsize
+set_tpos 
+set_tclr 
+set_tvisible
+end_text 
 ====================
              
 
 KEYBOARD INPUT======
 handle_input       V
-key_pressed 
+key_pressed        
 ====================
              
 
@@ -59,9 +75,58 @@ MISC================
 sleep
 rng 
 exit 
+cst                V
+err
+typeid
+chain
 ====================
 
+TIME================
+new_timer
+timer_elapsed
+timer_millis       V
+timer_reset 
+timer_set_del
+end_timer
+====================
              
+LISTS===============
+gete
+sete
+lclear 
+lremove
+llen 
+lpush
+lpop
+lempty
+repeat
+repeatl
+====================
+
+
+
+STRING==============
+stolist
+ltostr 
+
+lines  
+words  
+trim   
+====================
+
+
+
+
+FILES===============
+openfile
+readbuf 
+writef  
+closef  
+====================
+
 ROOT SCOPES=========
 run
 ====================
+
+
+

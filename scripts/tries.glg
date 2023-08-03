@@ -1,0 +1,77 @@
+
+@TYPE1
+    a : 1
+@TYPE1
+
+#MAIN |
+
+
+    set timer1 (new_timer 0)
+set this_is_positive [abs -4.5]
+    set 'a' ~*TYPE1
+    set sum  [cal 2 + (abs -1)]
+    set b (getf 'a' "a")
+    set formatted_str [format "hey {}\n" "there"]
+
+    //set name  [inputcast i32 "Enter your name: {}" "h"] 
+    post
+    release 'a'
+    print "dbg: {}\n" [dbg 4]
+    print "prt: {}\n" [prt 4]
+    if (cal 5 * 5) < 0
+    {
+        print "This won\'t run\n"
+    }
+    else if 5 = 0 
+    {
+        print "This too\n"
+    }
+    else
+    {
+        print "But this will\n"
+    }
+
+    singleif 5 > 0 [print "This will run\n"] // only single "true" node
+    singleif 5 < 0 [print "This won\'t\n"] [print "But worry not\n"]  // both "true" and optional "false" node
+
+    singleif "hey" = "bye" [print "doesn\'t work\n"] 
+    singleif "hey" = "bye" [print "doesn\'t work\n"] [print "works\n"] 
+
+    //Graphics
+
+    set val 3.4
+    print "ID is: {}\n" (typeid $val)
+
+    set results (chain (set a 5) (op a + 5) (print "a: {}\n" $a))
+    print "results are: {}\n" $results
+    chain (set a 5) (op a + 5) (print "a: {}\n" $a)
+
+    timer_set_delay $timer1 40
+
+    set i 0
+    while [cal $i < 10]
+    {
+        // runs 10 times
+        print "i - {}\n" $i
+        print "Time since reset: {}\n" (timer_millis $timer1)
+        [op i + 1]
+    }
+
+#MAIN
+
+
+#Graphics |
+
+    init 848 480 16 9 "An example window"
+
+    set_clear 255 19 [cal 120 / 2]
+    set_pixel 4 8 [cal 1 * 255] 150 200
+    set_area 4 3 2 3 50 50 50
+    set r  ""
+    set g  ""
+    set b  ""
+    get_pixel 1 1 'r' g b
+    set lst [get_area 1 1 3 3]
+    print "{}" $lst
+
+#Graphics

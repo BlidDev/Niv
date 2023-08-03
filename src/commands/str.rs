@@ -1,4 +1,4 @@
-use crate::{structs::{Type, ERROR, Globals, GError}, sgerr, util::get_variable, gerr};
+use crate::{structs::{Type, ERROR, Globals, GError}, sgerr, util::{get_variable, split_qts, smart_split}, gerr};
 
 
 pub fn stolist(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
@@ -77,7 +77,7 @@ pub fn words(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
 
     let l = {
         let mut v = vec![];
-        for line in s.split_whitespace() {
+        for line in split_qts(&s) {
             v.push(Type::STR(line.to_string()))
         }
 
@@ -87,6 +87,22 @@ pub fn words(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
     Ok(Type::LIST(l))
 }
 
+pub fn s_words(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
+
+    let arg = get_variable(&args[0], &glb.stack)?;
+
+    sgerr!(
+        Type::STR(s),
+        arg,
+        "Error: invalid argument given to [lines]: [{:?}]", arg
+    );
+
+    let mut s = s.replace("(", "[");
+    s = s.replace(")", "]");
+    let l : Vec<Type> = smart_split(&s)?.iter().map(|e| Type::STR(e.clone())).collect();
+
+    Ok(Type::LIST(l))
+}
 
 pub fn trim(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
 
@@ -101,3 +117,5 @@ pub fn trim(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
 
     Ok(Type::STR(s.trim().to_string()))
 }
+
+

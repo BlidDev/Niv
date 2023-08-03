@@ -5,26 +5,26 @@ It is possible to create both `for` style and `while` loops in SGL using these 2
 
 // either create a normal while loop
 
-[while][true]
+while true
 {
     // runs forever
 }
 
-[set][ans][]
-[while][[cal][$ans][!]["exit"]]
+set ans ""
+while [cal $ans ! "exit"]
 {
-    [set][ans][[input]["Enter your input:> "]]
+    set ans [input "Enter your input:> "]
 }
 
 
 // or create a for loop
 
-[set][i][0]
-[while][[cal][$i][<][10]]
+set i 0
+while [cal $i < 10]
 {
     // runs 10 times
-    [print]["i - {}\n"][$i]
-    [op][i][+][1]
+    print "i - {}\n" $i
+    op i + 1
 }
 
 
@@ -34,12 +34,12 @@ ___
 ## **while**
 
 **usage example:**
-```Python
+```C
 // template
-[while][statement]
+while statement
 
 // specific use
-[while][[cal][5][>][10]]
+while [cal 5 > 10]
 ```
     
 
@@ -50,7 +50,7 @@ ___
 
 **Desc:**
 
-Loops the provided scope as long as `statement` is `true` 
+Loops the provided scope as long as `statement` is `true`, as the case is in `ifs`, the curly brackets are case sensitive.
 
 **Return value:** `VOID`.
 

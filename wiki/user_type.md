@@ -1,6 +1,6 @@
 # Overview:
 
-UserType is SGL's equivilant of a struct, pretty much being `typedef struct` like in **C**. You can define a new UserType in your program like so:
+UserType is SGL's equivilant of a struct, pretty much being `typedef struct` like in `C`. You can define a new UserType in your program like so:
 
 ```C
 @NAME
@@ -34,10 +34,10 @@ ___
 **usage example:**
 ```Python
 // template
-[set][myobj][~*NAME]
+set myobj ~*NAME
 
 // specific use
-[set][myobj][~*PERSON]
+set myobj ~*PERSON
 ```
     
 
@@ -48,31 +48,31 @@ ___
 
 **Desc:**
 
-Takes a name of a UserType type and returns an objectof that given type containing its default values defined in the UserType decleration(see above).
+Takes a name of a UserType type and returns an object of that given type containing its default values defined in the UserType decleration(see above).
 
-**Return value:** An UserType with default values.
+**Return value:** A UserType with default values.
 ___
 ## **make**
 
 **usage example:**
 ```Python
 // template
-[make][NAME][ARGS]...
+make NAME ARGS...
 
 // specific use
-[make][WORKER][~*PERSON]["fighting the king"]
+make WORKER ~*PERSON "fighting the king"
 ```
     
 
 **Args:**
 
-* `NAME`: `STR`
+* `NAME`: `STR` or `CHAR`
 * `ARGS...`: List of arguments of any value
 
 
 **Desc:**
 
-A commands that creates and returns a new UserType with custom values given in order to the command (see specific example).
+A command that creates and returns a new UserType with custom values given in order to the command (see specific example).
 
 **Return value:** The constructed UserType object.
 
@@ -84,23 +84,23 @@ ___
 **usage example:**
 ```Python
 // template
-[setf][name][field_name][val]
+setf name field_name val
 
 // specific use
-[setf][ojb1][job]["Running away from the king because hes winning"]
+setf ojb1 job "Running away from the king because hes winning"
 ```
     
 
 **Args:**
 
-* `name`: `STR`
-* `field_name`: `STR`
+* `name`: `STR` or `CHAR`
+* `field_name`: `STR` or `CHAR`
 * `val`: Any value
 
 
 **Desc:**
 
-Sets the field `field_name` of UserType `name` to `val`
+Sets the field `field_name` of UserType `name` to `val`.
 
 **Return value:** The value of `val`.
 
@@ -112,17 +112,17 @@ ___
 **usage example:**
 ```Python
 // template
-[getf][name][field_name]
+getf name field_name
 
 // specific use
-[set][reason_of_death][ [getf][ojb1][job] ]
+set reason_of_death [getf ojb1 job] 
 ```
     
 
 **Args:**
 
-* `name`: `STR`
-* `field_name`: `STR`
+* `name`: `STR` or `CHAR`
+* `field_name`: `STR` or `CHAR`
 
 
 **Desc:**

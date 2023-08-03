@@ -91,6 +91,7 @@
         display
 
         singleif (key_pressed E) = true (print "\r{}\n" (get_area $posx $posy $sw $sh))
+
     }
 
     end_text t

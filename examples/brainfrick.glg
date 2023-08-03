@@ -1,0 +1,112 @@
+
+
+#MAIN |
+    
+    set memory (repeat 0 10000)
+    set pointer 0
+
+    openfile "res/hello_world.bf" 'r'
+    
+    set lst (lines (readbuf "res/hello_world.bf"))
+
+    set i 0
+    while (cal $i < (llen lst) )
+    {
+        sete lst $i (stolist (gete lst $i))
+        validate_line (gete lst $i)
+        op i + 1
+    }
+
+    set i 0
+    while (cal $i < (llen lst) ) 
+    {
+        set j 0
+        set line (gete lst $i)
+        while (cal $j < (llen line) ) 
+        {
+            set c (gete line $j)
+
+            singleif $c = '>' (op pointer + 1)
+            singleif $c = '<' (op pointer - 1)
+            singleif $c = '+' (ope memory $pointer + 1)
+            singleif $c = '-' (ope memory $pointer - 1)
+            singleif $c = '.' (print "{}" (cst char (gete memory $pointer)))
+            singleif $c = ',' (sete memory $pointer (inputcast i32 ""))
+
+            if $c = '[' 
+            {
+                if (gete memory $pointer) = 0
+                {
+                    jumpforward
+                }
+            }
+            
+            if $c = ']' 
+            {
+                if (gete memory $pointer) ! 0
+                {
+                    jumpbackward
+
+                }
+            }
+
+            op j + 1
+        }
+
+        op i + 1
+    }
+
+#MAIN
+
+#validate_line | line
+
+    set j 0
+    set brackets 0
+    while (cal $j < (llen line) )
+    {
+        set c (gete line $j)
+        singleif $c = '[' (op brackets + 1)
+        singleif $c = ']' (op brackets - 1)
+        op j + 1
+    }
+
+    singleif $brackets ! 0 (err "Error: invalid line: {}" (ltostr $line))
+
+#validate_line
+
+#ope | list element oper b
+    sete $list $element (cal (gete $list $element) $oper $b)
+#ope
+
+#jumpforward |
+    
+    while (cal $j < (llen line) ) 
+    {
+        set c (gete line $j)
+
+        if $c = ']' 
+        {
+        
+            print "{}\n" $j
+            op j + 1
+            return 0
+        }
+        
+        op j + 1
+    }
+#jumpforward 
+
+#jumpbackward |
+    
+    while (cal $j > 0) 
+    {
+        set c (gete line $j)
+
+        if $c = '[' 
+        {
+            return 0
+        }
+        
+        op j - 1
+    }
+#jumpbackward 

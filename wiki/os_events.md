@@ -1,13 +1,13 @@
 # Overview:
 
-Aside from traditional `std::cin` like user input shown in [input_and_output](input_and_output.md), SGL offers a way to check immidate keyboard key presses.
+Aside from traditional `std::cin` style user input shown in [input_and_output](input_and_output.md), SGL offers a way to check immidate keyboard key presses.
 
 ___
 ## **handle_input**
 
 **usage example:**
 ```Python
-[handle_input]
+handle_input
 ```
     
 
@@ -29,10 +29,10 @@ ___
 **usage example:**
 ```Python
 // template
-[key_pressed][key]
+key_pressed key
 
 // specific use
-[singleif][[key_pressed][Delete]][=][true][[print]["Delete\n"]]
+singleif [key_pressed Delete] = true [print "Delete\n"]
 ```
     
 **Args:**
