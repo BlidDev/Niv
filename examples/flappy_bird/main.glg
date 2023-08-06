@@ -31,6 +31,13 @@
         display
     }
 
+
+    game
+#MAIN 
+
+
+#game |
+    set_ttext $s_s "Press Space to start!"
     set_tvisible $s_s false
     set_tvisible $s_t true
     while (inv (cal (handle_input) | (key_pressed Q)))
@@ -48,7 +55,34 @@
         display
     }
 
-#MAIN 
+#game
+
+
+#death |
+   set d_timer (new_timer 1000)
+   set_tvisible $s_s false
+   set_tvisible $s_t true
+   setf player y (cal $sh / 2) 
+   set_ttext $s_t (format "Oh no! You died with {} points!\nPress Space to restart!" $score)
+   set score 0
+    
+   release pipes
+   make_pipes
+   clear
+   draw_pipes
+   draw_bird
+   apply
+   while (inv (cal (handle_input) | (cal (key_pressed Space) & (timer_elapsed $d_timer))))
+   {
+       singleif (key_pressed Q) = true (exit)
+
+       display
+   }
+    
+   end_timer d_timer
+
+   game
+#death
 
 @Pipe
     pos : ~*Vec2 // while pos.y being the start of the hole
@@ -65,7 +99,7 @@
     set i 0
     while (cal $i < 4)
     {
-        set px (cal (cal $i + 1) * 15)
+        set px (cal (cal $i + 1) * 20)
         set hy (rng 1 (cal $sh - 21))
         set r (rng 4 15)
         set tmp (make Pipe (v2new $px $hy) $r)
@@ -110,9 +144,8 @@
     while (cal $i < (llen pipes))
     {
         set tmp_pipe (gete pipes $i)
-        set pos (getf tmp_pipe pos)
 
-        set x (getf pos x)
+        set x (getf_c {tmp_pipe pos x})
 
         op x - 1
         if $x <= -2 
@@ -125,7 +158,7 @@
         }
         else 
         {
-            setf tmp_pipe pos (v2new $x (getf pos y))
+            setf_c {tmp_pipe pos x} $x
         }
 
 
@@ -134,20 +167,17 @@
         op i + 1
     }
     release tmp_pipe
-    release pos
 #move_pipes
 
 #unwarp_pipe | index px py len 
     set tmp_pipe (gete pipes $index)
 
-    set pos (getf tmp_pipe pos) 
-    set $px (getf pos x)
-    set $py (getf pos y)
+    set $px (getf_c {tmp_pipe pos x})
+    set $py (getf_c {tmp_pipe pos y})
     set $len (getf tmp_pipe hole_len)
 
 
     release tmp_pipe
-    release pos
 #unwarp_pipe
 
 
@@ -190,10 +220,5 @@
         op i + 1
     }
 
-    if $should_die = true 
-    {
-
-    print "Oh no! You died with {} points!\n" $score
-    exit
-}
+    singleif $should_die = true (death)
 #handle_bird
