@@ -1,0 +1,9 @@
+
+@Vec2
+    x : 0
+    y : 0
+@Vec2
+
+#v2new | x y
+    return (make Vec2 $x $y)
+#v2new
