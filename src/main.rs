@@ -76,6 +76,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
 
 
 
+
     traverse_root_scope("MAIN", &roots, &query, &mut glb,  &mut cnv)?;
  
  
@@ -95,6 +96,8 @@ fn register_commands(query : &mut CommandQuery)
             make =>     (make_w, None),
             setf =>     (setf_w, Some(3)),
             getf =>     (getf_w, Some(2)),
+            setf_c =>   (setf_c_w, Some(2)),
+            getf_c =>   (getf_c_w, Some(1)),
 
             cal =>      (cal_w,Some(3)),
             op =>       (op_w,Some(3)),

@@ -9,7 +9,7 @@ use super::{
     graphics::*,
     misc::*,
     input::*,
-    helper::*, utype::{make_type, setf, getf},
+    helper::*, utype::{make_type, setf, getf, setf_c, getf_c},
     cst::cst,
     list::*,
     str::*,
@@ -28,6 +28,8 @@ make_wrappers!(
     make_w, make_type => ["args","glb"],
     setf_w, setf  => ["args","glb"],
     getf_w, getf  => ["args","glb"],
+    setf_c_w, setf_c  => ["args","glb"],
+    getf_c_w, getf_c  => ["args","glb"],
 
     cal_w, cal => ["args", "glb"],
     op_w, op => ["args", "glb"],
@@ -83,7 +85,7 @@ make_wrappers!(
     sleep_w, sleep_command => ["args", "glb"],
     exit_w, exit => [],
     rng_w, rng => ["args", "glb"],
-    cst_w, cst => ["args", "glb"],
+    cst_w, cst => ["args", "roots","glb", "qr", "scp", "cnv"],
     err_msg_w, err_msg => ["args", "glb"],
     typeid_w,  typeid  => ["args", "glb"],
 

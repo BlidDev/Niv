@@ -1,0 +1,224 @@
+
+
+#MAIN |
+    set p_timer (new_timer 100)
+    set b_timer (new_timer 20)
+    set g_timer (new_timer 40)
+    set vel 0
+    set score 0
+    (chain (set sw 80) (set sh 45))
+    make_pipes
+    set player (make Bird (cal $sh / 2))
+
+    init 854 480 $sw $sh "Flappy Bird Example"
+
+    load_font "res/DePixelHalbfett.ttf"
+
+    set s_t (new_text "Score: 0" 20)
+    set s_s (new_text "Press Space to start!" 20)
+    
+    set_tvisible $s_t false
+    set_clear 78 186 196
+    
+    clear
+    draw_pipes
+    draw_bird
+    apply
+    while (inv (cal (handle_input) | (key_pressed Space)))
+    {
+        singleif (key_pressed Q) = true (exit)
+
+        display
+    }
+
+
+    game
+#MAIN 
+
+
+#game |
+    set_ttext $s_s "Press Space to start!"
+    set_tvisible $s_s false
+    set_tvisible $s_t true
+    while (inv (cal (handle_input) | (key_pressed Q)))
+    {
+        clear
+
+        move_bird
+        singleif (timer_elapsed $p_timer) = true (chain (timer_reset $p_timer) (move_pipes))
+        handle_bird
+        draw_pipes
+        draw_bird
+
+        set_ttext $s_t (format "Score: {}" $score)
+        apply
+        display
+    }
+
+#game
+
+
+#death |
+   set d_timer (new_timer 1000)
+   set_tvisible $s_s false
+   set_tvisible $s_t true
+   setf player y (cal $sh / 2) 
+   set_ttext $s_t (format "Oh no! You died with {} points!\nPress Space to restart!" $score)
+   set score 0
+    
+   release pipes
+   make_pipes
+   clear
+   draw_pipes
+   draw_bird
+   apply
+   while (inv (cal (handle_input) | (cal (key_pressed Space) & (timer_elapsed $d_timer))))
+   {
+       singleif (key_pressed Q) = true (exit)
+
+       display
+   }
+    
+   end_timer d_timer
+
+   game
+#death
+
+@Pipe
+    pos : ~*Vec2 // while pos.y being the start of the hole
+    hole_len : 1
+@Pipe
+
+
+@Bird
+    y : 0
+@Bird
+
+#make_pipes |
+    set pipes (lempty)
+    set i 0
+    while (cal $i < 4)
+    {
+        set px (cal (cal $i + 1) * 20)
+        set hy (rng 1 (cal $sh - 21))
+        set r (rng 4 15)
+        set tmp (make Pipe (v2new $px $hy) $r)
+        lpush pipes $tmp
+        op i + 1
+    }
+    release tmp
+#make_pipes 
+
+#draw_pipes |
+    set i 0 
+    while (cal $i < (llen pipes))
+    {
+        unwarp_pipe $i "x" "y" "hlen"
+        set x_b $x
+        set j 0
+
+        while (cal $j < $sh)
+        {
+            set x $x_b
+            set in_range (cal (cal $j >= $y) & (cal $j < (cal $y + $hlen)))
+            set x_in_range (cal (cal $x >= 0) & (cal $x < (cal $sw - 1)))
+            set w 2
+            if (cal $x = -1) = true 
+            {
+                set x_in_range true
+                set x (cal $x + 1) 
+                set w 1
+            }
+            singleif (cal (inv $in_range) & $x_in_range) = true (set_area $x $j $w 1 163 244 80)
+
+
+            op j + 1
+        }
+
+        op i + 1
+    }
+#draw_pipes 
+
+#move_pipes |
+    set i 0 
+    while (cal $i < (llen pipes))
+    {
+        set tmp_pipe (gete pipes $i)
+
+        set x (getf_c {tmp_pipe pos x})
+
+        op x - 1
+        if $x <= -2 
+        {
+            set px (cal $sw + 2)
+            set hy (rng 1 (cal $sh - 11))
+            set r (rng 4 15)
+            set tmp_pipe (make Pipe (v2new $px $hy) $r)
+            op score + 1
+        }
+        else 
+        {
+            setf_c {tmp_pipe pos x} $x
+        }
+
+
+        sete pipes $i $tmp_pipe
+
+        op i + 1
+    }
+    release tmp_pipe
+#move_pipes
+
+#unwarp_pipe | index px py len 
+    set tmp_pipe (gete pipes $index)
+
+    set $px (getf_c {tmp_pipe pos x})
+    set $py (getf_c {tmp_pipe pos y})
+    set $len (getf tmp_pipe hole_len)
+
+
+    release tmp_pipe
+#unwarp_pipe
+
+
+#draw_bird |
+    set_pixel 3 (getf player y) 240 175 53 
+#draw_bird
+
+
+#move_bird |
+
+    if (cal (timer_elapsed $b_timer) & (key_pressed Space)) = true
+    {
+        timer_reset $b_timer
+        set vel -1
+    }
+    else if (timer_elapsed $g_timer) = true
+    {
+        timer_reset $g_timer
+        set vel 1
+    }
+
+    set tmp (getf player y)
+    setf player y (cal $tmp + $vel)
+    set vel 0
+#move_bird
+
+
+#handle_bird |
+    set should_die false
+    set y (getf player y)
+    singleif (cal (cal $y < 0) | (cal $y >= $sh)) = true (set should_die true)
+    set i 0 
+    while (cal $i < (llen pipes))
+    {
+        unwarp_pipe $i "x" "p_y" "hlen"
+        set x_in_range (cal (cal $x = 3) | (cal $x = 2))
+        set y_in_range (cal (cal $y >= $p_y) & (cal $y < (cal $p_y + $hlen)))
+        
+        singleif (cal $x_in_range & (inv $y_in_range)) = true (set should_die true)
+        op i + 1
+    }
+
+    singleif $should_die = true (death)
+#handle_bird

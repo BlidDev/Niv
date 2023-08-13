@@ -13,6 +13,7 @@
         singleif $al ! $tl (err "Error: mismatched lenths, args[{}] - types[{}]" $args $tl)
 
         make_args
+        handle_command
 
     }
 #MAIN
@@ -28,20 +29,20 @@
 
 #handle_command |
     set al (llen args)
-    singleif $al = 0 ($commad)
-    singleif $al = 1 ($commad (args 0))
-    singleif $al = 2 ($commad (args 0) (args 1))
-    singleif $al = 3 ($commad (args 0) (args 1) (args 2))
-    singleif $al = 4 ($commad (args 0) (args 1) (args 2) (args 3))
-    singleif $al = 5 ($commad (args 0) (args 1) (args 2) (args 3) (args 4))
-    singleif $al = 6 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5))
-    singleif $al = 7 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5) (args 6))
-    singleif $al = 8 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5) (args 6) (args 7))
-    singleif $al = 9 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5) (args 6) (args 7) (args 8))
-    singleif $al = 10 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5) (args 6) (args 7) (args 8) (args 9))
-    singleif $al = 11 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5) (args 6) (args 7) (args 8) (args 9) (args 10))
-    singleif $al = 12 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5) (args 6) (args 7) (args 8) (args 9) (args 10) (args 11))
-    singleif $al = 13 ($commad (args 0) (args 1) (args 2) (args 3) (args 4) (args 5) (args 6) (args 7) (args 8) (args 9) (args 10) (args 11) (args 12)) ( err "Error: cannot handle [{}] num of args" $al)
+    singleif $al = 0 ($command)
+    singleif $al = 1 ($command (arg 0))
+    singleif $al = 2 ($command (arg 0) (arg 1))
+    singleif $al = 3 ($command (arg 0) (arg 1) (arg 2))
+    singleif $al = 4 ($command (arg 0) (arg 1) (arg 2) (arg 3))
+    singleif $al = 5 ($command (arg 0) (arg 1) (arg 2) (arg 3) (arg 4))
+    singleif $al = 6 ($command (arg 0) (arg 1) (arg 2) (arg 3) (arg 4) (arg 5))
+    singleif $al = 7 ($command (arg 0) (arg 1) (arg 2) (arg 3) (arg 4) (arg 5) (arg 6))
+    singleif $al = 8 ($command (arg 0) (arg 1) (arg 2) (arg 3) (arg 4) (arg 5) (arg 6) (arg 7))
+    singleif $al = 9 ($command (arg 0) (arg 1) (arg 2) (arg 3) (arg 4) (arg 5) (arg 6) (arg 7) (arg 8))
+    singleif $al = 10 ($command (arg 0) (arg 1) (arg 2) (arg 3) (arg 4) (arg 5) (arg 6) (arg 7) (arg 8) (arg 9))
+    singleif $al = 11 ($command (arg 0) (arg 1) (arg 2) (arg 3) (arg 4) (arg 5) (arg 6) (arg 7) (arg 8) (arg 9) (arg 10))
+    singleif $al = 12 ($command (arg 0) (arg 1) (arg 2) (arg 3) (arg 4) (arg 5) (arg 6) (arg 7) (arg 8) (arg 9) (arg 10) (arg 11))
+    singleif $al = 13 ($command (arg 0) (arg 1) (arg 2) (arg 3) (arg 4) (arg 5) (arg 6) (arg 7) (arg 8) (arg 9) (arg 10) (arg 11) (arg 12)) 
 
     
 #handle_command

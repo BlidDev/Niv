@@ -1,0 +1,263 @@
+
+
+#MAIN |
+    set l_timer (new_timer 10)
+    set r_timer (new_timer 10)
+    set b_timer (new_timer 30)
+    (chain (set sw 60) (set sh 40))
+    (chain (set rs 0) (set ls 0))
+
+    init 700 480 $sw $sh "Pong Example"
+    set scale 20
+    load_font "res/DePixelHalbfett.ttf"
+    set score (new_text "0 : 0" $scale)
+    set_tclr $score 255 255 255
+
+
+    start
+
+
+
+    game
+    
+#MAIN
+
+#start |
+    make_paddles
+    reset_ball
+
+    timer_reset $l_timer
+    timer_reset $r_timer
+    timer_reset $b_timer
+
+    clear
+    draw_net
+    draw_paddles
+    draw_ball
+    draw_score
+    apply
+
+    while (inv (cal (handle_input) | (key_pressed Space)))
+    {
+        singleif (key_pressed Q) = true (exit)
+        if (key_pressed R) = true
+        {
+            (chain (set rs 0) (set ls 0))
+            clear
+            draw_net
+            draw_paddles
+            draw_ball
+            draw_score
+            apply
+        }
+        display
+    }
+
+    game
+#start
+
+#game |
+
+    while (inv (cal (handle_input) | (key_pressed Q)))
+    {
+        clear
+
+        draw_net
+        if (timer_elapsed $b_timer) = true
+        {
+            timer_reset $b_timer
+            move_ball
+        }
+        move_paddles
+        handle_ball
+        draw_paddles
+        draw_ball
+        draw_score
+        apply
+        display
+    }
+#game
+
+
+@Paddle
+    x : 1
+    y : 1
+    l : 10
+    up : "Up"
+    down : "Down"
+@Paddle
+
+@Ball
+    x : 0
+    y : 0
+    dx : 0
+    dy : 0
+@Ball
+
+
+#make_paddles |
+    set paddles (lempty)
+    lpush paddles (make Paddle 2 (cal (cal $sh - 10) / 2) 10 "W" "S") // left
+    lpush paddles (make Paddle (cal $sw - 3) (cal (cal $sh - 10) / 2) 10 "Up" "Down") // right
+#make_paddles
+
+#move_paddles |
+    
+    if (timer_elapsed $l_timer) = true
+    {
+        timer_reset $l_timer
+        set lp (gete paddles 0)
+        set y (getf lp y)
+        singleif (key_pressed (getf lp up)) = true (op y - 1)
+        singleif (key_pressed (getf lp down)) = true (op y + 1)
+
+        singleif $y < 0 (set y 0)
+        set ly (cal $sh - (getf lp l))
+        singleif $y > $ly (set y $ly)
+
+        setf lp y $y
+        sete paddles 0 $lp
+
+        release lp
+        release y
+    }
+
+
+    if (timer_elapsed $r_timer) = true
+    {
+        timer_reset $r_timer
+        set rp (gete paddles 1)
+        set y (getf rp y)
+        singleif (key_pressed (getf rp up)) = true (op y - 1)
+        singleif (key_pressed (getf rp down)) = true (op y + 1)
+
+        singleif $y < 0 (set y 0)
+        set ly (cal $sh - (getf rp l))
+        singleif $y > $ly (set y $ly)
+
+        setf rp y $y
+        sete paddles 1 $rp
+
+        release rp
+        release y
+    }
+
+#move_paddles 
+
+#move_ball |
+    set x (getf ball x)
+    set y (getf ball y)
+    set dx (getf ball dx)
+    set dy (getf ball dy)
+
+    op x + $dx
+    op y + $dy
+
+    singleif $y < 0 (chain (set y 0) (op dy * -1))
+    singleif $y >= $sh (chain (set y (cal $sh - 1)) (op dy * -1))
+
+
+    setf ball x $x
+    setf ball y $y
+    setf ball dx $dx
+    setf ball dy $dy
+
+    singleif $x < 0 (chain (op ls + 1) (start))
+    singleif $x >= $sw (chain (op rs + 1) (start))
+
+    release x 
+    release y 
+    release dx 
+    release dy 
+#move_ball
+
+#handle_ball | 
+    set x (getf ball x)
+    set y (getf ball y)
+    set dx (getf ball dx)
+
+    if $x = 3 
+    {
+        set lp (gete paddles 0)
+        if (cal (cal $y >= (getf lp y)) & (cal $y <= (cal (getf lp y) + (getf lp l)))) = true 
+        {
+            setf ball x (cal $x + 1)
+            setf ball dx (cal $dx * -1)
+        }
+
+        release lp
+    }
+    if $x = (cal $sw - 4)
+    {
+        set rp (gete paddles 1)
+        if (cal (cal $y >= (getf rp y)) & (cal $y <= (cal (getf rp y) + (getf rp l)))) = true 
+        {
+            setf ball x (cal $x - 1)
+            setf ball dx (cal $dx * -1)
+        }
+
+        release rp
+    }
+    
+    release x 
+    release y 
+    release dx 
+#handle_ball
+
+#draw_net |
+    set i 0
+    
+    while (cal $i < $sh)
+    {
+        if (cal $i % 2) = 0  
+        {
+            set_pixel (cal $sw / 2) $i 50 50 50
+        }
+        op i + 1
+    }
+
+    release i
+#draw_net
+
+#draw_paddles |
+    set i 0
+    while (cal $i < (llen paddles))
+    {
+        unwrap_paddle $i "x" "y" "l"
+        
+        set_area $x $y 1 $l 255 255 255
+        op i + 1
+    }
+    release x
+    release y
+    release l
+#draw_paddles
+
+#reset_ball |
+     set ball (make Ball (cal $sw / 2) (cal $sh / 2) (make_dir) (make_dir))
+#reset_ball
+
+#draw_ball |
+    set_pixel (getf ball x) (getf ball y) 255 255 255
+#draw_ball
+
+
+#draw_score |
+    set msg (format "{} : {}" $rs $ls)
+    set_ttext $score $msg
+    set size (cal $scale * (llen msg))
+    set pos (cal 350 - (cal $size / 4))
+    set_tpos $score $pos 15
+#draw_score
+
+#unwrap_paddle | index px py len
+    set tmp (gete paddles $index)
+    set $px (getf tmp x)
+    set $py (getf tmp y)
+    set $len (getf tmp l)
+#unwrap_paddle
+
+#make_dir |
+    set dirs {-1 1}
+    return (gete dirs (rng 0 2))
+#make_dir 

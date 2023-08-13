@@ -36,8 +36,8 @@ Files:
 
 
 Examples:
- - Flappy bird
- - Pong?
- - Brainf
- - Cli
+ - Flappy bird V
+ - Pong V
+ - Brainf V
+ - Cli V
  - Glang 1.0 (later)
