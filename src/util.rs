@@ -522,11 +522,11 @@ pub fn parse_list(value : &String, roots : &Roots,query : &QueryW, glb : &mut Gl
 
     let splits = smart_split(&value)?;
 
+
     for split in splits {
         let element = 
-            match is_nested(&value) {
+            match is_nested(&split) {
                 Some(trimmed) => {
-                    println!("caugth: {}", trimmed);
                     traverse(&make_tree(&trimmed, true)?, roots, query, glb, scope, cnv)?
                 },
                 None => parse_type(&split, roots, query, glb, scope, cnv)?
