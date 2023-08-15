@@ -14,4 +14,3 @@ device_query = "*"
 rand = "*"
 
 clap = {version = "*", features = ["derive"]}
-pathdiff = "*"
