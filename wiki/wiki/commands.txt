@@ -95,7 +95,7 @@ gete
 sete
 lclear 
 lremove
-llen               V
+llen 
 lpush
 lpop
 lempty
@@ -109,9 +109,8 @@ STRING==============
 stolist
 ltostr 
 
-lines              V
+lines  
 words  
-s_words  
 trim   
 ====================
 
@@ -120,17 +119,14 @@ trim
 
 FILES===============
 openfile
-readbuf            V
+readbuf 
 writef  
 closef  
 ====================
 
 ROOT SCOPES=========
-run                V
+run
 ====================
 
 
-installation V
-how it works V
-setting up and running your first project V
-holy shit i finished it
+

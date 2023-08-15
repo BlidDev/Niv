@@ -33,7 +33,7 @@ Available operations are:
 *  -  mul
 /  -  div
 %  -  mod
-==  -  eql
+=  -  eql
 !  -  not eql
 >  -  bigger than
 <  -  smaller than
@@ -74,13 +74,13 @@ op my_var + 1 // adds one to my_var
 Applies the operation in `op` on `a` and `b` and sets `a` to the result.
 
 Available operations are:
-```Pyhton
+```
 +  -  add
 -  -  sub
 *  -  mul
 /  -  div
 %  -  mod
-==  -  eql
+=  -  eql
 !  -  not eql
 >  -  bigger than
 <  -  smaller than

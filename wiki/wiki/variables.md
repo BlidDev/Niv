@@ -16,11 +16,6 @@ RETURN   // only used for behind-the-scenes operations
 All variables are type dynamic meaning they can change their type based on the value you set them to. 
 
 ___
-### **Accesing a variable's value**
-
-In order to acces a variable's actual value in `Nst` is by writing **`$`** followed by your variable's name (for example `$myvar`). This will tell `Nest` to look through the stack for your variable name and return its value if it exist.
-
-___
 ## **set**
 
 **usage example:**
