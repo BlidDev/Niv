@@ -6,7 +6,7 @@ The main goal behind this project was to make a langauge capeable of nested expr
 ## Wiki
 Nest holds a detailed wiki about almost every aspect of language, check these two pages out to get started:
 * [Installation](wiki/installation.md)
-* [Setting up and running your first project](wiki/first_project.md.md)
+* [Setting up and running your first project](wiki/first_project.md)
 
 ### Libraries used for this project
 * `unescape`
