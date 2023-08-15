@@ -56,8 +56,6 @@
         op i + 1
     }
 
-    print "\n"
-
 #MAIN
 
 #validate_line | line

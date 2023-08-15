@@ -30,7 +30,7 @@ pub fn cal(args : Vec<Type>, glb : &Globals) ->Result<Type, ERROR> {
     map.insert("*", mul);
     map.insert("/", div);
     map.insert("%", modu);
-    map.insert("=", eql);
+    map.insert("==", eql);
     map.insert("!", neql);
     map.insert(">", bigger);
     map.insert("<", smaller);

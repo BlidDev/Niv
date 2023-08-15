@@ -8,7 +8,7 @@ use crate::{structs::{ERROR, GError}, gerr};
 #[derive(Debug, Parser)]
 pub struct Arguments {
     #[clap(long, short, about)]
-    /// A list of *.glg files to be inserted into memory in order
+    /// A list of *.nst files to be inserted into memory in order
     #[arg(num_args(0..))]
     file_list : Option<Vec<String>>,
     #[clap(long,short,about)]
@@ -33,23 +33,27 @@ impl Arguments {
 
 fn read_file_list(list : &Vec<String>) -> Result<Vec<String>, ERROR> {
 
-    let mut lines = vec![];
 
+    let mut lines = vec![];
     for filename in list {
         let path = Path::new(filename);
-        if path.extension().and_then(OsStr::to_str) != Some("glg") || !path.exists(){
-            return gerr!("Error: invalid *.glg file name [{}]", filename);
-        }
-        let reader = BufReader::new(File::open(filename)?);
-        for line in reader.lines() {
-            let line = line?;
-            let line = line.replace("(", "[").replace(")", "]");
-            lines.push(line.trim().to_string());
+        if !path.exists() { return  gerr!("Error: path [{:?}] does not exist", filename); }
+        match path.extension().and_then(OsStr::to_str) {
+            Some("nst") => {
+                let reader = BufReader::new(File::open(filename)?);
+                for line in reader.lines() {
+                    let line = line?;
+                    let line = line.replace("(", "[").replace(")", "]");
+                    lines.push(line.trim().to_string());
+                }
+            },
+            Some("prj") => lines.append(&mut read_project_file(filename)?),
+
+            _ => return gerr!("Error: invalid file path given: [{}]", filename)
         }
         
     }
-
-    Ok(lines)
+    return Ok(lines)
 }
 
 
@@ -77,9 +81,10 @@ fn read_project_file(name : &String) -> Result<Vec<String>, ERROR> {
     let mut files = vec![];
     let reader = BufReader::new(File::open(name)?);
     for line in reader.lines() {
-        let mut add = addition.clone();
-        add.push_str(&line?);
-        files.push(add);
+        let line = line?;
+        if line.starts_with("#") {continue;}
+        let path = get_path(&line, &addition)?;
+        files.push(path);
     }
 
     read_file_list(&files)
@@ -96,4 +101,29 @@ fn get_addition(path : &Path) -> Option<String> {
         .expect(&format!("Error: could not convert filepath: [{:?}] to string", addition))
         .to_string()
     )
+}
+
+fn get_path(filename : &String, base : &String) -> Result<String, ERROR> {
+    let mut path = Path::new(base);
+    let mut alt = "".to_string();
+    let mut s = filename.clone();
+    while s.len() >= 3 {
+        if !s.starts_with("../") { break; }
+        if  !path.parent().unwrap().to_str().unwrap().is_empty() && alt.is_empty(){
+            path = path.parent().unwrap();
+        }
+        else {
+            alt.push_str("../");
+        }
+        s = s[2..].to_string();
+    }
+    let mut p = if alt.is_empty() {
+        path.to_str().unwrap().to_string()
+    }
+    else {
+        alt.to_string()
+    };
+
+    p.push_str(&s);
+    Ok(p)
 }

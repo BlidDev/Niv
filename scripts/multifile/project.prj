@@ -1,2 +1,4 @@
-helper.glg
-main.glg
+# This isn't gonna run
+../demom/helper.nst
+helper.nst
+main.nst

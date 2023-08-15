@@ -1,0 +1,5 @@
+// main.nst
+
+#MAIN | 
+    helper_func
+#MAIN

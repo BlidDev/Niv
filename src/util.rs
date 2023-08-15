@@ -268,7 +268,7 @@ pub fn run_command(roots : &Roots,query : &QueryW,name : &String, args: Vec<Type
     if let Some(limit) = command.0 {
         let len = args.len();
         if limit != len {
-            return gerr!("ERROR: [{}] requires [{}] arguments but [{}] were supplied [{:?}]", name, limit, len, args);
+            return gerr!("ERROR: [{}] requires [{}] arguments but [{}] were supplied", name, limit, len);
         }
     }
 
