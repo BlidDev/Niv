@@ -69,7 +69,7 @@ While a `file-list` is the most straightforward way to acheive this goal it can 
 
 The solution to that would be a `project-file` like so:
 
-```Toml
+```
 # project.prj
 helper.nst
 main.nst
