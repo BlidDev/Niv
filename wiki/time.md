@@ -1,6 +1,6 @@
 # Overview:
 
-While there's technically a way to mesure time using `get_millis` using this method is limiting and hard to work with. So to fill this gap SGL includes a built in timer functionallity that can help you mesure time in your program independedly from graphics.
+While there is technically a way to measure time using `get_millis`, using this method is limiting and hard to work with. So to fill this gap, Nest includes a built-in timer functionality that can help you measure time in your program, completely independently from graphics.
 
 ___
 ## **new_timer**
@@ -23,7 +23,7 @@ set timer1 [new_timer 500]
 
 **Desc:**
 
-Creates a new timer object with `delay` as its iternal delay in milliseconds and returns its ID to be saved.
+Creates a new timer object with `delay` as its iternal delay in milliseconds, and returns its ID to be saved.
 
 **Return value:** `I32`.
 
@@ -50,7 +50,7 @@ singleif [timer_elapsed $timer1] = true (print "passed\n")
 
 **Desc:**
 
-Returns whether the amount of time elapsed since timer object with id: `id` last reset in milliseconds is equal or greater than its iternal `delay`.
+Returns whether the time elapsed, in milliseconds, since timer object with id `id` last reset is equal to or greater than its iternal `delay`.
 
 **Return value:** `BOOL`.
 
@@ -77,7 +77,7 @@ print "Time since reset: {}\n" (timer_millis $timer1)
 
 **Desc:**
 
-Returns the amount of time elapsed since timer object with id: `id` last reset in milliseconds regardless of `delay`.
+Returns the amount of time elapsed, in milliseconds, since timer object with id `id` last reset, regardless of `delay`.
 
 **Return value:** `BOOL`.
 
@@ -104,7 +104,7 @@ timer_reset $timer1
 
 **Desc:**
 
-Sets elapsed time of timer object with id: `id` to 0.
+Sets the elapsed time of timer object with id `id` to 0.
 **Return value:** `VOID`.
 
 For more complex examples check one of the graphical examples in the `examples` folder.
@@ -131,7 +131,7 @@ timer_set_delay $timer1 40
 
 **Desc:**
 
-Sets iternal delay  of timer object with id: `id` to `delay` in milliseconds.
+Sets the iternal delay of timer object with id `id` to `delay` in milliseconds.
 
 **Return value:** `VOID`.
 
@@ -146,18 +146,21 @@ end_timer id
 
 // specific use
 end_timer timer1 // notice no $
+// or
+end_timer 0 
 ```
 
 
 **Args:**
 
-* `id`: `STR`
+* `id`: `STR` / `I32`
 
     
 
 **Desc:**
 
-Delets timer object with id: `id`, and sets the holding storing variable to `VOID`.
+Deletes timer object with id `id`, **when given a variable name** sets the holding storing variable to `VOID`.
+
 **Return value:** `VOID`.
 
 For more complex examples check one of the graphical examples in the `examples` folder.

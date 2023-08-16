@@ -1,5 +1,5 @@
 # Overview:
-This chapter contains a list of commands that don't neccaseraly have a specific subject but are important.
+This chapter contains a list of commands that don't necessarily have a specific subject, but are important.
 
 ___
 ## **sleep**
@@ -42,7 +42,7 @@ rng 0 [cal 200 + 55]
 
 
 **Desc:**
-Generates and returns a random number between `min`-`max`.
+Generates and returns a random number between `min` and `max`.
 
 **Return value:** `I32`.
 
@@ -83,7 +83,7 @@ cst f32 39
 
 
 **Desc:**
-Tries to cast `val` as `dst` and returns the casted value if possible.
+Tries to cast `val` as `dst` and returns the casted value if successful.
 
 **Return value:** The desired value if succesful.
 
@@ -134,7 +134,7 @@ print "ID is: {}\n" (typeid $val)
 **Desc:**
 Retrives the type index of `val` and returns it.
 
-Type indecies are:
+Type indices are:
 ```
 VOID   -> 0
 I32    -> 1
@@ -176,5 +176,5 @@ print "results are: {}\n" $results
 **Desc:**
 Takes a list of nodes and exceutes them from left to right.
 
-**Return value:** `LIST` of all the nodes return values from left to right.
+**Return value:** `LIST` of all the nodes' return values from left to right.
 

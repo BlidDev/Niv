@@ -4,7 +4,7 @@ This chapter will exaplain how to quickly get everything up and running for you 
 
 ___
 ## Precompiled binary
-Precompiled binaries of Nest can be found and dowloaded [here](www.youtube.com/c/BlidDev), once dowloading the file you're good to go continue on to the next tutorials.
+Precompiled binaries of Nest can be found and dowloaded [here](www.youtube.com/c/BlidDev/where_are_the_binaries?). Once downloaded, you're good to continue on to the next tutorials.
 
 ___
 ## Building Nest from source
@@ -18,20 +18,20 @@ Retrieve a copy of the git repo by dowloading an archive **.zip** file and extra
 git clone https://github.com/BlidDev/Nest
 ```
 
-Then `cd` into the folder:
+...`cd` into the folder:
 
 ```Nest
 cd Nest
 ```
 
-And simply run:
+...and simply run
 ```Nest
 cargo build --release
 ```
 
-**The `Nest` executeable file will be located in `target/release/YOUR_TARGET/nest(.exe)`**
+**The `Nest` executable file will be located in `target/release/YOUR_TARGET/nest(.exe)`**
 
-Or you can just build an run it directly with:
+Alternatively, you can just build and run it directly with:
 ```Nest
 cargo run -- -f path/to/script.nst
 ```

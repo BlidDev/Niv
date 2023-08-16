@@ -178,19 +178,39 @@ pub fn end_timer(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
 
     let args = args_to_vars(&args, &glb.stack)?;
 
-     let name = match &args[0] {
+    let id = {
+        let mut id = None;
+        let mut name = None;
+        match &args[0] {
+            Type::I32(id_num) => id = Some(id_num.clone()),
+            Type::CHAR(ref c) => name = Some(c.clone().to_string()),
+            Type::STR(ref s) => name = Some(s.clone()),
+            _ => return gerr!("Error: invalid timer type name [{:?}] given to [end_timer]", args[0])
+        };
 
-        Type::CHAR(ref c) => c.clone().to_string(),
-        Type::STR(ref s) => s.clone(),
-         _ => return gerr!("Error: invalid timer type name [{:?}] given to [end_timer]", args[0])
-     };
+        if let Some(name) = name {
+            let Some(entry) = glb.stack.get_mut(&name) else {
+                return gerr!("Error: variable [{:?}] does not exist", name);
+            };
+            let Type::I32(id_num) = entry.clone() else {
+                return gerr!("Error: invalid variable given to [end_timer]: [{:?}]", &args[0])
+            };
 
-     let Some(Type::I32(id)) = glb.stack.get(&name) else {
-         return gerr!("Error: invalid variable given to [end_timer]: [{:?}]", &args[0])
-     };
+            *entry = Type::VOID();
+            id = Some(id_num)
+        }
+
+
+        let Some(id) = id else {
+           return gerr!("Error: timer ID could not be found in [end_timer]") 
+        };
+
+        id
+    };
+
 
     glb.timers.remove(*id as usize)?;
 
 
-    set(vec![Type::STR(name), Type::VOID()], glb)
+    Ok(Type::VOID())
 }

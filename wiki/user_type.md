@@ -1,6 +1,6 @@
 # Overview:
 
-UserType is SGL's equivilant of a struct, pretty much being `typedef struct` like in `C`. You can define a new UserType in your program like so:
+UserType is Nest's equivilant of a struct; it basically acts as a `typedef struct` would in `C`. You can define a new UserType in your program like so:
 
 ```C
 @NAME
@@ -8,7 +8,7 @@ UserType is SGL's equivilant of a struct, pretty much being `typedef struct` lik
     ...
 @NAME
 
-// so an example UserType will like something like this
+// so an example UserType will look like something like this
 @PERSON
   name : "Cred"  
   age  : 17
@@ -23,7 +23,7 @@ UserType is SGL's equivilant of a struct, pretty much being `typedef struct` lik
 @WORKER
 
 ```
-fields are, as any variable in SGL, type dynamic.
+Fields are, as any variable in SGL, type-dynamic.
 
 
 
@@ -48,7 +48,7 @@ set myobj ~*PERSON
 
 **Desc:**
 
-Takes a name of a UserType type and returns an object of that given type containing its default values defined in the UserType decleration(see above).
+Takes a name of a UserType type and returns an object of that given type containing its default values defined in the UserType decleration (see above).
 
 **Return value:** A UserType with default values.
 ___
@@ -72,7 +72,7 @@ make WORKER ~*PERSON "fighting the king"
 
 **Desc:**
 
-A command that creates and returns a new UserType with custom values given in order to the command (see specific example).
+Creates and returns a new UserType with custom values, given in order to the command (see specific example).
 
 **Return value:** The constructed UserType object.
 

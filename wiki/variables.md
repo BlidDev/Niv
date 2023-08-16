@@ -1,6 +1,6 @@
 # Overview:
 
-A variable in SGL can be one of the following types:
+A variable in Nest can be one of the following types:
 ```Cpp
 VOID
 I32
@@ -16,9 +16,9 @@ RETURN   // only used for behind-the-scenes operations
 All variables are type dynamic meaning they can change their type based on the value you set them to. 
 
 ___
-### **Accesing a variable's value**
+### **Accessing a variable's value**
 
-In order to acces a variable's actual value in `Nst` is by writing **`$`** followed by your variable's name (for example `$myvar`). This will tell `Nest` to look through the stack for your variable name and return its value if it exist.
+In order to access a variable's actual value in `Nest`, write **`$`** followed by your variable's name (for example `$myvar`). This will tell `Nest` to look through the stack for your variable name and return its value if it exists.
 
 ___
 ## **set**
@@ -37,7 +37,7 @@ set name val
 
 **Desc:**
 
-Creates a variable called the value of `name` (or overrides an existing one) and inserts the value of `val` in it.
+Creates a variable called the value of `name` (or overrides an existing one) and inserts the value of `val` into it.
 
 **Return value:** The value of `val`.
 
@@ -59,7 +59,7 @@ release name
 
 
 **Desc:**
-Releases the given variable called `name` from memory and returns its value, crashes if the variable doesn't exist.
+Releases the given variable called `name` from memory and returns its value; crashes if the variable doesn't exist.
 
 **Return value:** The value of the released variable.
 

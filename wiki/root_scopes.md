@@ -1,9 +1,9 @@
 # Overview:
-Functions are an inseperable part of any language and Nest is not diffrent. Nest's alternative to functions is are called `root scopes`.
+Functions are an inseparable part of any language and Nest is no diffrent. Nest's alternative to functions is are called `root scopes`.
 
-```Cpp
+```cpp
 
-// Every program has to have a `MAIN` root scope
+// Every program must have a `MAIN` root scope
 #MAIN |
    // Root scopes can be called by the `run` command
    run hello_there 
@@ -13,16 +13,16 @@ Functions are an inseperable part of any language and Nest is not diffrent. Nest
 
 #MAIN
 
-// Each roots scope is defined by a `#` followed by a name
+// Each root scope is defined by a `#` followed by a name
 // and a `|` character that marks the start of the arugument list
 #hello_there |
     print "Hi! :D\n"
 #hello_there
-// ^^^ A curresponding lables is required in order to mark the end of the root scope 
+// ^^^ A corresponding lable is required in order to mark the end of the root scope 
 
 #add | num1 num2
     // By default, a root scope returns `VOID` 
-    // but it can be specifide otherwise using `return`
+    // but it can be specified otherwise using `return`
     return (cal $num1 + $num2)
 #add
 ```
@@ -30,7 +30,7 @@ Functions are an inseperable part of any language and Nest is not diffrent. Nest
 ___
 ## **Arguments**
 
-Root scopes aruguments, as any variable in `Nest` can be of any type. When passing values into aruguments, the program pushes new variables called the aruguments names with the curresponding values and releases them after the root scope has finished running. So calling the `add` root scope from the example would look like this behind the scenes:
+Root scopes' aruguments, as any variable in `Nest`, can be of any type. When passing values into aruguments, the program pushes new variables given the arugument names with the corresponding values, and releases them after the root scope has finished running. So, calling the `add` root scope from the example would look like this behind the scenes:
 
 ```Cpp
 #MAIN |

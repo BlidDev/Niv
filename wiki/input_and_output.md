@@ -1,6 +1,6 @@
 # Overview:
 
-This chapter focuses on the ways you can manage input and output in SGL.
+This chapter focuses on the ways you can manage input and output in Nest.
 
 ___
 ## **post**
@@ -42,7 +42,7 @@ print "This {}\n" "does"
 
 **Desc:**
 
-Prints out the given `format` and replaces any `{}` with the currosponding trailing argument.
+Prints out the given `format` and replaces any `{}` with the corresponding trailing argument.
 
 **Return value:** `VOID`.
 
@@ -69,7 +69,7 @@ print "dbg: {}\n" [dbg 4]
 
 **Desc:**
 
-Returns a string containing the debug info of `val`, similar to using `"{:?}"` in `Rust`
+Returns a string containing the debug info of `val`, similar to using `"{:?}"` in `Rust`.
 
 **Return value:** `STR` containing the debug info.
 
@@ -96,7 +96,7 @@ print "prt: {}\n" [prt 4]
 
 **Desc:**
 
-Returns a string containing the debug info of `val` in a "pretty" format, similar to using `"{:#?}"` in `Rust`
+Returns a string containing the debug info of `val` in a "pretty" format, similar to using `"{:#?}"` in `Rust`.
 
 **Return value:** `STR` containing the pretty debug info.
 
@@ -124,7 +124,7 @@ set formatted_str [format "hey {}\n" "there"]
 
 **Desc:**
 
-Does the same thing as `print` but instead of printing it to the screen it returns the formatted string as a variable.
+Does the same as `print`, but instead of printing it to the screen, it returns the formatted string as a variable.
 
 **Return value:** `STR` containing the formated string.
 
@@ -180,7 +180,7 @@ set num [inputcast I32 "Enter your {}: ", "age"]
 
 **Desc:**
 
-Prints the given formated message in `msg` and requests input from the user and returns the input casted to the desired `type` if possible.
+Prints the given formated message in `msg`, requests input from the user, and returns the input casted to the desired `type` if possible.
 
 **Return value:** The value of the casted input.
 

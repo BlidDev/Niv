@@ -1,7 +1,8 @@
 # Overview:
-There are 2 ways of implementing an if-statement in SGL, as shown below:
 
-**Important:** Multiline ifs and elses are highly case sensitive, meaning that the each curly bracket has got to be on a line of its own and `elses` and `else ifs` have to go in between 2 scopes.
+There are 2 ways of implementing an if-statement in Nest, as shown below:
+
+**Important:** Multiline ifs and elses are situationally sensitive: each curly bracket has got to be on a line of its own and directly under the `if` command, `elses` and `else ifs` must go in between 2 scopes without any empty lines in between.
 
 ```Cpp
 
@@ -49,7 +50,7 @@ if "hey" ! "bye"
 
 **Desc:**
 
-Runs [`cal`](calculations.md) on `a` `op` and `b` and if it returns `true` the program runs the given scope, if not, the program will check wether there's an `else` statement and run it.
+Runs [`cal`](calculations.md) on `a`, `op`, and `b`. If it returns `true`, the program runs the given scope, and if not, the program will check wether there's an `else` statement and run it.
 
 **Return value:** `VOID`.
 
@@ -81,9 +82,9 @@ singleif "hey" = "bye" [print "doesn\'t work\n"] [print "works\n"]
 
 **Desc:**
 
-Runs [`cal`](calculations.md) on `a` `op` and `b` and if it returns `true` the program traverses the given node, otherwise it'll traverse the "false" node if present.
+Runs [`cal`](calculations.md) on `a`, `op`, and `b`. If it returns `true`, the program traverses the given node. Otherwise, it will traverse the "false" node if present.
 
 **Return value:** The returned value of the traversed node or `VOID` if nothing is traversed.
 
 For more complex examples check [if_statements.glg](../examples/if_statements.glg)
-while 
+while <-- What is this?

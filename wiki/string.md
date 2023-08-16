@@ -1,6 +1,6 @@
 # Overview:
 
-Out of the gate, Nest comes with some basic string manipulation command.
+Out of the gate, Nest comes with some basic string manipulation commands.
 
 
 ___
@@ -97,7 +97,7 @@ print "{}\n" [words "hello   \"th ere\""]
 
 **Desc:**
 
-Splits a given `STR` `val` by whitespace characters (but also preserving text in quates) and returns it as a `LIST` of `STR`s.
+Splits a given `STR` `val` by whitespace characters (but also preserving text in quotes) and returns it as a `LIST` of `STR`s.
 
 
 **Return value:** `LIST`.
@@ -146,7 +146,7 @@ print "{}\n" [dbg [trim "\thello there    \n  "]]
 
 **Desc:**
 
-Trims whitespace characters off start and end of `STR` conatined inside `val` and returns the trimmed `STR`.
+Trims whitespace characters off the start and end of a `STR` conatined inside `val`, and returns the trimmed `STR`.
 
 
 **Return value:** `STR`.

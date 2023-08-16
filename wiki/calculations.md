@@ -1,12 +1,12 @@
 # Overview:
 
-This chapter talks about operations you can do with variables in SGL.
+This chapter covers operations you can perform on variables in Nest.
 
 ___
 ## **cal**
 
 **usage example:**
-```Cpp
+```cpp
 // template
 cal a op b
 
@@ -27,7 +27,7 @@ set sum  [cal 2 + 2]
 Applies the operation in `op` on `a` and `b` and returns the result.
 
 Available operations are:
-```Pyhton
+```python
 +  -  add
 -  -  sub
 *  -  mul
@@ -48,12 +48,11 @@ Available operations are:
 
 For more complex examples check [calculations.glg](../examples/calculations.glg)
 
-
 ___
 ## **op**
 
 **usage example:**
-```Python
+```cpp
 // template
 op a op b
 
@@ -74,7 +73,7 @@ op my_var + 1 // adds one to my_var
 Applies the operation in `op` on `a` and `b` and sets `a` to the result.
 
 Available operations are:
-```Pyhton
+```python
 +  -  add
 -  -  sub
 *  -  mul
@@ -99,7 +98,7 @@ ___
 ## **sqrt**
 
 **usage example:**
-```Python
+```cpp
 // template
 sqrt num
 
@@ -122,13 +121,11 @@ Calculates the square root of `num` and returns it.
 
 For more complex examples check [calculations.glg](../examples/calculations.glg)
 
-
-
 ___
 ## **inv**
 
 **usage example:**
-```C
+```cpp
 // template
 inv flag
 
@@ -143,37 +140,32 @@ set this_is_true [inv false]
 
 
 **Desc:**
-A command that take a bool `flag` and returns its opsite value.
+A command that takes a bool `flag` and returns its opposite value.
 
 
 
-**Return value:** The opsite of `flan`: `BOOL`
+**Return value:** The opposite of `flag`: `BOOL`
 
 For more complex examples check [calculations.glg](../examples/calculations.glg)
-
-
 
 ___
 ## **abs**
 
 **usage example:**
-```C
+```cpp
 // template
 abs num
 
 // specific use
 set this_is_positive [abs -4.5]
 ```
-    
 
 **Args:**
 
 * `num`: `I32` or `F32`
 
-
 **Desc:**
 A command that take a numeric value `num` and returns its absolute value.
-
 
 
 **Return value:** The abs of `num`: `I32` or `F32`.

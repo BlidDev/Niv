@@ -1,6 +1,6 @@
 # Overview:
 
-Being able to create a variable containing a list of values (i.e array) is a super important part of any language. Nests answer to that is the `LIST` data type. A `LIST` is essetially a vector of values of any kind.
+Being able to create a variable containing a list of values (i.e array) is a super important part of any language. Nest's answer to that is the `LIST` data type. A `LIST` is essentially a vector of values of any kind.
 
 It is also important to mention that every command below (except for list definition) works on strings too and would just treat them as a `LIST` of `CHAR`s.
 

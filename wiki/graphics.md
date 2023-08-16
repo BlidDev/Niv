@@ -1,8 +1,8 @@
 # Overview:
-SGL comes with a built in simple pixel canvas API, this chapter will explain how to use it.
+Nest comes with a simple pixel canvas API, and this chapter will explain how to use it.
 
 **The way it works:** The canvas has 2 pixel buffers, one for `display` and one for `drawing`. 
-When you're editing your canvas you're actually editing the `drawing` buffer, then, when your frame is ready to be shown to the screen you can run `apply` in order to copy the `drawing` buffer into the `display` one, meaning your changes can actually be shown.
+When you're editing your canvas, you're actually editing the `drawing` buffer. Then, when your frame is ready to be shown to the screen, you can run `apply` in order to copy the `drawing` buffer into the `display` one, meaning your changes can actually be shown.
 
 This is done in order to reduce SFML draw calls as much as possible to save on computing power and unwanted visual gitches.
 
@@ -17,7 +17,6 @@ init w_w w_h c_w c_h title
 // specific use
 init 854 480 16 9 "An example window"
 ```
-    
 
 **Args:**
 
@@ -30,15 +29,12 @@ init 854 480 16 9 "An example window"
 
 **Desc:**
 
-Initilizes SGL's graphics context and creates a new window `w_w`x`w_h` pixels big with a `c_w`x`c_h` size pixel canvas.
+Initilizes SGL's graphics context and creates a new window `w_w`x`w_h` pixels large with a `c_w`x`c_h` size pixel canvas.
 
 
 **Return value:** `VOID`.
 
 For more complex examples check one of the graphical examples in the `examples` folder.
-
-
-
 
 ___
 ## **set_clear**
@@ -211,7 +207,7 @@ get_pixel 1 1 r g b
 
 **Desc:**
 
-Opposite of `set_pixel`, retrieves the `rgb` values of a pixel at [`x`, `y`] in the `drawing` pixel buffer and stores it inside the given variable names.
+Opposite of `set_pixel`; retrieves the `rgb` values of a pixel at (`x`, `y`) in the `drawing` pixel buffer and stores it inside the given variables.
 
 **Return value:** `VOID`.
 
@@ -234,7 +230,7 @@ set lst [get_area 1 1 3 3]
 
 **Desc:**
 
-Opposite of `set_area`, retrieves the `rgb` values of a `w`x`h` area at [`x`, `y`] in the `drawing` pixel buffer and returns it as a `LIST` containing all of the values from the given area in `RGBA8888` pixel format.
+Opposite of `set_area`; retrieves the `rgb` values of a `w` by `h` area at (`x`, `y`) in the `drawing` pixel buffer and returns it as a `LIST` containing all of the values from the given area in `RGBA8888` pixel format.
 
 **Return value:** List of `I32`s.
 
@@ -247,7 +243,7 @@ ___
 ```Python
 get_millis
 ```
-    
+
 
 **Desc:**
 
@@ -329,7 +325,7 @@ set_ttext $text1 "Different message\n"
 
 **Desc:**
 
-Sets the text of text object with id: `id` to `msg`.
+Sets the text of text object with id `id` to `msg`.
 
 **Return value:** `VOID`.
 
@@ -357,7 +353,7 @@ set_tsize $text1 [cal 10 * 3]
 
 **Desc:**
 
-Sets the size of text object with id: `id` to `size` (in pixels).
+Sets the size of text object with id `id` to `size` (in pixels).
 
 **Return value:** `VOID`.
 
@@ -386,7 +382,7 @@ set_tpos $text1 [cal 50 / 5] 100
 
 **Desc:**
 
-Sets the position of text object with id: `id` to (`x`, `y`) (in pixels).
+Sets the position of text object with id `id` to (`x`, `y`) (in pixels).
 
 **Return value:** `VOID`.
 
@@ -416,7 +412,7 @@ set_tclr $text1 100 100 50
 
 **Desc:**
 
-Sets the color of text object with id: `id` to (`r`, `g`, `b`).
+Sets the color of text object with id `id` to (`r`, `g`, `b`).
 
 **Return value:** `VOID`.
 
@@ -444,7 +440,7 @@ set_tvisible $text1 false
 
 **Desc:**
 
-Sets whether text object with id: `id` should be visible.
+Sets whether text object with id `id` should be visible.
 
 **Return value:** `VOID`.
 
@@ -471,7 +467,7 @@ end_text text1 // notice no $
 
 **Desc:**
 
-Delets the text object with id: `id` and sets the variable containing the id to `VOID`
+Deletes the text object with id `id` and sets the variable containing the id to `VOID`
 
 **Return value:** `VOID`.
 

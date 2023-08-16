@@ -1,10 +1,10 @@
 # How it works
-Before starting to code in `Nest` it is really important you know how some core language aspects work.
+Before starting to code in `Nest`, it is really important to know how some core language aspects work.
 
 ___
 ## The node system
 
-By defenition, everything in a `Nest` script is a node, nodes are sperarated by whitespaces and can be divided into 2 types:
+By definition, everything in a `Nest` script is a node. Nodes are separated by whitespaces and can be divided into 2 types:
 
 * **Value**: A simple value such as a number or a string.
 

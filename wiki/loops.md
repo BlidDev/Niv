@@ -1,5 +1,5 @@
 # Overview:
-It is possible to create both `for` style and `while` loops in SGL using these 2 methods:
+It is possible to create both `for` style and `while` loops in Nest using these 2 methods:
 
 ```Cpp
 
@@ -50,7 +50,7 @@ while [cal 5 > 10]
 
 **Desc:**
 
-Loops the provided scope as long as `statement` is `true`, as the case is in `ifs`, the curly brackets are case sensitive.
+Loops the provided scope as long as `statement` is `true`. As with those in `ifs`, the curly brackets are sensitive to their placement in the code.
 
 **Return value:** `VOID`.
 
