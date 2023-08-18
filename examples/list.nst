@@ -1,0 +1,43 @@
+
+#MAIN |
+    set lst {1 2 (cal 1 + 2) "hello" {"how" "are you doing"}}
+    n_print_list
+    print "lst[2] = {}\n" (gete lst 2)
+
+    // replace 4th element with its 3rd element
+    sete lst 3 (gete (gete lst 3) 2)
+    print_list
+
+    set lst (lempty)
+    // or just
+    lclear lst
+    print_list
+
+    set lst (repeat '4' 5)
+    n_print_list
+    set lst (repeatl $lst 5)
+    n_print_list
+
+    set lst (lempty)
+
+    set i 0
+    while (cal $i < 10)
+    {
+        lpush lst (rng 10 100)
+        op i + 1
+    }
+    n_print_list
+    // check that lpop does return the last element
+    // notice that this only works because the nodes get traversed from left to right
+    print "{}\n" (cal (gete lst (cal (llen lst) - 1)) == (lpop lst))
+
+
+#MAIN
+
+#print_list |
+    print "{}\n" (dbg $lst)
+#print_list
+
+#n_print_list |
+    print "{}\n" $lst
+#n_print_list

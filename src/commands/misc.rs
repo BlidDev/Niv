@@ -4,7 +4,7 @@ use crate::{structs::{Type, Globals, GError, ERROR, TypeIndex, Timer}, util::{ar
 
 use std::{thread::sleep, time::{Duration, Instant}};
 
-use super::{prints::format_command, variables::set};
+use super::prints::format_command;
 
 pub fn sleep_command(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR>{
 
@@ -209,7 +209,7 @@ pub fn end_timer(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
     };
 
 
-    glb.timers.remove(*id as usize)?;
+    glb.timers.remove(id as usize)?;
 
 
     Ok(Type::VOID())

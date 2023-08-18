@@ -1,0 +1,35 @@
+
+#MAIN |
+    set ans ""
+    while (cal $ans ! "exit")
+    {
+        print "Menu:======\n  * exit\n  * cool_thing\n"
+        set ans (input "-> ")
+        if $ans == "cool_thing"
+        {
+            set size (inputcast i32 "Enter size of triangle: ")
+            singleif $size <= 0 (err "Invalid triangle size: {}" $size)
+            set y 0
+            while (cal $y < $size)
+            {
+                set x 0
+                while (cal $x < $y)
+                {
+                    print "* "
+                    op x + 1
+                }
+                print "\n"
+                op y + 1
+            }
+        }
+        else if $ans == "exit"
+        {
+            print "Well see you later\n"
+        }
+        else 
+        {
+            err "Invalid command given: {}" (dbg $ans)
+        }
+
+    }
+#MAIN

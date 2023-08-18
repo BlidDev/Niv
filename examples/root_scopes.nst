@@ -1,0 +1,32 @@
+// this is an exellent example of how to overenineer a script using root scopes
+
+#MAIN |
+    set_vars {a 1} {b 2} {c 3} {i 0} // pairs to variables
+    traverse
+#MAIN
+
+#traverse |
+    while (cal $i < 20)
+    {
+        print "{} - {}\n" $i (procces)
+        op i + 1
+    }
+#traverse
+
+#set_vars | n1 n2 n3 n4
+   set_var $n1 
+   set_var $n2 
+   set_var $n3 
+   set_var $n4 
+#set_vars 
+
+#set_var | v 
+    set (gete v 0) (gete v 1)
+#set_var
+
+#procces |
+    set c (cal $a + $b)
+    set a $b
+    set b $c
+    return $c
+#procces

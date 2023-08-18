@@ -1,0 +1,67 @@
+#MAIN |
+    
+    // size of canvas
+    set mul 2
+    set cw (cal 16 * $mul) 
+    set ch (cal 9  * $mul) 
+
+    // size of square
+    set sw 3 
+    set sh 3 
+
+    set posx 0 
+    set posy 0 
+
+    init 854 480 $cw $ch "Canvas Test"
+
+    // reletive to the nest runnable file
+    load_font "res/DePixelHalbfett.ttf"
+    set t (new_text (format "hello\n({}, {})" $posx $posy) 25)
+    set t1 (new_timer 100)
+
+    set_clear 0 49 150 
+    clear
+
+    // bounds with square size in consideration
+    set lx (cal $cw - (cal $sw - 1))
+    set ly (cal $ch - (cal $sh - 1))
+
+    while (should_run)
+    {
+        clear
+        
+        // is movement cooldown passed
+        if (timer_elapsed $t1) == true
+        {
+            timer_reset $t1
+
+            singleif (key_pressed T) == true (chain (timer_set_delay $t1 10) (timer_reset $t1))
+
+            singleif (key_pressed D) == true (op posx + 1)
+            singleif (key_pressed A) == true (op posx - 1)
+            singleif (key_pressed W) == true (op posy - 1)
+            singleif (key_pressed S) == true (op posy + 1)
+        }
+        
+
+        // check bounds
+        singleif $posx == $lx (set posx (cal $lx - 1))
+        singleif $posy == $ly (set posy (cal $ly - 1))
+
+        singleif $posx < 0 (set posx 0)
+        singleif $posy < 0 (set posy 0)
+
+        set_area $posx $posy $sw $sh 150 48 99
+        set_ttext $t1  (format "hello\n({}, {})" $posx $posy)
+        apply
+        display
+
+    }
+
+    end_text t
+ 
+#MAIN
+
+#should_run |
+    return (inv (cal (handle_input) | (key_pressed Q)))
+#should_run

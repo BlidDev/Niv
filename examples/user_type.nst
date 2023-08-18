@@ -1,0 +1,97 @@
+
+#MAIN |
+    // global storage
+    set stor ~*Storage
+
+    set ans ""
+    while (cal $ans ! "exit")
+    {
+        print "Menu:======\n * exit\n * view storage (view)\n * add car(add)\n * remove car(rem)\n"
+        set ans (input "-> ")
+
+        if $ans == "exit"
+        {
+            print "See you later\n"
+        }
+        else if $ans == "view"
+        {
+            view_cars
+        }
+        else if $ans == "add"
+        {
+            add_car
+        }
+        else if $ans == "rem"
+        {
+            rem_car
+        }
+        else 
+        {
+            err "Invalid command: {}" $ans
+        }
+
+    }
+
+#MAIN
+
+@Car
+    model : ""
+    year  : 0
+@Car
+
+@Storage
+    owners : {}
+    cars : {}
+@Storage
+
+#view_cars |
+    set i 0
+    print "\n\n=STORAGE==============\n"
+    while (cal $i < (llen (getf stor owners)))
+    {
+        // stor.owners[i]:
+        set owner (gete (getf stor owners) $i)
+
+        // stor.cars[i]:
+        set car   (gete (getf stor cars) $i)
+
+        print "{} {} is an owner of ({} made in {})\n" $i $owner (getf car model) (getf car year)
+        op i + 1
+    }
+    print "======================\n\n"
+#view_cars
+
+#add_car |
+    set owner (input "\n\nEnter owners name: ")
+    set model (input "Enter cars model: ")
+    set year (inputcast i32 "Enter cars year of creation: ")
+
+    // no mutable refereces yet so were coping and putting everything back
+    set owners (getf stor owners)
+    set cars   (getf stor cars)
+    lpush owners $owner
+    lpush cars (make Car $model $year)
+
+    setf stor owners $owners
+    setf stor cars   $cars
+    print "\n\n"
+#add_car
+
+
+#rem_car |
+    view_cars
+    set index (inputcast i32 "Enter the index you want to remove: ")
+    singleif (cal $index < 0) | (cal $index >= (llen (getf stor owners))) (err "Invalid index: {}", $index)
+
+
+    // no mutable refereces yet so were coping and putting everything back
+    set owners (getf stor owners)
+    set cars   (getf stor cars)
+    lremove owners $index
+    lremove cars   $index
+
+    setf stor owners $owners
+    setf stor cars   $cars
+    
+    print "Removed\n\n"
+#rem_car

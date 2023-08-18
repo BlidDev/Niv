@@ -1,0 +1,27 @@
+
+#MAIN |
+    set a 4
+    set b (cal (cal 5 * 6) * (cal 3 + 3))
+
+    set c (cal $b ^ $a)
+    print "{}\n" $c
+    op  c - (cal $c - $b)
+
+    print "{}\n" $c
+
+    set should_close false
+    set i 0
+    while (cal (inv $should_close) == true)
+    {
+        singleif $i >= 10 (set should_close true)
+        print "hello - {} {} {}\n" $i (sqrt $i) (abs (cal $i * -1948))
+        op i + 1
+    }
+
+    print "sin(90) = {}\n"  [sin 90]
+    print "cos(90) = {}\n"  [cos 90]
+    print "tan(90) = {}\n"  [tan 90]
+    print "asin(1) = {}\n"  [asin 1.0]
+    print "acos(0) = {}\n"  [acos 0]
+    print "atan(90) = {}\n" [atan 90]
+#MAIN

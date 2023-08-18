@@ -1,0 +1,75 @@
+
+#MAIN |
+    set ans ""
+    set ans ""
+    while (cal $ans ! "exit")
+    {
+        print "Menu:======\n  * exit\n  * display file (enter dis)\n  * edit file (enter edt)\n"
+        set ans (input "-> ")
+        if $ans == "exit"
+        {
+            print "Well see you later then\n"
+        }
+        else if $ans == "dis" 
+        {
+            set path (input "Enter file path: ")
+            display_file $path
+        }
+        else if $ans == "edt" 
+        {
+            edit_file
+        }
+        else 
+        {
+            err "Invalid command: {}" $ans
+        }
+    }
+
+#MAIN 
+
+#display_file | p
+    openfile $p 'r'
+    set lns (lines (readbuf $path))
+    set i 0
+    print "\n\n=========={}==========\n" $path
+    while (cal $i < (llen lns))
+    {
+        print "{} {}\n" $i (gete lns $i)
+        op i + 1
+    }
+    print "======================\n\n"
+#display_file
+
+#edit_file |
+    openfile (set path (input "Enter file path: ")) 'r'
+    set lns (lines (readbuf $path))
+    set index 0
+    while (cal $index >= 0)
+    {
+        display_lines 
+        set index (inputcast i32 "Enter line index to change: ")
+        singleif $index >= 0 (sete lns $index (input "{} -> " (gete lns $index))) 
+    }
+    closef $path
+
+    openfile $path 'w'
+    writef $path "" true
+    set i 0
+    while (cal $i < (llen lns))
+    {
+        writef $path (format "{}\n" (gete lns $i)) false
+        op i + 1
+    }
+    closef $path
+#edit_file
+
+#display_lines |
+    set i 0
+    print "\n\n=========={}==========\n" $path
+    while (cal $i < (llen lns))
+    {
+        print "{} {}\n" $i (gete lns $i)
+        op i + 1
+    }
+    print "======================\n\n"
+#display_lines

@@ -5,42 +5,48 @@ pub fn gete(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
     let args = args_to_vars(&args,&glb.stack)?;
 
 
-    let name = match &args[0] {
-
-       Type::CHAR(ref c) => c.clone().to_string(),
-       Type::STR(ref s) => s.clone(),
-        _ => return gerr!("Error: invalid list name [{:?}] given to [gete] ", args[0])
-    };
-
     let index = &args[1];
 
     sgerr!(
         Type::I32(ref index),
         index,
-        "Error: invalid index given in [getf]: [{:?}]", index
+        "Error: invalid index given in [gete]: [{:?}]", index
     );
 
-    let Some(l) = glb.stack.get_mut(&name) else {
-        return gerr!("Error: [{}] does not exist", name);
+    let name = match &args[0] {
+        Type::LIST(ref v) => return Ok(v[index.clone() as usize].clone()),
+        Type::CHAR(ref c) => c.clone().to_string(),
+        Type::STR(ref s) => s.clone(),
+        _ => return gerr!("Error: invalid list name [{:?}] given to [gete] ", args[0])
     };
 
 
-    match l {
+    if let Some(l) = glb.stack.get_mut(&name) {
+        match l {
 
-        Type::LIST(l) => {
-            if *index < 0 || *index as usize >= l.len() {
-                return gerr!("Error: index given to [gete] is out of range: [{}]. Current range is: (0..{})", index,l.len());
-            }
-            Ok(l.get(*index as usize).unwrap().clone())
-        },
-        Type::STR(s) => {
-            if *index < 0 || *index as usize >= s.len() {
-                return gerr!("Error: index given to [gete] is out of range: [{}]. Current range is: (0..{})", index,s.len());
-            }
-            Ok(Type::CHAR(s.chars().nth(*index as usize).unwrap()))
-        },
-        _ => return gerr!("Error: [{}] is not a list nor string but a [{:?}]", name, l)
+            Type::LIST(l) => {
+                if *index < 0 || *index as usize >= l.len() {
+                    return gerr!("Error: index given to [gete] is out of range: [{}]. Current range is: (0..{})", index,l.len());
+                }
+                Ok(l.get(*index as usize).unwrap().clone())
+            },
+            Type::STR(s) => {
+                if *index < 0 || *index as usize >= s.len() {
+                    return gerr!("Error: index given to [gete] is out of range: [{}]. Current range is: (0..{})", index,s.len());
+                }
+                Ok(Type::CHAR(s.chars().nth(*index as usize).unwrap()))
+            },
+            _ => return gerr!("Error: [{}] is not a list nor string but a [{:?}]", name, l)
+        }
     }
+    else{
+        if *index < 0 || *index as usize >= name.len() {
+            return gerr!("Error: index given to [gete] is out of range: [{}]. Current range is: (0..{})", index,name.len());
+        }
+        Ok(Type::CHAR(name.chars().nth(*index as usize).unwrap()))
+    }
+
+
 }
 
 pub fn sete(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
@@ -133,19 +139,20 @@ pub fn list_clear(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR>{
 pub fn list_len(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR>{
     let name = get_variable(&args[0], &glb.stack)?;
     let name = match name {
+       Type::LIST(ref v) => return Ok(Type::I32(v.len() as i32)),
        Type::CHAR(ref c) => c.clone().to_string(),
        Type::STR(ref s) => s.clone(),
         _ => return gerr!("Error: invalid list name [{:?}] given to [llen] ", args[0])
     };
-    let Some(l) = glb.stack.get_mut(&name) else {
-        return gerr!("Error: [{}] does not exist", name);
-    };
-
-    match l {
-        Type::LIST(l) => Ok(Type::I32(l.len() as i32)),
-        Type::STR(s) => Ok(Type::I32(s.len() as i32)),
-        _ => gerr!("Error: [{}] is not a list nor string but a [{:?}]", name, l)
+    if let Some(l) = glb.stack.get_mut(&name) {
+        match l {
+            Type::LIST(l) => Ok(Type::I32(l.len() as i32)),
+            Type::STR(s) => Ok(Type::I32(s.len() as i32)),
+            _ => gerr!("Error: [{}] is not a list nor string but a [{:?}]", name, l)
+        }
     }
+    else {Ok(Type::I32(name.len() as i32))}
+
 
 }
 

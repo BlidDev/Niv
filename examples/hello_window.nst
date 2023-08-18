@@ -1,0 +1,25 @@
+
+#MAIN |
+
+    // 848x480 window with a 96x54 pixel canvas
+    init 848 480 96 54 "Hello window"
+
+    set_clear 100 100 100
+
+    // we do this only once because we never update our pixels
+    clear
+    apply
+
+
+    while (should_run)
+    {
+        display
+    }
+
+#MAIN
+
+#should_run |
+    // retruns false if Q is pressed or if theres an 
+    // os event that tells the window to close
+    return (inv (cal (handle_input) | (key_pressed Q)))
+#should_run

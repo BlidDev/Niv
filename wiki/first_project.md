@@ -20,7 +20,7 @@ The simplest way to run it would be:
 ```Bash
 cargo run -- -f path/to/hello_world.nst
 or
-./Nest -f path/to/hello_world.nst
+./nest -f path/to/hello_world.nst
 ```
 
 The `-f` parameter is short for `--file-list`, which will be explained later.
@@ -57,7 +57,7 @@ As shown before, the simplest way to run a multi-script project is using a `file
 ```Bash
 cargo run -- -f path/to/helper.nst path/to/main.nst
 or
-./Nest -f path/to/helper.nst path/to/main.nst
+./nest -f path/to/helper.nst path/to/main.nst
 ```
 
 would run the program as expected.
@@ -81,7 +81,7 @@ that would be called like so:
 
 ```Bash
 cargo run -- -p path/to/project.prj
-./Nest -p path/to/project.prj
+./nest -p path/to/project.prj
 ```
 
 A project file does exactly what a `file-list` does, only it's in a single neat file instead of having to expand on the "compiliation" line every time a new file is added.

@@ -1,0 +1,23 @@
+
+#MAIN |
+    
+    print "{}\n" (set lst (stolist "Greetings, mother"))
+    print "{}\n\n" (ltostr $lst)
+
+    set ans (input "Enter a string: ")
+    print "words: {}\n" (words $ans)
+    print "s_words: {}\n" (s_words $ans)
+    print "trim: {}\n\n" (dbg (trim $ans))
+    set lns (lines "\tthis is a \n multiple line string\n (divided into words)")
+
+    // go over every line in text and replace it with its words list
+    set i 0
+    while (cal $i < (llen lns))
+    {
+        set wrds (s_words (gete lns $i))
+        sete lns $i $wrds
+        op i + 1
+    }
+    
+    print "{}\n" $lns
+#MAIN

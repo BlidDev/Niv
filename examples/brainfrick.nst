@@ -26,22 +26,22 @@
         {
             set c (gete line $j)
 
-            singleif $c = '>' (op pointer + 1)
-            singleif $c = '<' (op pointer - 1)
-            singleif $c = '+' (ope memory $pointer + 1)
-            singleif $c = '-' (ope memory $pointer - 1)
-            singleif $c = '.' (print "{}" (cst char (gete memory $pointer)))
-            singleif $c = ',' (sete memory $pointer (inputcast i32 ""))
+            singleif $c == '>' (op pointer + 1)
+            singleif $c == '<' (op pointer - 1)
+            singleif $c == '+' (ope memory $pointer + 1)
+            singleif $c == '-' (ope memory $pointer - 1)
+            singleif $c == '.' (print "{}" (cst char (gete memory $pointer)))
+            singleif $c == ',' (sete memory $pointer (inputcast i32 ""))
 
-            if $c = '[' 
+            if $c == '[' 
             {
-                if (gete memory $pointer) = 0
+                if (gete memory $pointer) == 0
                 {
                     jumpforward
                 }
             }
             
-            if $c = ']' 
+            if $c == ']' 
             {
                 if (gete memory $pointer) ! 0
                 {
@@ -65,8 +65,8 @@
     while (cal $j < (llen line) )
     {
         set c (gete line $j)
-        singleif $c = '[' (op brackets + 1)
-        singleif $c = ']' (op brackets - 1)
+        singleif $c == '[' (op brackets + 1)
+        singleif $c == ']' (op brackets - 1)
         op j + 1
     }
 
@@ -84,7 +84,7 @@
     {
         set c (gete line $j)
 
-        if $c = ']' 
+        if $c == ']' 
         {
         
             print "{}\n" $j
@@ -102,7 +102,7 @@
     {
         set c (gete line $j)
 
-        if $c = '[' 
+        if $c == '[' 
         {
             return 0
         }

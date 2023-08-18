@@ -8,6 +8,24 @@ Nest holds a detailed wiki about almost every aspect of language, check these tw
 * [Installation](wiki/installation.md)
 * [Setting up and running your first project](wiki/first_project.md)
 
+## Code example:
+Here is an example code sinppet that prints your info using sturcts:
+
+```Python
+
+@Person
+ name : ""
+ age : 0
+@Person
+
+#MAIN |
+    set name (input "Enter your name: ")
+    set age (inputcast i32 "Enter your age: ")
+    set obj (make Person $name $age)
+    print "Your info is: {}\n" $obj
+#MAIN
+```
+
 ### Libraries used for this project
 * `unescape`
 * `snailquote`

@@ -26,7 +26,7 @@
     apply
     while (inv (cal (handle_input) | (key_pressed Space)))
     {
-        singleif (key_pressed Q) = true (exit)
+        singleif (key_pressed Q) == true (exit)
 
         display
     }
@@ -45,7 +45,7 @@
         clear
 
         move_bird
-        singleif (timer_elapsed $p_timer) = true (chain (timer_reset $p_timer) (move_pipes))
+        singleif (timer_elapsed $p_timer) == true (chain (timer_reset $p_timer) (move_pipes))
         handle_bird
         draw_pipes
         draw_bird
@@ -74,7 +74,7 @@
    apply
    while (inv (cal (handle_input) | (cal (key_pressed Space) & (timer_elapsed $d_timer))))
    {
-       singleif (key_pressed Q) = true (exit)
+       singleif (key_pressed Q) == true (exit)
 
        display
    }
@@ -123,13 +123,13 @@
             set in_range (cal (cal $j >= $y) & (cal $j < (cal $y + $hlen)))
             set x_in_range (cal (cal $x >= 0) & (cal $x < (cal $sw - 1)))
             set w 2
-            if (cal $x = -1) = true 
+            if (cal $x == -1) == true 
             {
                 set x_in_range true
                 set x (cal $x + 1) 
                 set w 1
             }
-            singleif (cal (inv $in_range) & $x_in_range) = true (set_area $x $j $w 1 163 244 80)
+            singleif (cal (inv $in_range) & $x_in_range) == true (set_area $x $j $w 1 163 244 80)
 
 
             op j + 1
@@ -188,12 +188,12 @@
 
 #move_bird |
 
-    if (cal (timer_elapsed $b_timer) & (key_pressed Space)) = true
+    if (cal (timer_elapsed $b_timer) & (key_pressed Space)) == true
     {
         timer_reset $b_timer
         set vel -1
     }
-    else if (timer_elapsed $g_timer) = true
+    else if (timer_elapsed $g_timer) == true
     {
         timer_reset $g_timer
         set vel 1
@@ -208,17 +208,17 @@
 #handle_bird |
     set should_die false
     set y (getf player y)
-    singleif (cal (cal $y < 0) | (cal $y >= $sh)) = true (set should_die true)
+    singleif (cal (cal $y < 0) | (cal $y >= $sh)) == true (set should_die true)
     set i 0 
     while (cal $i < (llen pipes))
     {
         unwarp_pipe $i "x" "p_y" "hlen"
-        set x_in_range (cal (cal $x = 3) | (cal $x = 2))
+        set x_in_range (cal (cal $x == 3) | (cal $x == 2))
         set y_in_range (cal (cal $y >= $p_y) & (cal $y < (cal $p_y + $hlen)))
         
-        singleif (cal $x_in_range & (inv $y_in_range)) = true (set should_die true)
+        singleif (cal $x_in_range & (inv $y_in_range)) == true (set should_die true)
         op i + 1
     }
 
-    singleif $should_die = true (death)
+    singleif $should_die == true (death)
 #handle_bird

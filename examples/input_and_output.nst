@@ -1,0 +1,31 @@
+
+#MAIN |
+    print "This is a normal print\n"
+
+    print "This is a print {} - {}\n" "with trailing args" (cal 1 + 1)
+
+    set i 0
+
+    set name (input "Enter the var {}: " "name")
+    set num  (inputcast i32 "How many vars: ")
+
+    while (cal $i < $num)
+    {
+        // setting a $num sized new set of variables with the name the user entered
+        set (format "{}{}" $name (cal $i + 1)) (cal $i ^ 2)
+        op i + 1
+    }
+
+    // we can use to print every variable existing in the program
+    post
+    // or just
+    set i 0
+    while (cal $i < $num)
+    {
+        set varname (format "{}{}" $name (cal $i + 1))
+        print "{} - {}\n" $varname (dbg (format "${}" $varname))
+        op i + 1
+    }
+
+#MAIN
+
