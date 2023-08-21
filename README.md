@@ -3,10 +3,14 @@ Nest is a fairly simple interpreted langauge written in Rust, being the unoffici
 
 The main goal behind this project was to make a langauge capeable of nested expressions (like `printf("%d\n", 1 + 1)` for example).
 
+If you want to learn more about the development of this langauge check out the [video](https://www.youtube.com/@BlidDev) I made about the process.
+
 ## Wiki
 Nest holds a detailed wiki about almost every aspect of language, check these two pages out to get started:
 * [Installation](wiki/installation.md)
 * [Setting up and running your first project](wiki/first_project.md)
+
+Other pages can be found over in the **wiki** tab.
 
 ## Code example:
 Here is an example code sinppet that prints your info using sturcts:
@@ -33,6 +37,15 @@ Here is an example code sinppet that prints your info using sturcts:
 * `sfml-rs`
 * `device_query`
 * `clap`
+
+___
+## Special Thanks
+Thanks a bunch for 
+* [Badduck](https://www.youtube.com/@Badduck)
+* [AstroSam](https://www.youtube.com/@AstroSamDev)
+* [Dorbell](https://www.youtube.com/@Dorbellprod)
+
+For helping throughout the project in many forms and again for [Dorbell](https://www.youtube.com/@Dorbellprod) going over and refining the Nest wiki.
 
 ___
 Thanks for checking out Nest! :D
