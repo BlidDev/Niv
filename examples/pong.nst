@@ -39,8 +39,8 @@
 
     while (inv (cal (handle_input) | (key_pressed Space)))
     {
-        singleif (key_pressed Q) = true (exit)
-        if (key_pressed R) = true
+        singleif (key_pressed Q) == true (exit)
+        if (key_pressed R) == true
         {
             (chain (set rs 0) (set ls 0))
             clear
@@ -63,7 +63,7 @@
         clear
 
         draw_net
-        if (timer_elapsed $b_timer) = true
+        if (timer_elapsed $b_timer) == true
         {
             timer_reset $b_timer
             move_ball
@@ -103,13 +103,13 @@
 
 #move_paddles |
     
-    if (timer_elapsed $l_timer) = true
+    if (timer_elapsed $l_timer) == true
     {
         timer_reset $l_timer
         set lp (gete paddles 0)
         set y (getf lp y)
-        singleif (key_pressed (getf lp up)) = true (op y - 1)
-        singleif (key_pressed (getf lp down)) = true (op y + 1)
+        singleif (key_pressed (getf lp up)) == true (op y - 1)
+        singleif (key_pressed (getf lp down)) == true (op y + 1)
 
         singleif $y < 0 (set y 0)
         set ly (cal $sh - (getf lp l))
@@ -123,13 +123,13 @@
     }
 
 
-    if (timer_elapsed $r_timer) = true
+    if (timer_elapsed $r_timer) == true
     {
         timer_reset $r_timer
         set rp (gete paddles 1)
         set y (getf rp y)
-        singleif (key_pressed (getf rp up)) = true (op y - 1)
-        singleif (key_pressed (getf rp down)) = true (op y + 1)
+        singleif (key_pressed (getf rp up)) == true (op y - 1)
+        singleif (key_pressed (getf rp down)) == true (op y + 1)
 
         singleif $y < 0 (set y 0)
         set ly (cal $sh - (getf rp l))
@@ -176,10 +176,10 @@
     set y (getf ball y)
     set dx (getf ball dx)
 
-    if $x = 3 
+    if $x == 3 
     {
         set lp (gete paddles 0)
-        if (cal (cal $y >= (getf lp y)) & (cal $y <= (cal (getf lp y) + (getf lp l)))) = true 
+        if (cal (cal $y >= (getf lp y)) & (cal $y <= (cal (getf lp y) + (getf lp l)))) == true 
         {
             setf ball x (cal $x + 1)
             setf ball dx (cal $dx * -1)
@@ -187,10 +187,10 @@
 
         release lp
     }
-    if $x = (cal $sw - 4)
+    if $x == (cal $sw - 4)
     {
         set rp (gete paddles 1)
-        if (cal (cal $y >= (getf rp y)) & (cal $y <= (cal (getf rp y) + (getf rp l)))) = true 
+        if (cal (cal $y >= (getf rp y)) & (cal $y <= (cal (getf rp y) + (getf rp l)))) == true 
         {
             setf ball x (cal $x - 1)
             setf ball dx (cal $dx * -1)
@@ -209,7 +209,7 @@
     
     while (cal $i < $sh)
     {
-        if (cal $i % 2) = 0  
+        if (cal $i % 2) == 0  
         {
             set_pixel (cal $sw / 2) $i 50 50 50
         }
