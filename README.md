@@ -10,7 +10,7 @@ Nest holds a detailed wiki about almost every aspect of language, check these tw
 * [Installation](wiki/installation.md)
 * [Setting up and running your first project](wiki/first_project.md)
 
-Other pages can be found over in the **wiki** tab.
+Other pages can be found over in the [wiki](https://github.com/BlidDev/Nest/wiki) tab.
 
 ## Code example:
 Here is an example code sinppet that prints your info using sturcts:
