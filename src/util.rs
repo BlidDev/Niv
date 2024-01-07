@@ -64,8 +64,8 @@ pub fn smart_split(line : &String) -> Result<Vec<String>, ERROR> {
                 v.push(tmp.clone().trim().to_string());
                 tmp.clear();
             },
-            ('[', false, true, ..) => { brackeys +=1; tmp.push(c); },
-            (']', false, true, ..) => { brackeys -=1; tmp.push(c); },
+            ('(', false, true, ..) => { brackeys +=1; tmp.push(c); },
+            (')', false, true, ..) => { brackeys -=1; tmp.push(c); },
             ('\"' | '\'', _, true, true, ..) => {
                 if !is_escape(i, line) {
                     instr = !instr;
@@ -139,7 +139,7 @@ fn is_escape(index : usize, line : &String) -> bool {
 
 pub fn is_nested(line : &String) -> Option<String> {
     let mut line = line.trim().to_string();
-    if line.starts_with("[") && line.ends_with("]") {
+    if line.starts_with("(") && line.ends_with(")") {
         line.pop(); line.remove(0);
         return Some(line);
     }

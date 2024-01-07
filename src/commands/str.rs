@@ -97,8 +97,6 @@ pub fn s_words(args : Vec<Type>, glb : &mut Globals) -> Result<Type, ERROR> {
         "Error: invalid argument given to [lines]: [{:?}]", arg
     );
 
-    let mut s = s.replace("(", "[");
-    s = s.replace(")", "]");
     let l : Vec<Type> = smart_split(&s)?.iter().map(|e| Type::STR(e.clone())).collect();
 
     Ok(Type::LIST(l))
