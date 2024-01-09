@@ -8,7 +8,7 @@ use crate::{structs::{ERROR, GError}, gerr};
 #[derive(Debug, Parser)]
 pub struct Arguments {
     #[clap(long, short, about)]
-    /// A list of *.nst files to be inserted into memory in order
+    /// A list of *.niv files to be inserted into memory in order
     #[arg(num_args(0..))]
     file_list : Option<Vec<String>>,
     #[clap(long,short,about)]
@@ -24,7 +24,7 @@ impl Arguments {
         match (&self.file_list, &self.project_file) {
             (Some(v), None) => read_file_list(v),
             (None, Some(n)) => read_project_file(n),
-            (None, None) => read_file_list(&vec!["main.glg".to_string()]),
+            (None, None) => read_file_list(&vec!["main.niv".to_string()]),
             (Some(_), Some(_)) => gerr!("Error: cannot handle file_list and project_file at onces, use only one of the two")
         }
     }
@@ -39,7 +39,7 @@ fn read_file_list(list : &Vec<String>) -> Result<Vec<String>, ERROR> {
         let path = Path::new(filename);
         if !path.exists() { return  gerr!("Error: path [{:?}] does not exist", filename); }
         match path.extension().and_then(OsStr::to_str) {
-            Some("nst") => {
+            Some("niv") => {
                 let reader = BufReader::new(File::open(filename)?);
                 for line in reader.lines() {
                     let line = line?;
