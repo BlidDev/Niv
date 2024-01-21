@@ -1,6 +1,7 @@
 # Niv
 
-![logo](res/logo.png)
+<img src="res/logo.png" alt="drawing" width="150"/>
+
 
 Niv is a fairly simple interpreted langauge written in Rust, being the unofficial spritiual succesor of [Glang](https://github.com/BlidDev/Glang).
 
