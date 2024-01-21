@@ -1,0 +1,13 @@
+
+
+#MAIN
+
+    if [cal $num1 + 1] = [cal $num2 -]
+
+    [if] [[cal][$num1][+][1]] [=] [[cal][$num2][-][1]]
+
+    {
+        [print] ["Help\n"]
+    }
+
+#MAIN

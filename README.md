@@ -1,4 +1,7 @@
 # Niv
+
+![logo](res/logo.png)
+
 Niv is a fairly simple interpreted langauge written in Rust, being the unofficial spritiual succesor of [Glang](https://github.com/BlidDev/Glang).
 
 The main goal behind this project was to make a langauge capeable of ed expressions (like `printf("%d\n", 1 + 1)` for example).
