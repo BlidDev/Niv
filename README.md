@@ -5,9 +5,9 @@
 
 Niv is a fairly simple interpreted langauge written in Rust, being the unofficial spritiual succesor of [Glang](https://github.com/BlidDev/Glang).
 
-The main goal behind this project was to make a langauge capeable of ed expressions (like `printf("%d\n", 1 + 1)` for example).
+The main goal behind this project was to make a language capable of ed expressions (like `printf("%d\n", 1 + 1)` for example).
 
-If you want to learn more about the development of this langauge check out the [video](https://www.youtube.com/@BlidDev) I made about the process.
+If you want to learn more about the development of this langauge check out the [video](https://youtu.be/ev20-C2jOPc) I made about the process.
 
 ## Wiki
 Niv holds a detailed wiki about almost every aspect of language, check these two pages out to get started:
