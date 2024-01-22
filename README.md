@@ -11,8 +11,8 @@ If you want to learn more about the development of this langauge check out the [
 
 ## Wiki
 Niv holds a detailed wiki about almost every aspect of language, check these two pages out to get started:
-* [Installation](wiki/installation.md)
-* [Setting up and running your first project](wiki/first_project.md)
+* [Installation](https://github.com/BlidDev/Niv/wiki/installation)
+* [Setting up and running your first project](https://github.com/BlidDev/Niv/wiki/first_project)
 
 Other pages can be found over in the [wiki](https://github.com/BlidDev/Niv/wiki) tab.
 
