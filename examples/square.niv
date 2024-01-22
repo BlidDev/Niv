@@ -14,7 +14,7 @@
 
     init 854 480 $cw $ch "Canvas Test"
 
-    // reletive to the nest runnable file
+    // reletive to the niv runnable file
     load_font "res/DePixelHalbfett.ttf"
     set t (new_text (format "hello\n({}, {})" $posx $posy) 25)
     set t1 (new_timer 100)
