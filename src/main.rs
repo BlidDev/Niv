@@ -8,21 +8,23 @@ mod canvas;
 mod user_type;
 mod args;
 mod text;
+mod expression;
 pub mod commands;
 
 use args::Arguments;
 use clap::Parser;
 use device_query::DeviceState;
+use expression::node_tree_to_exprs;
 use structs::{Stack, Globals, QueryW, Registry};
 use user_type::register_types;
 use util::*;
 use commands::wrappers::*;
-use crate::structs::CommandQuery;
+use crate::{expression::flatten, structs::CommandQuery};
 
 
 
 fn main() -> Result<(), Box<dyn std::error::Error>>{
-    let args =  Arguments::parse();
+    /*let args =  Arguments::parse();
     let lines = args.args_to_lines()?;
     let lines = remove_comments_from_lines(&lines)?;
     
@@ -79,7 +81,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
 
     traverse_root_scope("MAIN", &roots, &query, &mut glb,  &mut cnv)?;
  
- 
+ */
+    let tree = make_tree(&"sete lst $i (stolist (gete lst $i))".to_string(), true)?;
+
+    let expr = node_tree_to_exprs(&tree)?;
+
+    println!("{}", flatten(&expr)?);
+    
     Ok(())
 }
 
