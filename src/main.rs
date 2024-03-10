@@ -10,6 +10,7 @@ mod user_type;
 mod args;
 mod text;
 mod expression;
+mod state;
 pub mod commands;
 
 use args::Arguments;
@@ -91,7 +92,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
     let expr = node_tree_to_exprs(&tree)?;
 
     //println!("{split:#?}");
-    //println!("{:#?}",tree);
+    println!("{:#?}",tree);
 
     let mut v = vec![];
 
