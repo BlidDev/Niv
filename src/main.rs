@@ -1,3 +1,4 @@
+#![allow(unused)]
 use std::collections::{HashMap, HashSet};
 
 mod util;
@@ -19,7 +20,7 @@ use structs::{Stack, Globals, QueryW, Registry};
 use user_type::register_types;
 use util::*;
 use commands::wrappers::*;
-use crate::{expression::flatten, structs::CommandQuery};
+use crate::{expression::{flatten, Registries}, structs::CommandQuery};
 
 
 
@@ -82,11 +83,23 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
     traverse_root_scope("MAIN", &roots, &query, &mut glb,  &mut cnv)?;
  
  */
-    let tree = make_tree(&"sete lst $i (stolist (gete lst $i))".to_string(), true)?;
+
+    let line  = "set wrds ((s_words what) (gete lns $i))".to_string();
+    let split = smart_split(&line)?;
+    let tree = make_tree(&line, true)?;
 
     let expr = node_tree_to_exprs(&tree)?;
 
-    println!("{}", flatten(&expr)?);
+    //println!("{split:#?}");
+    //println!("{:#?}",tree);
+
+    let mut v = vec![];
+
+    let mut reg = Registries::default();
+    flatten(&expr, &mut v, &mut reg)?;
+    for cmd in v {
+        println!("{cmd:?}");
+    }
     
     Ok(())
 }

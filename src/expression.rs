@@ -2,11 +2,30 @@ use crate::{gerr, get_first_and_last, structs::{GError, NodeType, Type, ERROR}};
 
 
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Expr {
     Command(Box<Expr>, Vec<Box<Expr>>),
     Const(Type),
+    Carry(usize),
     RawVariable(String),
+}
+
+pub const REG_LEN : usize = 10;
+
+pub struct Registries {
+    pub len : usize,
+    pub index : usize,
+    pub set : Vec<Type>
+}
+
+impl Default for Registries {
+    fn default() -> Self {
+        Self {
+            len : REG_LEN,
+            index : 0,
+            set : vec![Type::VOID();REG_LEN]
+        }
+    }
 }
 
 
@@ -33,24 +52,32 @@ pub fn node_tree_to_exprs(tree : &NodeType) -> Result<Expr, ERROR> {
 
 }
 
-pub fn flatten(expr : &Expr) -> Result<String, ERROR> {
+pub fn flatten(expr : &Expr, v : &mut Vec<Expr>, reg : &mut Registries) -> Result<Expr, ERROR> {
 
     match expr {
-        Expr::Const(val) => {
-            return Ok(format!("({})",val.to_string()?))
-        },
-        Expr::RawVariable(name) => {
-            return Ok(format!("[${name}]"))
-        },
         Expr::Command(cmd, args) => {
-           let mut s;
-           s = format!("\nproccesing {} (", flatten(cmd)?);
-           for a in args {
-               s.push_str(&format!("{}, ", flatten(a)?));
-           }
-           s.push_str(")\n");
-           Ok(s)
+
+           let mut exprs = vec![cmd];
+           for a in args { exprs.push(a) }
+           
+           let mut finals = vec![];
+           for a in exprs {
+               let tmp = flatten(a,v, reg)?;
+               if let Expr::Command(_,_) = tmp {
+                   finals.push(Expr::Carry(reg.index - 1))
+               }
+               else {
+                   finals.push(tmp);
+               };
+           };
+           reg.index = (reg.index + 1) % reg.len;
+           let cmd = finals[0].clone();
+           finals.remove(0);
+           let ret = Expr::Command(Box::new(cmd), finals.iter().map(|f| Box::new(f.clone())).collect());
+           v.push(ret.clone());
+           Ok(ret)
         }
+        _ => {Ok(expr.clone())}
     }
 
 }

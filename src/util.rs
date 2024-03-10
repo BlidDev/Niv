@@ -9,40 +9,6 @@ pub fn get_value(val : &String) -> String{
     val.clone()
 }
 
-
-
-/*pub fn make_tree(
-    line : &String,
-    first : bool
-    ) -> NodeType {
-
-
-    let line = line.clone();
-    let tmp = line.trim();
-    if tmp.starts_with("\"") && tmp.ends_with("\"") && first {
-        let line = snailquote::unescape(&line.clone()).unwrap();
-        return NodeType::Value(line.clone());
-    }
-    
-
-
-    let balanced = balanced_braces(&[line.clone()], '[', ']');
-
-    if balanced.is_empty() {
-        let line = unescape::unescape(&line).unwrap();
-        return NodeType::Value(line)
-    }
-
-    let mut n = NodeType::Nested(Box::new(make_tree(&balanced[0], true)), vec![]);
-
-    if let NodeType::Nested(_, ref mut childern) = n {
-
-        for i in 1..balanced.len() {
-            childern.push(Box::new(make_tree(&balanced[i], true)))
-        }
-    }
-}*/
-
 pub fn smart_split(line : &String) -> Result<Vec<String>, ERROR> {
 
     let mut v = vec![];
@@ -82,7 +48,7 @@ pub fn smart_split(line : &String) -> Result<Vec<String>, ERROR> {
         i += 1;
     }
     if brackeys != 0 || lists != 0 || instr {
-        return gerr!("Error: trying to parse invalid line: {:?}",line)
+        return gerr!("error: trying to parse invalid line: {:?}",line)
     }
     if !tmp.trim().is_empty() { v.push(tmp.trim().to_string()); }
 
@@ -151,33 +117,36 @@ pub fn is_nested(line : &String) -> Option<String> {
 
 pub fn make_tree(line : &String, first : bool) -> Result<NodeType, ERROR> {
 
-    let trimmed : String = {
-        let s : String;
-        match is_nested(line) {
-            Some(trimmed) => s = trimmed,
-            _ => {
-                if first { s = line.clone() }
-                else {return Ok(NodeType::Value(line.clone()))}
-            },
-        }
-        s
-    };
 
-    let splits = smart_split(&trimmed)?;
-    if splits.is_empty() { 
-        return gerr!("Error: cannot parse empty node ()")
+    
+    let splits = smart_split(line)?;
+
+    let mut sp : NodeType;
+
+    match splits.len() {
+        0 => {
+            return gerr!("Error: cannot parse empty node ()")
+        },
+        1 => {
+            if let Some(trimmed) = is_nested(&splits[0]) {
+                return make_tree(&trimmed, true)
+            }
+            Ok(NodeType::Value(splits[0].clone()))
+        }
+        _ => {
+            let mut nodes= vec![];
+            for s in splits.iter() {
+                nodes.push(make_tree(s, false)?)
+            }
+
+            let first = nodes[0].clone();
+            nodes.remove(0);
+            return Ok(NodeType::Nested(Box::new(first), nodes.iter().map(|n| Box::new(n.clone())).collect()))
+
+        }
     }
 
-    let mut n = NodeType::Nested(Box::new(make_tree(&splits[0], false)?), vec![]);
 
-    if let NodeType::Nested(_, ref mut childern) = n {
-
-        for i in 1..splits.len() {
-            childern.push(Box::new(make_tree(&splits[i], false)?))
-        }
-    }
-
-    Ok(n)
 }
 
 pub fn traverse(node : &NodeType, roots : &Roots,query : &QueryW, glb : &mut Globals, scope : &Scope,
