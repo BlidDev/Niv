@@ -1,0 +1,7 @@
+
+
+#MAIN |
+    set a "post"
+    post
+    print "{}\n" 
+#MAIN

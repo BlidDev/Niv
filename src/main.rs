@@ -1,4 +1,3 @@
-#![allow(unused)]
 use std::collections::{HashMap, HashSet};
 
 mod util;
@@ -17,6 +16,7 @@ use args::Arguments;
 use clap::Parser;
 use device_query::DeviceState;
 use expression::node_tree_to_exprs;
+use state::{traverse_state, State};
 use structs::{Stack, Globals, QueryW, Registry};
 use user_type::register_types;
 use util::*;
@@ -26,7 +26,7 @@ use crate::{expression::{flatten, Registries}, structs::CommandQuery};
 
 
 fn main() -> Result<(), Box<dyn std::error::Error>>{
-    /*let args =  Arguments::parse();
+    let args =  Arguments::parse();
     let lines = args.args_to_lines()?;
     let lines = remove_comments_from_lines(&lines)?;
     
@@ -81,26 +81,31 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
 
 
 
-    traverse_root_scope("MAIN", &roots, &query, &mut glb,  &mut cnv)?;
- 
- */
+    //traverse_root_scope("MAIN", &roots, &query, &mut glb,  &mut cnv)?;
+    let main = roots.get("MAIN").unwrap().nodes.clone();
 
-    let line  = "set wrds ((s_words what) (gete lns $i))".to_string();
-    let split = smart_split(&line)?;
-    let tree = make_tree(&line, true)?;
 
-    let expr = node_tree_to_exprs(&tree)?;
 
-    //println!("{split:#?}");
-    println!("{:#?}",tree);
+    let mut exprs = vec![];
+    for n in main {
+        if let Some(n) = n {
+            exprs.push(node_tree_to_exprs(&n)?);
+        }
+    }
+
 
     let mut v = vec![];
 
     let mut reg = Registries::default();
-    flatten(&expr, &mut v, &mut reg)?;
-    for cmd in v {
-        println!("{cmd:?}");
+    for e in exprs {
+        flatten(&e, &mut v, &mut reg)?;
     }
+    let mut state = State{
+        registries : reg,
+        sequence : v
+    };
+    traverse_state(&mut state, &roots, &query, &mut glb, &s, &mut cnv)?; 
+    //state.post();
     
     Ok(())
 }

@@ -1,11 +1,20 @@
-use sfml::window::sensor::Type;
-
-use crate::{canvas::Canvas, expression::{Expr, Registries}, gerr, run_command, structs::{parse_type, Globals, NodeType, QueryW, Roots, Scope, ERROR}, traverse};
+use crate::{canvas::Canvas, expression::{Expr, Registries}, gerr, run_command, structs::{parse_type, GError, Globals, NodeType, QueryW, Roots, Scope, Type, ERROR}, traverse};
 
 
+#[derive(Debug)]
 pub struct State {
     pub sequence : Vec<Expr>,
     pub registries : Registries
+}
+
+impl State {
+    pub fn post(&self) {
+        for s in self.sequence.iter() {
+            println!("{s:?}")
+        }
+        println!("\n{:#?}", self.registries);
+    }
+    
 }
 
 
@@ -13,9 +22,36 @@ pub fn traverse_state(state : &mut State, roots : &Roots,query : &QueryW, glb : 
     cnv : &mut Option<Canvas>
     ) -> Result<Type,ERROR> {
     for expr in state.sequence.iter() {
+        let Expr::Command(cmd, e_args) = expr else {
+            return gerr!("Error: expression is [{:?}] instead of command", expr);
+        };
+        let mut args = vec![];
+        for a in e_args.iter() {
+            let tmp = traverse_expression(&a, &mut state.registries)?;
+            args.push(tmp.clone());
+        }
+        let Type::STR(cmd) = traverse_expression(&cmd, &mut state.registries)? else {
+            return gerr!("Error: command is [{cmd:?}] instead of STR");
+        };
 
+        state.registries.reset();
+        //println!("{cmd} {args:?}");
+        state.registries.put(run_command(roots, query, &cmd, args, glb, scope, cnv)?);
     }
-    todo!()
+    Ok(Type::VOID())
+}
+
+pub fn traverse_expression(expr : &Expr, reg : &mut Registries) -> Result<Type, ERROR> {
+    match expr {
+        Expr::Const(val) => Ok((*val).clone()),
+        Expr::Carry(index) => {
+            let tmp = reg.set.get(*index).unwrap().clone();
+            println!("tmp: {tmp:?}");
+            Ok(tmp)
+        }
+        Expr::RawVariable(name) => Ok(Type::VOID()),
+        _ => gerr!("Error: Unexpected command expression")
+    }
 }
 
     /*

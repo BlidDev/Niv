@@ -23,8 +23,9 @@ pub fn print(args : Vec<Type>, glb : &Globals) ->Result<Type, ERROR> {
 
 
     let matches = format.matches("{}").count();
+    println!("{} {:?}", matches, args);
     
-    if matches < args.len() - 1 {
+    if matches != args.len() - 1 {
         return gerr!("Error: [{:?}] positionals were given in [print] but [{}] provided", matches, args.len() - 1);
     }
 

@@ -12,10 +12,22 @@ pub enum Expr {
 
 pub const REG_LEN : usize = 10;
 
+#[derive(Debug)]
 pub struct Registries {
     pub len : usize,
     pub index : usize,
     pub set : Vec<Type>
+}
+
+impl Registries {
+    pub fn put(&mut self, val : Type) {
+        self.set[self.index] = val;
+    }
+
+    pub fn reset(&mut self) {
+        self.index = 0;
+        self.set = vec![Type::VOID();self.len];
+    }
 }
 
 impl Default for Registries {
@@ -64,7 +76,7 @@ pub fn flatten(expr : &Expr, v : &mut Vec<Expr>, reg : &mut Registries) -> Resul
            for a in exprs {
                let tmp = flatten(a,v, reg)?;
                if let Expr::Command(_,_) = tmp {
-                   finals.push(Expr::Carry(reg.index - 1))
+                   finals.push(Expr::Carry(0.max(reg.index as i32 - 1) as usize))
                }
                else {
                    finals.push(tmp);
@@ -101,10 +113,12 @@ fn is_var(val : &String) -> Option<String> {
 
 fn to_type(value : &String) -> Result<Type, ERROR> {
     let val = value.to_string();
+    //println!("{val:?}");
     match get_first_and_last(&val) {
         (Some('\"') , Some('\"')) => 
         {
             let val = snailquote::unescape(&val)?;
+            let val = unescape::unescape(&val).unwrap();
             return Ok(Type::STR(val))
         },
         (Some('\'') , Some('\'')) => {
@@ -117,6 +131,15 @@ fn to_type(value : &String) -> Result<Type, ERROR> {
         },
         _ => {}
     }
+
+    if let Ok(i) = value.parse::<i32>() {
+        return Ok(Type::I32(i));
+    } else if let Ok(f) = value.parse::<f32>() {
+        return Ok(Type::F32(f));
+    } else if let Ok(b) = value.parse::<bool>() {
+        return Ok(Type::BOOL(b));
+    }
+
 
     if value.trim_start().starts_with("{") && value.trim_end().ends_with("}") { 
         return Ok(Type::LIST(vec![]))

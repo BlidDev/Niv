@@ -121,15 +121,19 @@ pub fn make_tree(line : &String, first : bool) -> Result<NodeType, ERROR> {
     
     let splits = smart_split(line)?;
 
-    let mut sp : NodeType;
-
     match splits.len() {
         0 => {
-            return gerr!("Error: cannot parse empty node ()")
+            gerr!("Error: cannot parse empty node ()")
         },
         1 => {
             if let Some(trimmed) = is_nested(&splits[0]) {
                 return make_tree(&trimmed, true)
+            }
+            if first {
+                let node = NodeType::Nested(
+                    Box::new(NodeType::Value(splits[0].clone())), 
+                    vec![]);
+                return Ok(node)
             }
             Ok(NodeType::Value(splits[0].clone()))
         }
