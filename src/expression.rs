@@ -16,12 +16,35 @@ pub const REG_LEN : usize = 10;
 pub struct Registries {
     pub len : usize,
     pub index : usize,
-    pub set : Vec<Type>
+    pub set : Vec<Type>,
+    pub ids : Vec<usize>
 }
 
 impl Registries {
     pub fn put(&mut self, val : Type) {
         self.set[self.index] = val;
+    }
+
+    pub fn alloc(&mut self, val : Type) -> Result<usize, ERROR> {
+        let index = if let Some(id) = self.ids.pop() {id} else {
+            let i = self.index;
+            self.index = (self.index + 1) % self.len;
+            i
+        };
+        self.set[index] = val;
+        self.ids.push(index);
+        Ok(index)
+    }
+    
+    pub fn free(&mut self, index : usize) -> Result<(), ERROR> {
+        if index >= self.len {
+            return gerr!("Error: trying to remove invalid registry [{}] while length is [{}]", index, self.len)
+        }
+
+        self.set.remove(index);
+
+        Ok(())
+
     }
 
     pub fn reset(&mut self) {
@@ -35,7 +58,8 @@ impl Default for Registries {
         Self {
             len : REG_LEN,
             index : 0,
-            set : vec![Type::VOID();REG_LEN]
+            set : vec![Type::VOID();REG_LEN],
+            ids : vec![]
         }
     }
 }
@@ -134,9 +158,11 @@ fn to_type(value : &String) -> Result<Type, ERROR> {
 
     if let Ok(i) = value.parse::<i32>() {
         return Ok(Type::I32(i));
-    } else if let Ok(f) = value.parse::<f32>() {
+    } 
+    if let Ok(f) = value.parse::<f32>() {
         return Ok(Type::F32(f));
-    } else if let Ok(b) = value.parse::<bool>() {
+    } 
+    if let Ok(b) = value.parse::<bool>() {
         return Ok(Type::BOOL(b));
     }
 
