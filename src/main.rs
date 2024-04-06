@@ -100,6 +100,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
     for e in exprs {
         flatten(&e, &mut v, &mut reg)?;
     }
+
     let mut state = State{
         registries : reg,
         sequence : v

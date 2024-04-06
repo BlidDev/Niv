@@ -3,7 +3,7 @@
     // setting a simple variable
     set var 49
 
-    // this won't work because we are not accesing the actual value
+    // this wont work because we are not accesing the actual value
     print "{}\n" var
 
     // this will
@@ -11,6 +11,7 @@
 
     // because set returns the rval of the operation these are all equal
     set num3 (set num2 (set num 3))
+    post
     print "1: {}\n2: {}\n3: {}\n" $num $num2 $num3
 
     reset

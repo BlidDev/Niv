@@ -1,4 +1,4 @@
-use crate::{canvas::Canvas, expression::{Expr, Registries}, gerr, run_command, structs::{parse_type, GError, Globals, NodeType, QueryW, Roots, Scope, Type, ERROR}, traverse};
+use crate::{canvas::Canvas, expression::{Expr, Registries}, gerr, run_command, structs::{parse_type, GError, Globals, NodeType, QueryW, Roots, Scope, Type, ERROR, Stack}, traverse};
 
 
 #[derive(Debug)]
@@ -9,8 +9,8 @@ pub struct State {
 
 impl State {
     pub fn post(&self) {
-        for s in self.sequence.iter() {
-            println!("{s:?}")
+        for (i, s) in self.sequence.iter().enumerate() {
+            println!("{} - {s:?}", i)
         }
         println!("\n{:#?}", self.registries);
     }
@@ -27,29 +27,35 @@ pub fn traverse_state(state : &mut State, roots : &Roots,query : &QueryW, glb : 
         };
         let mut args = vec![];
         for a in e_args.iter() {
-            let tmp = traverse_expression(&a, &mut state.registries)?;
+            let tmp = traverse_expression(&a, &mut state.registries, &glb.stack)?;
             args.push(tmp.clone());
         }
-        let Type::STR(cmd) = traverse_expression(&cmd, &mut state.registries)? else {
+        let Type::STR(cmd) = traverse_expression(&cmd, &mut state.registries, &glb.stack)? else {
             return gerr!("Error: command is [{cmd:?}] instead of STR");
         };
 
-        state.registries.reset();
+        let tmp = run_command(roots, query, &cmd, args, glb, scope, cnv)?;
+        if cmd == "set" {
+            println!("-> {tmp:?}")
+        }
+        //state.registries.reset();
         //println!("{cmd} {args:?}");
-        state.registries.put(run_command(roots, query, &cmd, args, glb, scope, cnv)?);
+        state.registries.put(tmp);
+        state.registries.index = (state.registries.index + 1) % state.registries.len;
     }
     Ok(Type::VOID())
 }
 
-pub fn traverse_expression(expr : &Expr, reg : &mut Registries) -> Result<Type, ERROR> {
+pub fn traverse_expression(expr : &Expr, reg : &mut Registries, stack : &Stack) -> Result<Type, ERROR> {
     match expr {
         Expr::Const(val) => Ok((*val).clone()),
         Expr::Carry(index) => {
             let tmp = reg.set.get(*index).unwrap().clone();
-            println!("tmp: {tmp:?}");
+            if *index == 3 { println!("{:?}", reg.set) }
             Ok(tmp)
         }
-        Expr::RawVariable(name) => Ok(Type::VOID()),
+        Expr::RawVariable(name) => if let Some(var) = stack.get(name) { return Ok(var.clone()) }
+        else { gerr!("Error: cannot find variable [{}]", name) },
         _ => gerr!("Error: Unexpected command expression")
     }
 }

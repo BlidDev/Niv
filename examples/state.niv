@@ -3,5 +3,5 @@
 #MAIN |
     set a "post"
     post
-    print "{}\n" 
+    print "{}\n" (post)
 #MAIN
