@@ -21,6 +21,7 @@ impl State {
 pub fn traverse_state(state : &mut State, roots : &Roots,query : &QueryW, glb : &mut Globals, scope : &Scope,
     cnv : &mut Option<Canvas>
     ) -> Result<Type,ERROR> {
+    state.registries.reset();
     for expr in state.sequence.iter() {
         let Expr::Command(cmd, e_args) = expr else {
             return gerr!("Error: expression is [{:?}] instead of command", expr);
@@ -35,11 +36,6 @@ pub fn traverse_state(state : &mut State, roots : &Roots,query : &QueryW, glb : 
         };
 
         let tmp = run_command(roots, query, &cmd, args, glb, scope, cnv)?;
-        if cmd == "set" {
-            println!("-> {tmp:?}")
-        }
-        //state.registries.reset();
-        //println!("{cmd} {args:?}");
         state.registries.put(tmp);
         state.registries.index = (state.registries.index + 1) % state.registries.len;
     }
@@ -50,8 +46,7 @@ pub fn traverse_expression(expr : &Expr, reg : &mut Registries, stack : &Stack) 
     match expr {
         Expr::Const(val) => Ok((*val).clone()),
         Expr::Carry(index) => {
-            let tmp = reg.set.get(*index).unwrap().clone();
-            if *index == 3 { println!("{:?}", reg.set) }
+            let tmp = reg.set.get( (*index) % reg.len ).unwrap().clone();
             Ok(tmp)
         }
         Expr::RawVariable(name) => if let Some(var) = stack.get(name) { return Ok(var.clone()) }

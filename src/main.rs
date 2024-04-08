@@ -106,7 +106,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
         sequence : v
     };
     traverse_state(&mut state, &roots, &query, &mut glb, &s, &mut cnv)?; 
-    //state.post();
     
     Ok(())
 }

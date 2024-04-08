@@ -106,7 +106,7 @@ pub fn flatten(expr : &Expr, v : &mut Vec<Expr>, reg : &mut Registries) -> Resul
                    finals.push(tmp);
                };
            };
-           reg.index = (reg.index + 1) % reg.len;
+           reg.index += 1;
            let cmd = finals[0].clone();
            finals.remove(0);
            let ret = Expr::Command(Box::new(cmd), finals.iter().map(|f| Box::new(f.clone())).collect());
