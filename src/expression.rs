@@ -25,28 +25,6 @@ impl Registries {
         self.set[self.index] = val;
     }
 
-    pub fn alloc(&mut self, val : Type) -> Result<usize, ERROR> {
-        let index = if let Some(id) = self.ids.pop() {id} else {
-            let i = self.index;
-            self.index = (self.index + 1) % self.len;
-            i
-        };
-        self.set[index] = val;
-        self.ids.push(index);
-        Ok(index)
-    }
-    
-    pub fn free(&mut self, index : usize) -> Result<(), ERROR> {
-        if index >= self.len {
-            return gerr!("Error: trying to remove invalid registry [{}] while length is [{}]", index, self.len)
-        }
-
-        self.set.remove(index);
-
-        Ok(())
-
-    }
-
     pub fn reset(&mut self) {
         self.index = 0;
         self.set = vec![Type::VOID();self.len];
